@@ -3,7 +3,7 @@ OhHa
 
 Aihe: Ajankäyttökirjanpito.
 
-Käyttäjät: Omaan käyttöön.
+Käyttäjät: Omaan \\ käyttöön.
 
 Toiminnot:
 
