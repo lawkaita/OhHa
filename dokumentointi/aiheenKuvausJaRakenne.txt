@@ -1,0 +1,16 @@
+Projektin aihe on Ajank‰yttˆkirjanpito.
+
+Ohjelmaan tulee pysty‰ kirjaamaan ylˆs ja esitt‰m‰‰n ajank‰yttˆˆn liittyv‰‰ tietoa. Tiedon tulee olla jossakin ennaltam‰‰r‰tyss‰ muodossa, jotta tietoa on helppo k‰sitell‰ ja j‰sent‰‰. Ohjelma l‰hestyy siten joiltain osin tietokantaj‰rjestelm‰‰; ainakin se joutuu hoitamaan tietokannankin operaatioita. Tarkoitus on tehd‰ tietokannan sovellusohjelma.
+
+Ohjelmalla on vain yksi k‰ytt‰j‰ ja ohjelman on tarkoitus tuottaa automatisoidusti yhteenvetoja k‰ytt‰j‰n antaman datan pohjalta. 
+Talletettavan datan voi siis olettaa olevan sellaista, ett‰ vain t‰m‰ ohjelma k‰sittelee sit‰. Tiedon ei siis tarvitse olla miss‰‰n ennaltam‰‰r‰tyss‰ formaatissa vaan voin p‰‰tt‰‰ muodon ihan itse.
+
+'Tietokanta', johon ajank‰yttˆkirjaukset tehd‰‰n, tulee olemaan kurssin rajojen puitteissa vain yksi tai useampi tekstitiedosto. Tiedon tallennuksen rakennetta voi mietti‰ enemm‰n jos siihen j‰‰ aikaa. 
+
+Ohjelmaan lis‰t‰‰n tietoa siit‰, mit‰ tehtiin ja milloin tehtiin. Kuitenkaan kaikkea ei tule joutua lis‰‰m‰‰n kerralla, sill‰ yht‰ p‰iv‰‰ tai aikap‰tk‰‰ kohti voi olla monta merkitt‰v‰‰ asiaa, ja tiedon lis‰‰minen helpottuu, jos voi lis‰t‰ tiedon osia yksitellen eik‰ kaikkea kerralla koko p‰iv‰st‰.
+
+T‰st‰ seuraa l‰hes itsest‰‰n, ett‰ tietoa voi tulla vahingossa tallentaneeksi olemassaolevan tiedon p‰‰lle. T‰h‰n on ohjelman ainakin pys‰hdytt‰v‰ ja huomautettava tai kysytt‰v‰ jotain. T‰m‰n takia tietoa pit‰‰ voida myˆs poistaa kirjanpidosta. Poistamisen kanssa tulee olla kuitenkin varovainen.
+
+Ohjelman t‰ytyy pysty‰ esitt‰m‰‰n tietoa, esimerkiksi tavallisena kalenterina tai yhteenvetokaavioina datasta. 
+
+Koska ohjelma k‰sittelee aikaa, sen pit‰‰ luultavasti pysty‰ hakemaan tietoa ajasta koneen kellosta ja vertailemaan ja laskemaan aikayksikˆit‰.

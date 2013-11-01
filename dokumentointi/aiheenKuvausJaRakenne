@@ -1,6 +1,11 @@
-Projektin aihe on Ajankäyttökirjanpito.
+﻿Projektin aihe on Ajankäyttökirjanpito.
 
-Ohjelmaan tulee pystyä kirjaamaan ylös ja esittämään ajankäyttöön liittyvää tietoa. Tiedon tulee olla jossakin ennaltamäärätyssä muodossa, jotta tietoa on helppo käsitellä ja jäsentää. Ohjelma lähestyy siten joiltain osin tietokantajärjestelmää; ainakin se joutuu hoitamaan tietokannankin operaatioita. Tarkoitus on tehdä tietokannan sovellusohjelma. 'Tietokanta', johon ajankäyttökirjaukset tehdään, tulee olemaan kurssin rajojen puitteissa vain yksi tai useampi tekstitiedosto. Tiedon tallennuksen rakennetta voi miettiä enemmän jos siihen jää aikaa.
+Ohjelmaan tulee pystyä kirjaamaan ylös ja esittämään ajankäyttöön liittyvää tietoa. Tiedon tulee olla jossakin ennaltamäärätyssä muodossa, jotta tietoa on helppo käsitellä ja jäsentää. Ohjelma lähestyy siten joiltain osin tietokantajärjestelmää; ainakin se joutuu hoitamaan tietokannankin operaatioita. Tarkoitus on tehdä tietokannan sovellusohjelma.
+
+Ohjelmalla on vain yksi käyttäjä ja ohjelman on tarkoitus tuottaa automatisoidusti yhteenvetoja käyttäjän antaman datan pohjalta. 
+Talletettavan datan voi siis olettaa olevan sellaista, että vain tämä ohjelma käsittelee sitä. Tiedon ei siis tarvitse olla missään ennaltamäärätyssä formaatissa vaan voin päättää muodon ihan itse.
+
+'Tietokanta', johon ajankäyttökirjaukset tehdään, tulee olemaan kurssin rajojen puitteissa vain yksi tai useampi tekstitiedosto. Tiedon tallennuksen rakennetta voi miettiä enemmän jos siihen jää aikaa. 
 
 Ohjelmaan lisätään tietoa siitä, mitä tehtiin ja milloin tehtiin. Kuitenkaan kaikkea ei tule joutua lisäämään kerralla, sillä yhtä päivää tai aikapätkää kohti voi olla monta merkittävää asiaa, ja tiedon lisääminen helpottuu, jos voi lisätä tiedon osia yksitellen eikä kaikkea kerralla koko päivästä.
 
