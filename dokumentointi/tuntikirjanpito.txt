@@ -27,4 +27,7 @@ Projektin GitHub-sivulla näkyvän README.md:n kanssa säheltäminen ja tämän dokume
 1.11.13: 15.30-15.50
 Lisätty pohdintaa aiheenKuvausJaRakenne.txt:hen.
 
+4.11.13: 13.00-24.00
+Hahmoteltu ohjelman rakennetta Netbeanssissa ja luotu oma konsoli käyttöliittymäksi.
+
 
