@@ -32,8 +32,8 @@ public class Tiedostonkasittelija {
     }
     
     public void lisaaTietokantaan(String lisattavat) throws IOException {
-        FileWriter kirjoittaja = new FileWriter(tietokanta);
-        kirjoittaja.append("/n" + lisattavat);
+        FileWriter kirjoittaja = new FileWriter(tietokanta, true);
+        kirjoittaja.write("\r\n" + lisattavat);
         kirjoittaja.close();
     }
 }

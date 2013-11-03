@@ -5,7 +5,6 @@
 package ajankayttokirjanpito;
 
 import Tietokantasysteemi.Tiedostonkasittelija;
-import java.awt.Dimension;
 import java.io.IOException;
 import javax.swing.SwingUtilities;
 import kayttoliittyma.Kayttoliittyma;
@@ -26,12 +25,11 @@ public class Ajankayttokirjanpito {
         Nappaimistonkuuntelija kuuntelija = new Nappaimistonkuuntelija(konsoli);
         
         Kayttoliittyma kali = new Kayttoliittyma(konsoli, kuuntelija);
-        Tiedostonkasittelija tika = new Tiedostonkasittelija();
-        
+        Tiedostonkasittelija tika = new Tiedostonkasittelija();       
         
         
         try {
-            tika.lisaaTietokantaan("hei, olen, jorma");
+            tika.lisaaTietokantaan("112");
         } catch (IOException ex) {
             
         }

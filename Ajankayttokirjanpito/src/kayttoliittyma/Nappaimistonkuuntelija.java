@@ -30,7 +30,7 @@ public class Nappaimistonkuuntelija implements KeyListener{
         }
         
         if (paivitettava.getKomentoalue().getText().length() > 30) {
-            paivitettava.lisaaRivinVaihto();
+            paivitettava.estaMerkki();
         }
     }
 

@@ -9,11 +9,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.text.BadLocationException;
 import kayttoliittyma.Paivitettava;
 
 /**
@@ -22,56 +25,27 @@ import kayttoliittyma.Paivitettava;
  */
 public class Konsoli extends JPanel implements Paivitettava {
 
-    private JTextArea tuloste;
-    private JTextField komentoalue;
-    private JTextField komentoriviMerkki;
-    private Kursori kursori;
+    private Tulostealue tuloste;
+    private EnsimmainenRivi rivi;    
+    private Komentorivi komentorivi;
     private JTextArea tyhja;
 
     public Konsoli() {
-        tuloste = new JTextArea("hei");
-        komentoalue = new JTextField();
-        komentoriviMerkki = new JTextField(">< ");
-        kursori = new Kursori(komentoriviMerkki);
-        kursori.start();
-        tyhja = new JTextArea();
-
+        Font f = new Font("Monospaced", Font.PLAIN, 12);
+        
         setPreferredSize(new Dimension(400, 400));
         setLayout(new BorderLayout());
-
-        Font f = new Font("Monospaced", Font.PLAIN, 12);
-
-        tuloste.setFont(f);
-        tuloste.setEditable(false);
-        tuloste.setFocusable(false);
-        tuloste.setBackground(Color.black);
-        tuloste.setForeground(Color.white);
-        tuloste.setPreferredSize(new Dimension(400, 17));
-
-        komentoalue.setFont(f);
-        komentoalue.setBackground(Color.black);
-        komentoalue.setForeground(Color.white);
-        komentoalue.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-        komentoalue.setPreferredSize(new Dimension(385, 17));
         
-        komentoriviMerkki.setFont(f);
-        komentoriviMerkki.setEditable(false);
-        komentoriviMerkki.setFocusable(false);
-        komentoriviMerkki.setBackground(Color.black);
-        komentoriviMerkki.setForeground(Color.white);
-        komentoriviMerkki.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-        komentoriviMerkki.setPreferredSize(new Dimension(15, 17));
+        tuloste = new Tulostealue(f);        
+        rivi = new EnsimmainenRivi(f);
+        komentorivi = new Komentorivi(f, rivi);
         
-        JPanel komentorivi = new JPanel(new BorderLayout());
-        komentorivi.setPreferredSize(new Dimension(400, 17));
-        komentorivi.add(komentoriviMerkki, BorderLayout.WEST);
-        komentorivi.add(komentoalue, BorderLayout.EAST);
+        tyhja = new JTextArea();
 
-        tyhja.setBackground(Color.black);
+        tyhja.setBackground(Color.green);
         tyhja.setEditable(false);
         tyhja.setFocusable(false);
         tyhja.setPreferredSize(new Dimension(400, (400 - 2*17)));
-
 
         JPanel tekstialue = new JPanel(new BorderLayout());
         tekstialue.add(tuloste, BorderLayout.NORTH);
@@ -88,7 +62,7 @@ public class Konsoli extends JPanel implements Paivitettava {
 
     @Override
     public void paivita() {
-        String teksti = komentoalue.getText();
+        String teksti = rivi.getText();
         String dialogi = tuloste.getText();
 
         tuloste.setPreferredSize(new Dimension(400,
@@ -97,19 +71,24 @@ public class Konsoli extends JPanel implements Paivitettava {
         tyhja.setPreferredSize(new Dimension(400, 
                 Math.max(tyhja.getPreferredSize().height - 17, 18)));
 
-        tuloste.setText(dialogi + "\n" + kursori.annaMerkki() + "> " + teksti);
-        komentoalue.setText("");
+        tuloste.setText(dialogi + "\n" + komentorivi.getKursori().annaMerkki() + "> " + teksti);
+        rivi.setText("");
 
     }
     
-    public void lisaaRivinVaihto() {
-        String sisalto = komentoalue.getText();
-        sisalto = sisalto + "\n";
-        komentoalue.setText("");
-        komentoalue.setText(sisalto);
+    public void tulostaViesti(String viesti) {
+        
+    }
+    
+    public void estaMerkki() {
+        try {
+            rivi.setText(rivi.getText(0, rivi.getText().length() - 1));
+        } catch (BadLocationException ex) {
+            
+        }
     }
 
     public JTextField getKomentoalue() {
-        return this.komentoalue;
+        return this.rivi;
     }
 }
