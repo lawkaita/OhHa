@@ -20,7 +20,7 @@ public class Komentorivi extends JPanel {
     private JTextField komentoriviMerkki;
     private Kursori kursori;
 
-    public Komentorivi(Font f, EnsimmainenRivi rivi) {
+    public Komentorivi(Font f, VarsinainenKomentoRivi rivi) {
         komentoriviMerkki = new JTextField(">< ");
         komentoriviMerkki.setFont(f);
         komentoriviMerkki.setEditable(false);

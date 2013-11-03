@@ -39,7 +39,7 @@ public class Kayttoliittyma implements Runnable{
         frame.setVisible(true);
         frame.setResizable(false);
         
-        konsoli.getKomentoalue().requestFocus();
+        konsoli.getVarsinainenKomentoRivi().requestFocus();
         
     }
 
@@ -47,7 +47,7 @@ public class Kayttoliittyma implements Runnable{
         container.setLayout(new BorderLayout());
                 
         container.add(this.konsoli, BorderLayout.CENTER);
-        konsoli.getKomentoalue().addKeyListener(naku);
+        konsoli.getVarsinainenKomentoRivi().addKeyListener(naku);
         
     }    
 

@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
@@ -26,31 +27,25 @@ import kayttoliittyma.Paivitettava;
 public class Konsoli extends JPanel implements Paivitettava {
 
     private Tulostealue tuloste;
-    private EnsimmainenRivi rivi;    
+    private VarsinainenKomentoRivi rivi;
     private Komentorivi komentorivi;
-    private JTextArea tyhja;
-
+    private TyhjaTila tyhjaTila;
+   
     public Konsoli() {
         Font f = new Font("Monospaced", Font.PLAIN, 12);
-        
+
         setPreferredSize(new Dimension(400, 400));
         setLayout(new BorderLayout());
-        
-        tuloste = new Tulostealue(f);        
-        rivi = new EnsimmainenRivi(f);
-        komentorivi = new Komentorivi(f, rivi);
-        
-        tyhja = new JTextArea();
 
-        tyhja.setBackground(Color.green);
-        tyhja.setEditable(false);
-        tyhja.setFocusable(false);
-        tyhja.setPreferredSize(new Dimension(400, (400 - 2*17)));
+        tuloste = new Tulostealue(f);
+        rivi = new VarsinainenKomentoRivi(f);
+        komentorivi = new Komentorivi(f, rivi);
+        tyhjaTila = new TyhjaTila(f);
 
         JPanel tekstialue = new JPanel(new BorderLayout());
         tekstialue.add(tuloste, BorderLayout.NORTH);
         tekstialue.add(komentorivi, BorderLayout.CENTER);
-        tekstialue.add(tyhja, BorderLayout.SOUTH);
+        tekstialue.add(tyhjaTila, BorderLayout.SOUTH);
 
         JScrollPane skrollausAlue = new JScrollPane(tekstialue);
         skrollausAlue.setPreferredSize(new Dimension(400, 400));
@@ -67,28 +62,25 @@ public class Konsoli extends JPanel implements Paivitettava {
 
         tuloste.setPreferredSize(new Dimension(400,
                 (tuloste.getPreferredSize().height + 17)));
-        
-        tyhja.setPreferredSize(new Dimension(400, 
-                Math.max(tyhja.getPreferredSize().height - 17, 18)));
+
+        tyhjaTila.asetaUusiDimensio();
 
         tuloste.setText(dialogi + "\n" + komentorivi.getKursori().annaMerkki() + "> " + teksti);
         rivi.setText("");
 
     }
-    
+
     public void tulostaViesti(String viesti) {
-        
-    }
-    
-    public void estaMerkki() {
-        try {
-            rivi.setText(rivi.getText(0, rivi.getText().length() - 1));
-        } catch (BadLocationException ex) {
-            
-        }
     }
 
-    public JTextField getKomentoalue() {
+    public void jatkaKirjoitustaTyhjaanKenttaan() {
+        tyhjaTila.getTyhja().setEditable(true);
+        tyhjaTila.getTyhja().setFocusable(true);
+        tyhjaTila.getTyhja().requestFocus();
+        
+    }
+
+    public JTextField getVarsinainenKomentoRivi() {
         return this.rivi;
     }
 }

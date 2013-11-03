@@ -29,8 +29,8 @@ public class Nappaimistonkuuntelija implements KeyListener{
             paivitettava.paivita();
         }
         
-        if (paivitettava.getKomentoalue().getText().length() > 30) {
-            paivitettava.estaMerkki();
+        if (paivitettava.getVarsinainenKomentoRivi().getText().length() > 30) {
+            paivitettava.jatkaKirjoitustaTyhjaanKenttaan();
         }
     }
 

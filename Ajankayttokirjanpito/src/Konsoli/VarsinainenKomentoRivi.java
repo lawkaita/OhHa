@@ -13,9 +13,9 @@ import javax.swing.JTextField;
  *
  * @author Envy 6-1010
  */
-public class EnsimmainenRivi extends JTextField{
+public class VarsinainenKomentoRivi extends JTextField{
     
-    public EnsimmainenRivi(Font f) {
+    public VarsinainenKomentoRivi(Font f) {
         setFont(f);
         setBackground(Color.red);
         setForeground(Color.white);
