@@ -8,9 +8,6 @@ import Tietokantasysteemi.Tiedostonkasittelija;
 import java.io.IOException;
 import javax.swing.SwingUtilities;
 import kayttoliittyma.Kayttoliittyma;
-import Konsoli.Konsoli;
-import kayttoliittyma.Komentotulkki;
-import kayttoliittyma.Nappaimistonkuuntelija;
 
 /**
  *
@@ -21,12 +18,8 @@ public class Ajankayttokirjanpito {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        Konsoli konsoli = new Konsoli();
-        Komentotulkki komentotulkki = new Komentotulkki(konsoli);        
-        Nappaimistonkuuntelija kuuntelija = new Nappaimistonkuuntelija(komentotulkki);
-        
-        Kayttoliittyma kali = new Kayttoliittyma(konsoli, kuuntelija);
+    public static void main(String[] args) {        
+        Kayttoliittyma kali = new Kayttoliittyma();
         Tiedostonkasittelija tika = new Tiedostonkasittelija();       
         
         

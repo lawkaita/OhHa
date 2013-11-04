@@ -8,6 +8,7 @@ import Konsoli.Konsoli;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
@@ -20,9 +21,9 @@ public class Kayttoliittyma implements Runnable{
     private Konsoli konsoli;
     private Nappaimistonkuuntelija naku;
     
-    public Kayttoliittyma(Konsoli konsoli, Nappaimistonkuuntelija naku){
-        this.konsoli = konsoli;
-        this.naku = naku;        
+    public Kayttoliittyma(){
+        this.konsoli = new Konsoli(this);
+        this.naku = new Nappaimistonkuuntelija(this.konsoli);        
     }
     
     @Override
@@ -50,7 +51,19 @@ public class Kayttoliittyma implements Runnable{
         konsoli.getVarsinainenKomentoRivi().addKeyListener(naku);
         konsoli.getTyhjanTilanTyhja().addKeyListener(naku);
         
-    }    
-
+    }
+    
+    public Nappaimistonkuuntelija getNappaimistonkuuntelija() {
+        return this.naku;
+    }
+    
+    public Komentotulkki getKomentotulkki() {
+        return this.naku.getKomentotulkki();
+    }
+    
+    public void tapa() {
+        WindowEvent wev = new WindowEvent(frame, WindowEvent.WINDOW_CLOSING);
+        frame.dispatchEvent(wev);
+    }
     
 }

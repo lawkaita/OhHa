@@ -11,24 +11,34 @@ import Konsoli.Konsoli;
  * @author Envy 6-1010
  */
 public class Komentotulkki {
-    private Konsoli konsoli;
+    private Kayttoliittyma kali;
     
-    public Komentotulkki(Konsoli konsoli) {
-        this.konsoli = konsoli;
+    public Komentotulkki(Kayttoliittyma kali) {
+        this.kali = kali;
     }
 
-    public void enter() {
-        konsoli.tulostaKayttajanKomento();
+    public void enter(String komento) {
+        tulkitse(komento);        
     }
-
     
     public void v() {
-        konsoli.tulostaViesti();
+        //konsoli.tulostaViesti();
     }
     
     public Konsoli getKonsoli(){
-        return this.konsoli;
-    }  
+       return null;
+        // return this.konsoli;
+    }
+    
+    public void tulkitse(String komento) {
+        if (komento.equals("exit")) {
+            tapaOhjelma();
+        }
+    }
+    
+    public void tapaOhjelma() {
+        kali.tapa();
+    }
     
     
 }

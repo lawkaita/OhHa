@@ -18,6 +18,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.text.BadLocationException;
+import kayttoliittyma.Kayttoliittyma;
+import kayttoliittyma.Komentotulkki;
 import kayttoliittyma.Paivitettava;
 
 /**
@@ -31,8 +33,10 @@ public class Konsoli extends JPanel implements Paivitettava {
     private Komentorivi komentorivi;
     private TyhjaTila tyhjaTila;
     private int dimensioLuku1;
+    private Komentotulkki komentotulkki;
    
-    public Konsoli() {
+    public Konsoli(Kayttoliittyma kali) {
+        komentotulkki = new Komentotulkki(kali);
         Font f = new Font("Monospaced", Font.PLAIN, 12);
 
         setPreferredSize(new Dimension(400, 400));
@@ -76,18 +80,26 @@ public class Konsoli extends JPanel implements Paivitettava {
         paivita(viesti);
     }
     
-    public void tulostaKayttajanKomento() {
-        paivita(rivi.getText() + tyhjaTila.getTyhja().getText());
+    public void tulostaJaSuoritaKayttajanKomento() {
+        String komento = rivi.getText() + tyhjaTila.getTyhja().getText();
+        paivita(komento);
         rivi.setText("");
-        tyhjaTila.getTyhja().setText("");
         
+        nollaaTyhjaTila();
+        komentotulkki.enter(komento);
     }
 
     public void jatkaKirjoitustaTyhjaanKenttaan() {
         tyhjaTila.getTyhja().setEditable(true);
         tyhjaTila.getTyhja().setFocusable(true);
-        tyhjaTila.getTyhja().requestFocus();
-        
+        tyhjaTila.getTyhja().requestFocus();        
+    }
+    
+    public void nollaaTyhjaTila() {
+        tyhjaTila.getTyhja().setEditable(false);
+        tyhjaTila.getTyhja().setFocusable(false);        
+        rivi.requestFocus();
+        tyhjaTila.getTyhja().setText("");
     }
 
     public JTextField getVarsinainenKomentoRivi() {
@@ -96,5 +108,13 @@ public class Konsoli extends JPanel implements Paivitettava {
     
     public JTextArea getTyhjanTilanTyhja(){
         return this.tyhjaTila.getTyhja();
+    }
+    
+    public String annaKomento(String komento) {
+        return komento;
+    }
+    
+    public Komentotulkki getKomentotulkki() {
+        return this.komentotulkki;
     }
 }

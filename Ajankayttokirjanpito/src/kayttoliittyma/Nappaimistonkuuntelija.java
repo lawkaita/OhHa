@@ -13,10 +13,10 @@ import java.awt.event.KeyListener;
  * @author Envy 6-1010
  */
 public class Nappaimistonkuuntelija implements KeyListener{
-    private Komentotulkki komentotulkki;
+    private Konsoli konsoli;
     
-    public Nappaimistonkuuntelija(Komentotulkki komentotulkki) {
-        this.komentotulkki = komentotulkki;
+    public Nappaimistonkuuntelija(Konsoli konsoli) {
+        this.konsoli = konsoli;
     }
 
     @Override
@@ -26,20 +26,24 @@ public class Nappaimistonkuuntelija implements KeyListener{
     @Override
     public void keyPressed(KeyEvent ke) {
         if (ke.getKeyCode() == KeyEvent.VK_ENTER){
-            komentotulkki.enter();
+            konsoli.tulostaJaSuoritaKayttajanKomento();            
         }
         
-        if (komentotulkki.getKonsoli().getVarsinainenKomentoRivi().getText().length() > 10) {
-            komentotulkki.getKonsoli().jatkaKirjoitustaTyhjaanKenttaan();
+        if (konsoli.getVarsinainenKomentoRivi().getText().length() > 30) {
+            konsoli.jatkaKirjoitustaTyhjaanKenttaan();
         }
         
         if (ke.getKeyCode() == KeyEvent.VK_V) {
-            komentotulkki.v();
+            konsoli.getKomentotulkki().v();
         }
     }
 
     @Override
     public void keyReleased(KeyEvent ke) {
+    }
+    
+    public Komentotulkki getKomentotulkki() {
+        return this.konsoli.getKomentotulkki();
     }
     
 }
