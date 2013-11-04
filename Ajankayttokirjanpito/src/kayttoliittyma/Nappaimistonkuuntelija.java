@@ -30,7 +30,8 @@ public class Nappaimistonkuuntelija implements KeyListener{
         }
         
         if (konsoli.getVarsinainenKomentoRivi().getText().length() > 30) {
-            konsoli.jatkaKirjoitustaTyhjaanKenttaan();
+            //konsoli.jatkaKirjoitustaTyhjaanKenttaan();
+            konsoli.estaLiianPitkaKomento();
         }
         
     }

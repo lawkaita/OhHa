@@ -28,12 +28,13 @@ import kayttoliittyma.Paivitettava;
  */
 public class Konsoli extends JPanel implements Paivitettava {
 
-    private Tulostealue tuloste;
+    private Tulostealue tulosteAlue;
     private VarsinainenKomentoRivi rivi;
     private Komentorivi komentorivi;
     private TyhjaTila tyhjaTila;
     private int dimensioLuku1;
     private Komentotulkki komentotulkki;
+    private Skrollausnakyma skrollausnakyma;
    
     public Konsoli(Kayttoliittyma kali) {
         komentotulkki = new Komentotulkki(kali);
@@ -43,45 +44,56 @@ public class Konsoli extends JPanel implements Paivitettava {
         setLayout(new BorderLayout());
         
         dimensioLuku1 = 15; //kotikoneella 17, koulun ubuntulla 15.
-        int dimensioLuku2 = 21; //kotikoneella 15, koulun ubuntulla 21
-        tuloste = new Tulostealue(f, dimensioLuku1);
+        int dimensioLuku2 = 21; //kotikoneella toistaiseksi 15, koulun ubuntulla 21
+        
+        tulosteAlue = new Tulostealue(f, dimensioLuku1);
         rivi = new VarsinainenKomentoRivi(f, dimensioLuku1, dimensioLuku2);
         komentorivi = new Komentorivi(f, rivi, dimensioLuku1, dimensioLuku2);
-        tyhjaTila = new TyhjaTila(f, dimensioLuku1);
-
+        tyhjaTila = new TyhjaTila(f, dimensioLuku1);      
+        
         JPanel tekstialue = new JPanel(new BorderLayout());
-        tekstialue.add(tuloste, BorderLayout.NORTH);
+        tekstialue.add(tulosteAlue, BorderLayout.NORTH);
         tekstialue.add(komentorivi, BorderLayout.CENTER);
         tekstialue.add(tyhjaTila, BorderLayout.SOUTH);
+        
+        JScrollPane skrollausalue = new JScrollPane(tulosteAlue);        
+        this.skrollausnakyma = new Skrollausnakyma(skrollausalue, dimensioLuku1);
 
-        JScrollPane skrollausAlue = new JScrollPane(tekstialue);
-        skrollausAlue.setPreferredSize(new Dimension(400, 400));
-        //skrollausAlue.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        skrollausAlue.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-        add(skrollausAlue, BorderLayout.CENTER);
+        add(skrollausalue, BorderLayout.CENTER);
     }
 
     @Override
-    public void paivita(String teksti) {;
-        String dialogi = tuloste.getText();
+    public void paivita(String teksti, boolean kirjoittajaOnKayttaja) {;
+        String dialogi = tulosteAlue.getText();
+        
+        String etumerkki = komentorivi.getKursori().annaMerkki() + "> ";
+        
+        if (!kirjoittajaOnKayttaja) {
+            etumerkki = " :";
+        }
+        
+        skrollausnakyma.getSkrollausalue().setPreferredSize(new Dimension (400,
+                Math.min(400 - 17, tulosteAlue.getPreferredSize().height + dimensioLuku1)));
 
-        tuloste.setPreferredSize(new Dimension(400,
-                (tuloste.getPreferredSize().height + dimensioLuku1)));
+        tulosteAlue.setPreferredSize(new Dimension(400,
+                (tulosteAlue.getPreferredSize().height + dimensioLuku1)));
 
         tyhjaTila.madallaKorkeutta();
 
-        tuloste.setText(dialogi + "\n" + komentorivi.getKursori().annaMerkki() + "> " + teksti);
-
+        tulosteAlue.setText(dialogi + "\n" + etumerkki + teksti);
+                       
+        //skrollausnakyma.skrollaaAlas();
     }
+    //kirjoittajaOnKauttaja asettaa sen, mika etumerkki tulostetaan,
+    //kun paivitetaan tulostuskenttaa.
 
     public void tulostaViesti(String viesti) {
-        paivita(viesti);
+        paivita(viesti, false);
     }
     
     public void tulostaJaSuoritaKayttajanKomento() {
         String komento = rivi.getText() + tyhjaTila.getTyhja().getText();
-        paivita(komento);
+        paivita(komento, true);
         rivi.setText("");
         
         nollaaTyhjaTila();
@@ -92,6 +104,14 @@ public class Konsoli extends JPanel implements Paivitettava {
         tyhjaTila.getTyhja().setEditable(true);
         tyhjaTila.getTyhja().setFocusable(true);
         tyhjaTila.getTyhja().requestFocus();        
+    }
+    
+    public void estaLiianPitkaKomento() {
+        try {
+            rivi.setText(rivi.getText(0, rivi.getText().length() - 1));
+        } catch (BadLocationException ex) {
+            //ei tehda mitaan - tata ei ikina saavuteta.
+        }
     }
     
     public void nollaaTyhjaTila() {

@@ -9,5 +9,5 @@ package kayttoliittyma;
  * @author Envy 6-1010
  */
 public interface Paivitettava {
-    void paivita(String s);
+    void paivita(String s, boolean b);
 }

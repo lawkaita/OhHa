@@ -52,10 +52,11 @@ public class TyhjaTila extends JPanel {
     
     public void madallaKorkeutta() {
         this.setPreferredSize(new Dimension (400,
-                Math.max(tyhja.getPreferredSize().height - dimensioLuku1, 18)));        
+                Math.max(tyhja.getPreferredSize().height - dimensioLuku1, 17)));        
         tyhja.setPreferredSize(new Dimension(350,
-                Math.max(tyhja.getPreferredSize().height - dimensioLuku1, 18)));
+                Math.max(tyhja.getPreferredSize().height - dimensioLuku1, 17)));
         marginaali.setPreferredSize(new Dimension(50,
-                Math.max(tyhja.getPreferredSize().height - dimensioLuku1, 18)));
+                Math.max(tyhja.getPreferredSize().height - dimensioLuku1, 17)));
+        
     }
 }
