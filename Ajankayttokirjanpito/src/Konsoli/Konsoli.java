@@ -75,8 +75,7 @@ public class Konsoli extends JPanel implements Paivitettava {
 
     }
 
-    public void tulostaViesti() {
-        String viesti = "viesti";
+    public void tulostaViesti(String viesti) {
         paivita(viesti);
     }
     

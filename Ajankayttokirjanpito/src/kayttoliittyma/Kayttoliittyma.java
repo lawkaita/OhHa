@@ -61,6 +61,10 @@ public class Kayttoliittyma implements Runnable{
         return this.naku.getKomentotulkki();
     }
     
+    public Konsoli getKonsoli() {
+        return this.konsoli;
+    }
+    
     public void tapa() {
         WindowEvent wev = new WindowEvent(frame, WindowEvent.WINDOW_CLOSING);
         frame.dispatchEvent(wev);

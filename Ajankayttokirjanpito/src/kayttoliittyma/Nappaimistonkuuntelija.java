@@ -33,9 +33,6 @@ public class Nappaimistonkuuntelija implements KeyListener{
             konsoli.jatkaKirjoitustaTyhjaanKenttaan();
         }
         
-        if (ke.getKeyCode() == KeyEvent.VK_V) {
-            konsoli.getKomentotulkki().v();
-        }
     }
 
     @Override

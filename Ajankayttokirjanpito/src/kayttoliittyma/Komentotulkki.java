@@ -20,24 +20,21 @@ public class Komentotulkki {
     public void enter(String komento) {
         tulkitse(komento);        
     }
-    
-    public void v() {
-        //konsoli.tulostaViesti();
-    }
-    
-    public Konsoli getKonsoli(){
-       return null;
-        // return this.konsoli;
-    }
-    
+     
     public void tulkitse(String komento) {
         if (komento.equals("exit")) {
             tapaOhjelma();
+        } else {
+            tulostaVirhe();
         }
     }
     
     public void tapaOhjelma() {
         kali.tapa();
+    }
+
+    private void tulostaVirhe() {
+        kali.getKonsoli().tulostaViesti("Ei ole komento");
     }
     
     
