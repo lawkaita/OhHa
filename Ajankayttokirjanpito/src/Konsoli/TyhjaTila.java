@@ -18,9 +18,12 @@ import javax.swing.JTextArea;
 public class TyhjaTila extends JPanel {
     private JTextArea tyhja;
     private JTextArea marginaali;
+    private int dimensioLuku1;
 
-    public TyhjaTila(Font f) {
-        this.setPreferredSize(new Dimension (400, (400 - 2* 17)));
+    public TyhjaTila(Font f, int dimensioLuku1) {
+        this.dimensioLuku1 = dimensioLuku1;
+        
+        this.setPreferredSize(new Dimension (400, (400 - 2 * dimensioLuku1)));
         
         tyhja = new JTextArea();
         tyhja.setFont(f);
@@ -28,7 +31,7 @@ public class TyhjaTila extends JPanel {
         tyhja.setForeground(Color.white);
         tyhja.setEditable(false);
         tyhja.setFocusable(false);
-        tyhja.setPreferredSize(new Dimension(350, (400 - 2 * 17)));
+        tyhja.setPreferredSize(new Dimension(350, (400 - 2 * dimensioLuku1)));
         tyhja.setLineWrap(true);
         tyhja.setWrapStyleWord(true);
         
@@ -36,7 +39,7 @@ public class TyhjaTila extends JPanel {
         marginaali.setBackground(Color.black);
         marginaali.setEditable(false);
         marginaali.setFocusable(false);
-        marginaali.setPreferredSize(new Dimension(50, 400 - 2 * 17));
+        marginaali.setPreferredSize(new Dimension(50, 400 - 2 * dimensioLuku1));
         
         this.setLayout(new BorderLayout());
         this.add(tyhja, BorderLayout.WEST);
@@ -47,12 +50,12 @@ public class TyhjaTila extends JPanel {
         return this.tyhja;
     }
     
-    public void asetaUusiDimensio() {
+    public void madallaKorkeutta() {
         this.setPreferredSize(new Dimension (400,
-                Math.max(tyhja.getPreferredSize().height - 17, 18)));        
+                Math.max(tyhja.getPreferredSize().height - dimensioLuku1, 18)));        
         tyhja.setPreferredSize(new Dimension(350,
-                Math.max(tyhja.getPreferredSize().height - 17, 18)));
+                Math.max(tyhja.getPreferredSize().height - dimensioLuku1, 18)));
         marginaali.setPreferredSize(new Dimension(50,
-                Math.max(tyhja.getPreferredSize().height - 17, 18)));
+                Math.max(tyhja.getPreferredSize().height - dimensioLuku1, 18)));
     }
 }

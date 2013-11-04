@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.swing.SwingUtilities;
 import kayttoliittyma.Kayttoliittyma;
 import Konsoli.Konsoli;
+import kayttoliittyma.Komentotulkki;
 import kayttoliittyma.Nappaimistonkuuntelija;
 
 /**
@@ -22,7 +23,8 @@ public class Ajankayttokirjanpito {
      */
     public static void main(String[] args) {
         Konsoli konsoli = new Konsoli();
-        Nappaimistonkuuntelija kuuntelija = new Nappaimistonkuuntelija(konsoli);
+        Komentotulkki komentotulkki = new Komentotulkki(konsoli);        
+        Nappaimistonkuuntelija kuuntelija = new Nappaimistonkuuntelija(komentotulkki);
         
         Kayttoliittyma kali = new Kayttoliittyma(konsoli, kuuntelija);
         Tiedostonkasittelija tika = new Tiedostonkasittelija();       

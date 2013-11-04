@@ -48,6 +48,7 @@ public class Kayttoliittyma implements Runnable{
                 
         container.add(this.konsoli, BorderLayout.CENTER);
         konsoli.getVarsinainenKomentoRivi().addKeyListener(naku);
+        konsoli.getTyhjanTilanTyhja().addKeyListener(naku);
         
     }    
 

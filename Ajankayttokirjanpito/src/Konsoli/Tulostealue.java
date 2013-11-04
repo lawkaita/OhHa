@@ -15,7 +15,7 @@ import javax.swing.JTextArea;
  */
 public class Tulostealue extends JTextArea {
     
-    public Tulostealue(Font f) {
+    public Tulostealue(Font f, int dimensioLuku1) {
         super("hei");
         
         setFont(f);
@@ -23,7 +23,7 @@ public class Tulostealue extends JTextArea {
         setFocusable(false);
         setBackground(Color.black);
         setForeground(Color.white);
-        setPreferredSize(new Dimension(400, 17));
+        setPreferredSize(new Dimension(400, dimensioLuku1));
     }
     
 }

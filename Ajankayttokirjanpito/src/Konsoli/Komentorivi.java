@@ -20,7 +20,7 @@ public class Komentorivi extends JPanel {
     private JTextField komentoriviMerkki;
     private Kursori kursori;
 
-    public Komentorivi(Font f, VarsinainenKomentoRivi rivi) {
+    public Komentorivi(Font f, VarsinainenKomentoRivi rivi, int dimensioLuku1, int dimensioLuku2) {
         komentoriviMerkki = new JTextField(">< ");
         komentoriviMerkki.setFont(f);
         komentoriviMerkki.setEditable(false);
@@ -28,13 +28,13 @@ public class Komentorivi extends JPanel {
         komentoriviMerkki.setBackground(Color.blue);
         komentoriviMerkki.setForeground(Color.white);
         komentoriviMerkki.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-        komentoriviMerkki.setPreferredSize(new Dimension(15, 17));
+        komentoriviMerkki.setPreferredSize(new Dimension(dimensioLuku2, dimensioLuku1));
 
         kursori = new Kursori(komentoriviMerkki);
         kursori.start();
 
         this.setLayout(new BorderLayout());
-        this.setPreferredSize(new Dimension(400, 17));
+        this.setPreferredSize(new Dimension(400, dimensioLuku1));
         this.add(komentoriviMerkki, BorderLayout.WEST);
         this.add(rivi, BorderLayout.EAST);
     }
