@@ -56,7 +56,7 @@ public class Konsoli extends JPanel implements Paivitettava {
         tekstialue.add(komentorivi, BorderLayout.CENTER);
         tekstialue.add(tyhjaTila, BorderLayout.SOUTH);
         
-        JScrollPane skrollausalue = new JScrollPane(tulosteAlue);        
+        JScrollPane skrollausalue = new JScrollPane(tekstialue);        
         this.skrollausnakyma = new Skrollausnakyma(skrollausalue, dimensioLuku1);
 
         add(skrollausalue, BorderLayout.CENTER);
