@@ -25,7 +25,7 @@ public class Komentorivi extends JPanel {
         komentoriviMerkki.setFont(f);
         komentoriviMerkki.setEditable(false);
         komentoriviMerkki.setFocusable(false);
-        komentoriviMerkki.setBackground(Color.blue);
+        komentoriviMerkki.setBackground(Color.black);
         komentoriviMerkki.setForeground(Color.white);
         komentoriviMerkki.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         komentoriviMerkki.setPreferredSize(new Dimension(dimensioLuku2, dimensioLuku1));

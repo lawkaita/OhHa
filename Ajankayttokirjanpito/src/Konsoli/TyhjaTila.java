@@ -23,15 +23,15 @@ public class TyhjaTila extends JPanel {
     public TyhjaTila(Font f, int dimensioLuku1) {
         this.dimensioLuku1 = dimensioLuku1;
         
-        this.setPreferredSize(new Dimension (400, (400 - 2 * dimensioLuku1)));
+        this.setPreferredSize(new Dimension (400, (400 - 4 * dimensioLuku1)));
         
         tyhja = new JTextArea();
         tyhja.setFont(f);
-        tyhja.setBackground(Color.green);
+        tyhja.setBackground(Color.black);
         tyhja.setForeground(Color.white);
         tyhja.setEditable(false);
         tyhja.setFocusable(false);
-        tyhja.setPreferredSize(new Dimension(350, (400 - 2 * dimensioLuku1)));
+        tyhja.setPreferredSize(new Dimension(350, (400 - 4 * dimensioLuku1)));
         tyhja.setLineWrap(true);
         tyhja.setWrapStyleWord(true);
         
@@ -39,7 +39,7 @@ public class TyhjaTila extends JPanel {
         marginaali.setBackground(Color.black);
         marginaali.setEditable(false);
         marginaali.setFocusable(false);
-        marginaali.setPreferredSize(new Dimension(50, 400 - 2 * dimensioLuku1));
+        marginaali.setPreferredSize(new Dimension(50, 400 - 4 * dimensioLuku1));
         
         this.setLayout(new BorderLayout());
         this.add(tyhja, BorderLayout.WEST);
@@ -58,5 +58,14 @@ public class TyhjaTila extends JPanel {
         marginaali.setPreferredSize(new Dimension(50,
                 Math.max(tyhja.getPreferredSize().height - dimensioLuku1, 17)));
         
+    }
+
+    void kasvataKorkeutta() {
+        this.setPreferredSize(new Dimension (400,
+                tyhja.getPreferredSize().height + 2 * dimensioLuku1));        
+        tyhja.setPreferredSize(new Dimension(350,
+                Math.max(tyhja.getPreferredSize().height - dimensioLuku1, 17)));
+        marginaali.setPreferredSize(new Dimension(50,
+                Math.max(tyhja.getPreferredSize().height - dimensioLuku1, 17)));
     }
 }

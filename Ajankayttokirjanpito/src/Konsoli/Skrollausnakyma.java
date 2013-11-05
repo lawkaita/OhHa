@@ -5,6 +5,10 @@
 package Konsoli;
 
 import java.awt.Dimension;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
@@ -24,10 +28,20 @@ public class Skrollausnakyma {
         this.skrollausalue = skrollausalue;
         this.dimensioLuku1 = dimensioLuku1;
 
-        skrollausalue.setPreferredSize(new Dimension(200, dimensioLuku1));
-        //skrollausalue.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        skrollausalue.setPreferredSize(new Dimension(400, dimensioLuku1));
+        skrollausalue.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         skrollausalue.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         skrollausalue.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        
+        skrollausalue.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+            
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+            }
+        });
+        
+        
     }
     
     public JScrollPane getSkrollausalue() {
@@ -35,7 +49,9 @@ public class Skrollausnakyma {
     }
 
     public void skrollaaAlas() {
-        //JScrollBar vertical = skrollausalue.getVerticalScrollBar();
-        //vertical.setValue(vertical.getMaximum());
+        JScrollBar vertical = skrollausalue.getVerticalScrollBar();
+        vertical.setValue(vertical.getMaximum());
     }
+    
+    
 }

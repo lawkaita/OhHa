@@ -53,6 +53,12 @@ public class Komentotulkki {
             tulostaTiedosto();
             return;
         }
+        
+        if (komento.equals("looppi")) {
+            while(true) {
+                
+            }
+        }
 
         tulostaVirhe();
     }

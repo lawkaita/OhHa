@@ -17,7 +17,7 @@ public class VarsinainenKomentoRivi extends JTextField{
     
     public VarsinainenKomentoRivi(Font f, int dimensioLuku1, int dimensioLuku2) {
         setFont(f);
-        setBackground(Color.red);
+        setBackground(Color.black);
         setForeground(Color.white);
         setBorder(javax.swing.BorderFactory.createEmptyBorder());
         setPreferredSize(new Dimension(400 - dimensioLuku2, dimensioLuku1));
