@@ -21,29 +21,34 @@ import javax.swing.ScrollPaneConstants;
  * @author lawkaita
  */
 public class Skrollausnakyma {
+
     private JScrollPane skrollausalue;
     private int dimensioLuku1;
+    private boolean paivitetaan;
 
     public Skrollausnakyma(JScrollPane skrollausalue, int dimensioLuku1) {
         this.skrollausalue = skrollausalue;
         this.dimensioLuku1 = dimensioLuku1;
+        this.paivitetaan = false;
 
         skrollausalue.setPreferredSize(new Dimension(400, dimensioLuku1));
         skrollausalue.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         skrollausalue.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         skrollausalue.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-        
+
         skrollausalue.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
-            
             @Override
             public void adjustmentValueChanged(AdjustmentEvent e) {
-                e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+                if (paivitetaan == true) {                
+                    e.getAdjustable().setValue(e.getAdjustable().getMaximum());                
+                }       
+                
+                paivitetaan = false;                
             }
         });
-        
-        
+
     }
-    
+
     public JScrollPane getSkrollausalue() {
         return this.skrollausalue;
     }
@@ -53,5 +58,7 @@ public class Skrollausnakyma {
         vertical.setValue(vertical.getMaximum());
     }
     
-    
+    public void setPaivitetaan(boolean b) {
+        this.paivitetaan = b;
+    }
 }

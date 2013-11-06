@@ -69,6 +69,8 @@ public class Konsoli extends JPanel implements Paivitettava {
 
     @Override
     public void paivita(String teksti, boolean kirjoittajaOnKayttaja) {;
+        skrollausnakyma.setPaivitetaan(true);
+    
         String dialogi = tulosteAlue.getText();
 
         String etumerkki = komentorivi.getKursori().annaMerkki() + "> ";
