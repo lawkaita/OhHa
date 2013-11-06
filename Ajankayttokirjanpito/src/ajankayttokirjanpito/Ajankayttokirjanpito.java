@@ -5,7 +5,6 @@
 package ajankayttokirjanpito;
 
 import Tietokantasysteemi.Tiedostonkasittelija;
-import java.io.IOException;
 import javax.swing.SwingUtilities;
 import kayttoliittyma.Kayttoliittyma;
 

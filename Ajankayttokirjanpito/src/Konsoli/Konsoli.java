@@ -138,4 +138,12 @@ public class Konsoli extends JPanel implements Paivitettava {
     public VarsinainenKomentoRivi getKomentoRivi() {
         return this.rivi;
     }
+    
+    public Tulostealue getTulosteAlue() {
+        return this.tulosteAlue;
+    }
+    
+    public void kirjoitaKomentoriville(String S) {
+        this.rivi.setText(S);
+    }
 }

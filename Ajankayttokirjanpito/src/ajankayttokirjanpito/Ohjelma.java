@@ -4,6 +4,7 @@
  */
 package ajankayttokirjanpito;
 
+import gui.Dekooderi;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
@@ -34,7 +35,7 @@ public class Ohjelma {
 
         tulostaKonsoliin(ft.format(dNow));
     }
-    
+
     public String paiva() {
         Date dNow = new Date();
         SimpleDateFormat ft =
@@ -42,7 +43,14 @@ public class Ohjelma {
 
         return ft.format(dNow);
     }
-    
+
+    public String aika() {
+        Date dNow = new Date();
+        SimpleDateFormat ft =
+                new SimpleDateFormat("HH.mm");
+
+        return ft.format(dNow);
+    }
 
     public void apua() {
         String[] apua = {"exit - poistu",
@@ -52,7 +60,7 @@ public class Ohjelma {
         for (String s : apua) {
             tulostaKonsoliin(s);
         }
-        
+
     }
 
     public void tulostaTiedosto() {
@@ -77,11 +85,36 @@ public class Ohjelma {
         tulostaKonsoliin("Ei ole komento");
     }
 
-    public void tulostaKonsoliin(String s) {
+    private void tulostaKonsoliin(String s) {
         kali.getKonsoli().tulostaViesti(s);
     }
 
     public void pyydaPaivaa() {
         tulostaKonsoliin("Päiväys:");
+    }
+
+    public void pyydaAloitusAikaa() {
+        tulostaKonsoliin("Aloitusaika:");
+    }
+
+    public void pyydaLopetusAikaa() {
+        tulostaKonsoliin("Lopetusaika:");
+    }
+
+    public void pyydaSelostus() {
+        tulostaKonsoliin("Selostus:");
+    }
+
+    public void listaaKonsoliin(String s) {
+        Dekooderi d = new Dekooderi();
+        String[] tulostettava = d.dekoodaa(s, "\n".charAt(0));
+
+        for (String z : tulostettava) {
+            kali.getKonsoli().tulostaViesti(" " + z);
+        }
+    }
+
+    public void kerroLisayksesta() {
+        tulostaKonsoliin("Lisätty merkintä:");
     }
 }

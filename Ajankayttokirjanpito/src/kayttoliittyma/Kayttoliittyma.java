@@ -39,6 +39,7 @@ public class Kayttoliittyma implements Runnable{
         frame.pack();
         frame.setVisible(true);
         frame.setResizable(false);
+        frame.setLocation(300, 100);
         
         konsoli.getVarsinainenKomentoRivi().requestFocus();
         

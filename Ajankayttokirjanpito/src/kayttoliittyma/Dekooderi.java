@@ -10,8 +10,15 @@ package gui;
  */
 public class Dekooderi {
 
-    private String[] hahmota(String komento, String[] dekoodi, int i) {
-        Character vali = " ".charAt(0);// vali on " ";
+    private String[] hahmota(String komento, String[] dekoodi, int i, Character valimerkki) {
+        Character vali;
+        
+        if (valimerkki == null) {        
+            vali = " ".charAt(0);// vali on " ";        
+        } else {
+            vali = valimerkki;
+        }
+        
         int valiIndeksi = komento.indexOf(vali);
         //valin paikka, tai aina ensimmäisen valin paikka uuden iteraation jälkeen.        
         //palautettava taulukko
@@ -30,7 +37,7 @@ public class Dekooderi {
             dekoodi[i] = osakomento;
             
             i++;
-            hahmota(jatkettava, dekoodi, i);
+            hahmota(jatkettava, dekoodi, i, vali);
 
         }
         return dekoodi;
@@ -57,11 +64,11 @@ public class Dekooderi {
         //määrää kuinka pitkä integer-taulukko tulee luoda kun dekoodataan komento-stringiä komennoiksi.
     }
 
-    public String[] dekoodaa(String komento) {
+    public String[] dekoodaa(String komento, Character valimerkki) {
         int komentojenMaara = laskeKomentojenMaara(komento);
         String dekoodi[] = new String[komentojenMaara];
 
-        return hahmota(komento, dekoodi, 0);
+        return hahmota(komento, dekoodi, 0, valimerkki);
     }
 
     public String listaaSisalto(String[] dekoodi) {

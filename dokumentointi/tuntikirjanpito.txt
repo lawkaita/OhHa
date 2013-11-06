@@ -36,3 +36,8 @@ Tapeltu käyttöliittymän konsolin ulkonäön kanssa.
 5.11.13: 11.00-13.00
 Tapelty yhä konsolin ulkonäön kanssa sekä löyty aihe lopulta lukkoon.
 
+6.11.13: 11.00-13.45
+Ratkaistu konsolin ulkonäkö, jäsennelty ohjelman luokkia ja luotu toiminnallisuutta.
+
+6.11.13: 16.00-18.43
+Lisätty ohjelman varsinaista toiminnallisuutta ja kirjoitettu yksi testi.
