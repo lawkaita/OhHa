@@ -40,7 +40,7 @@ public class Komentotulkki {
     public void haarauta(String komento) {
         
         if (merkintaanPaiva == true) {
-            //testaaOnkoPaiva            
+            testaaOnkoPaiva(komento);            
             muistettavaString = komento;             
             merkintaanAloitusAika();
             merkintaanPaiva = false;            
@@ -49,7 +49,7 @@ public class Komentotulkki {
         }
         
         if (merkintaanAloitusAika == true) {
-            //testaaOnkoAika
+            testaaOnkoAika(komento);
             muistettavaString += ": " + komento;        
             merkintaanLopetusAika();
             merkintaanAloitusAika = false;
@@ -154,6 +154,14 @@ public class Komentotulkki {
         } catch (IOException ex) {
             //
         }
+        
+    }
+
+    private void testaaOnkoPaiva(String komento) {
+        
+    }
+
+    private void testaaOnkoAika(String komento) {
         
     }
 }

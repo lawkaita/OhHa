@@ -4,7 +4,8 @@
  */
 package ajankayttokirjanpito;
 
-import gui.Dekooderi;
+import Tietokantasysteemi.Tiedostonkasittelija;
+import kayttoliittyma.Dekooderi;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
@@ -65,17 +66,20 @@ public class Ohjelma {
 
     public void tulostaTiedosto() {
         try {
-            Scanner lukija = new Scanner(new File("kirjaukset.txt"));
+            Tiedostonkasittelija tika = new Tiedostonkasittelija();
+            tika.alustaTietokannanLukija();
 
-            if (!lukija.hasNext()) {
+            if (!tika.lukijallaSeuraavaRivi()) {
                 tulostaKonsoliin("Ei merkintöjä");
             }
 
-            while (lukija.hasNext()) {
-                tulostaKonsoliin(lukija.nextLine());
+            while (tika.lukijallaSeuraavaRivi()) {
+                tulostaKonsoliin(tika.lukijanSeuraavaRivi());
             }
 
             tulostaKonsoliin("::::");
+            
+            tika.suljeLukija();
         } catch (FileNotFoundException ex) {
             tulostaKonsoliin("Tiedostoa ei löydy");
         }
