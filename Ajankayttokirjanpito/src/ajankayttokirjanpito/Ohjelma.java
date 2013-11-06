@@ -34,6 +34,15 @@ public class Ohjelma {
 
         tulostaKonsoliin(ft.format(dNow));
     }
+    
+    public String paiva() {
+        Date dNow = new Date();
+        SimpleDateFormat ft =
+                new SimpleDateFormat("dd.MM.YYYY");
+
+        return ft.format(dNow);
+    }
+    
 
     public void apua() {
         String[] apua = {"exit - poistu",
@@ -43,20 +52,21 @@ public class Ohjelma {
         for (String s : apua) {
             tulostaKonsoliin(s);
         }
+        
     }
 
     public void tulostaTiedosto() {
         try {
             Scanner lukija = new Scanner(new File("kirjaukset.txt"));
-            
-            if(!lukija.hasNext()) {
+
+            if (!lukija.hasNext()) {
                 tulostaKonsoliin("Ei merkintöjä");
             }
 
             while (lukija.hasNext()) {
                 tulostaKonsoliin(lukija.nextLine());
             }
-            
+
             tulostaKonsoliin("::::");
         } catch (FileNotFoundException ex) {
             tulostaKonsoliin("Tiedostoa ei löydy");
@@ -69,5 +79,9 @@ public class Ohjelma {
 
     public void tulostaKonsoliin(String s) {
         kali.getKonsoli().tulostaViesti(s);
+    }
+
+    public void pyydaPaivaa() {
+        tulostaKonsoliin("Päiväys:");
     }
 }

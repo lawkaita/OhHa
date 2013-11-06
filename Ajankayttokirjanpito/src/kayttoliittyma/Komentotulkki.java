@@ -4,26 +4,21 @@
  */
 package kayttoliittyma;
 
-import Konsoli.Konsoli;
 import ajankayttokirjanpito.Ohjelma;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Envy 6-1010
  */
 public class Komentotulkki {
-
     private Ohjelma ohjelma;
+    
+    private boolean lisataanMerkintaa;
 
     public Komentotulkki(Ohjelma ohjelma) {
         this.ohjelma = ohjelma;
+        
+        this.lisataanMerkintaa = false;
     }
 
     public void enter(String komento) {
@@ -31,27 +26,36 @@ public class Komentotulkki {
     }
 
     public void tulkitse(String komento) {
+        
+        if (lisataanMerkintaa == true) {            
+            lisataanMerkintaa = false;
+        }
 
         if (komento.equals("")) {
             return;
         }
 
         if (komento.equals("exit")) {
-            tapaOhjelma();
+            this.ohjelma.getKali().tapa();
         }
-
+       
         if (komento.equals("nyt")) {
-            nyt();
+            ohjelma.nyt();
+            return;
+        }
+        
+        if (komento.equals("paiva")) {
+            ohjelma.paiva();
             return;
         }
 
         if (komento.equals("apua")) {
-            apua();
+            ohjelma.apua();
             return;
         }
         
         if (komento.equals("tulosta")) {
-            tulostaTiedosto();
+            ohjelma.tulostaTiedosto();
             return;
         }
         
@@ -60,31 +64,13 @@ public class Komentotulkki {
         }
         
         if (komento.equals("merk")) {
-            
+            ohjelma.pyydaPaivaa();
+            String paiva = ohjelma.paiva();
+            ohjelma.getKali().getKonsoli().getKomentoRivi().setText(paiva);
+            this.lisataanMerkintaa = true;
+            return;
         }
-
-        tulostaVirhe();
-    }
-
-    public void tapaOhjelma() {
-        this.ohjelma.getKali().tapa();
-    }
-    
-
-    public void tulostaVirhe() {
+        
         ohjelma.tulostaVirhe();
-    }
-
-    public void nyt() {
-        ohjelma.nyt();
-    }
-
-    public void apua() {
-        ohjelma.apua();
-    }
-    
-    public void tulostaTiedosto() {
-        ohjelma.tulostaTiedosto();
-    }
-    
+    }    
 }

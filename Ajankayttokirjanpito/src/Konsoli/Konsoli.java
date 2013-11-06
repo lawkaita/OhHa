@@ -6,22 +6,12 @@ package Konsoli;
 
 import ajankayttokirjanpito.Ohjelma;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Rectangle;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.text.BadLocationException;
 import kayttoliittyma.Kayttoliittyma;
 import kayttoliittyma.Komentotulkki;
@@ -143,5 +133,9 @@ public class Konsoli extends JPanel implements Paivitettava {
 
     public Komentotulkki getKomentotulkki() {
         return this.komentotulkki;
+    }
+    
+    public VarsinainenKomentoRivi getKomentoRivi() {
+        return this.rivi;
     }
 }
