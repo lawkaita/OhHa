@@ -4,6 +4,7 @@
  */
 package Konsoli;
 
+import ajankayttokirjanpito.Ohjelma;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -36,12 +37,14 @@ public class Konsoli extends JPanel implements Paivitettava {
     private VarsinainenKomentoRivi rivi;
     private Komentorivi komentorivi;
     private TyhjaTila tyhjaTila;
-    private int dimensioLuku1;
-    private Komentotulkki komentotulkki;
     private Skrollausnakyma skrollausnakyma;
+    
+    private int dimensioLuku1;
+    
+    private Komentotulkki komentotulkki;
 
     public Konsoli(Kayttoliittyma kali) {
-        komentotulkki = new Komentotulkki(kali);
+        komentotulkki = new Komentotulkki(new Ohjelma(kali));
         Font f = new Font("Monospaced", Font.PLAIN, 12);
 
         setPreferredSize(new Dimension(400, 400));

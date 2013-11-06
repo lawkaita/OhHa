@@ -5,6 +5,7 @@
 package kayttoliittyma;
 
 import Konsoli.Konsoli;
+import ajankayttokirjanpito.Ohjelma;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
@@ -19,10 +20,10 @@ import java.util.logging.Logger;
  */
 public class Komentotulkki {
 
-    private Kayttoliittyma kali;
+    private Ohjelma ohjelma;
 
-    public Komentotulkki(Kayttoliittyma kali) {
-        this.kali = kali;
+    public Komentotulkki(Ohjelma ohjelma) {
+        this.ohjelma = ohjelma;
     }
 
     public void enter(String komento) {
@@ -55,54 +56,35 @@ public class Komentotulkki {
         }
         
         if (komento.equals("looppi")) {
-            while(true) {
-                
-            }
+            
+        }
+        
+        if (komento.equals("merk")) {
+            
         }
 
         tulostaVirhe();
     }
 
     public void tapaOhjelma() {
-        kali.tapa();
+        this.ohjelma.getKali().tapa();
     }
     
-    public void tulostaKonsoliin(String s) {
-        kali.getKonsoli().tulostaViesti(s);
-    }
 
     public void tulostaVirhe() {
-        tulostaKonsoliin("Ei ole komento");
+        ohjelma.tulostaVirhe();
     }
 
     public void nyt() {
-        Date dNow = new Date();
-        SimpleDateFormat ft =
-                new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
-
-        tulostaKonsoliin(ft.format(dNow));
+        ohjelma.nyt();
     }
 
     public void apua() {
-        String[] apua = {"exit - poistu",
-                         "nyt  - tämänhetkinen aika",
-                         "apua - tämä tuloste"};
-        
-        for (String s : apua) {
-            tulostaKonsoliin(s);
-        }
+        ohjelma.apua();
     }
     
     public void tulostaTiedosto() {
-        try {
-            Scanner lukija = new Scanner(new File("kirjaukset.txt"));
-            
-            while (lukija.hasNext()) {
-                tulostaKonsoliin(lukija.nextLine());
-            }
-        } catch (FileNotFoundException ex) {
-            tulostaKonsoliin("Tiedostoa ei löydy");
-        }
+        ohjelma.tulostaTiedosto();
     }
     
 }

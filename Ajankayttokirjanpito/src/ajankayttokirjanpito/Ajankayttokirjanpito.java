@@ -20,15 +20,8 @@ public class Ajankayttokirjanpito {
      */
     public static void main(String[] args) {        
         Kayttoliittyma kali = new Kayttoliittyma();
-        Tiedostonkasittelija tika = new Tiedostonkasittelija();       
-        
-        
-        try {
-            tika.lisaaTietokantaan("112");
-        } catch (IOException ex) {
-            
-        }
-        
+        Tiedostonkasittelija tika = new Tiedostonkasittelija();      
+             
         SwingUtilities.invokeLater(kali);
         // TODO code application logic here
     }
