@@ -41,3 +41,6 @@ Ratkaistu konsolin ulkonäkö, jäsennelty ohjelman luokkia ja luotu toiminnallisuu
 
 6.11.13: 16.00-18.43
 Lisätty ohjelman varsinaista toiminnallisuutta ja kirjoitettu yksi testi.
+
+6.11.13: 22.30-24.00
+Lisätty testejä.
