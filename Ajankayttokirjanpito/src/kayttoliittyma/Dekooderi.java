@@ -12,13 +12,13 @@ public class Dekooderi {
 
     private String[] hahmota(String komento, String[] dekoodi, int i, Character valimerkki) {
         Character vali;
-        
-        if (valimerkki == null) {        
+
+        if (valimerkki == null) {
             vali = " ".charAt(0);// vali on " ";        
         } else {
             vali = valimerkki;
         }
-        
+
         int valiIndeksi = komento.indexOf(vali);
         //valin paikka, tai aina ensimmäisen valin paikka uuden iteraation jälkeen.        
         //palautettava taulukko
@@ -35,7 +35,7 @@ public class Dekooderi {
             //System.out.println(tulostettava + ",");
 
             dekoodi[i] = osakomento;
-            
+
             i++;
             hahmota(jatkettava, dekoodi, i, vali);
 
@@ -43,13 +43,18 @@ public class Dekooderi {
         return dekoodi;
     }
 
-    public int laskeKomentojenMaara(String komento) {
+    public int laskeKomentojenMaara(String komento, Character valimerkki) {
         if (komento.isEmpty()) {
             return 0;
         }
 
+        Character vali;
         int komentojenMaara = 0;
-        Character vali = " ".charAt(0);
+        if (valimerkki == null) {
+            vali = " ".charAt(0);
+        } else {
+            vali = valimerkki;
+        }
         int komennonPituus = komento.length();
 
         int i = 0;
@@ -65,8 +70,12 @@ public class Dekooderi {
     }
 
     public String[] dekoodaa(String komento, Character valimerkki) {
-        int komentojenMaara = laskeKomentojenMaara(komento);
+        int komentojenMaara = laskeKomentojenMaara(komento, valimerkki);
         String dekoodi[] = new String[komentojenMaara];
+        
+        if (dekoodi.length == 0) {
+            return new String[0];
+        }
 
         return hahmota(komento, dekoodi, 0, valimerkki);
     }
@@ -75,7 +84,7 @@ public class Dekooderi {
         String tuloste = "";
 
         for (String s : dekoodi) {
-            tuloste = tuloste  + "> " + s + "\n";
+            tuloste = tuloste + "> " + s + "\n";
         }
 
         return tuloste;

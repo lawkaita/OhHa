@@ -20,76 +20,171 @@ import static org.junit.Assert.*;
  * @author lawkaita
  */
 public class Testit {
-    
+
     private Kayttoliittyma kali;
     private Tiedostonkasittelija tika;
-    
+
     @Before
-    public void setUp() {        
-        kali = new Kayttoliittyma();     
+    public void setUp() {
+        kali = new Kayttoliittyma();
         tika = new Tiedostonkasittelija();
-        
+
         SwingUtilities.invokeLater(kali);
     }
-    
+
     @Test
     public void vihreellinenKomentoTulostaaKomennonJaVirheuilmoituksen() {
         kali.getKonsoli().kirjoitaKomentoriville("Jeessys");
         kali.getKonsoli().tulostaJaSuoritaKayttajanKomento();
-        
+
         String tuloste = kali.getKonsoli().getTulosteAlue().getText();
         String odotettu = tuloste.substring(5, tuloste.length());
         //jätetään alusta komentorivin tervehdys ja pyörivä kursori.
-        
+
         assertEquals("> Jeessys\n :Ei ole komento",
                 odotettu);
     }
-    
+
     @Test
-    public void tiedostonKasittelijaPystyyLoytamaanTiedostostaHaettavaaAsiaa(){
-        
+    public void tiedostonKasittelijaPystyyLoytamaanTiedostostaHaettavaaAsiaa() {        
+        try {
+            tika.lisaaTietokantaan("!testiteksti2:\n"
+                    + "testitekstientesti");
+            tika.lisaaTietokantaan("!testiteksti3:\n"
+                    + "testitekstienteksti");
+            tika.alustaTietokannanLukija();            
+            //oletetaan että tietokantaan tallennetaan tietoa niin että päätietoalkio,
+            //esim päiväys, alkaa merkillä !.
+            
+            //tässä tehdään oletus haun tuloksen muodosta.
+            String[] osumat = tika.haeTietoKannasta("!testiteksti2:");
+            String odotettu = "testiteksti2:\n"
+                    + "testitekstientesti\n";
+            
+            assertEquals(odotettu, osumat[1]);
+            
+            //oletetaan, että tietokantaan ei ole lisätty otsikolla '!testiteksti' muita tietoalkioita.
+            
+            
+            
+        } catch (IOException ex) {
+            assertEquals(1, 2);
+            //mitä tähän pitäisi kirjoittaa?
+        }
     }
-    
+
     @Test
     public void tiedostonKasittelijaPystyyKirjoittamaanTiedostoonJaLukemaanSita() {
         try {
             tika.lisaaTietokantaan("testiteksti");
             tika.alustaTietokannanLukija();
-            
+
             String vikaRivi = "";
-            
-            while(tika.lukijallaSeuraavaRivi()) {                
+
+            while (tika.lukijallaSeuraavaRivi()) {
                 vikaRivi = tika.lukijanSeuraavaRivi();
             }
-                        
+
             assertEquals("testiteksti", vikaRivi);
         } catch (IOException ex) {
-            assertEquals(1,2);
+            assertEquals(1, 2);
             //mitä tähän pitäisi kirjoittaa?
         }
     }
-    
+
     @Test
     public void tiedostonTulostaminenKonsoliinTulostaaTiedostonTiedotOikein() {
-        
     }
-    
+
     @Test
-    public void dekooderiLajitteleeStringOlionOikein(){
+    public void dekooderiLajitteleeStringOlionOikein() {
         String s = "hei olen pekka";
-        
+
         Dekooderi d = new Dekooderi();
-        
+
         String[] dekoodi = d.dekoodaa(s, null);
-        
+
         assertEquals(dekoodi[0], "hei");
         assertEquals(dekoodi[1], "olen");
         assertEquals(dekoodi[2], "pekka");
     }
+
+    @Test
+    public void onkoPaivaTestiTunnistaaVirheellisenPaivanKunPaivassaOnKirjaimia() {
+        kali.getKonsoli().kirjoitaKomentoriville("merk");
+        kali.getKonsoli().tulostaJaSuoritaKayttajanKomento();
+        kali.getKonsoli().kirjoitaKomentoriville("jeessys");
+        kali.getKonsoli().tulostaJaSuoritaKayttajanKomento();
+
+        String tuloste = kali.getKonsoli().getTulosteAlue().getText();
+        String odotettu = tuloste.substring(34, tuloste.length());
+        //jätetään alusta komentorivin tervehdys, pyörivä kursori ja aluksi annettu komento.
+
+        assertEquals(" :Ei ole päivä",
+                odotettu);
+    }
+
+    @Test
+    public void onkoPaivaTestiTunnistaaVirheellisenPaivanKunPaivassaLiikaaPisteellaEroteltujaNumeroSekvensseja() {
+        kali.getKonsoli().kirjoitaKomentoriville("merk");
+        kali.getKonsoli().tulostaJaSuoritaKayttajanKomento();
+        kali.getKonsoli().kirjoitaKomentoriville(".13");
+        kali.getKonsoli().tulostaJaSuoritaKayttajanKomento();
+
+        String tuloste = kali.getKonsoli().getTulosteAlue().getText();
+        String odotettu = tuloste.substring(30, tuloste.length());
+        //jätetään alusta komentorivin tervehdys, pyörivä kursori ja aluksi annettu komento.
+
+        assertEquals(" :Ei ole päivä",
+                odotettu);
+    }
+
+    @Test
+    public void onkoPaivaTestiTunnistaaOikeanPaivanJaOhjlemaSiirtyyKysymaanAloitusAikaa() {
+        kali.getKonsoli().kirjoitaKomentoriville("merk");
+        kali.getKonsoli().tulostaJaSuoritaKayttajanKomento();
+        kali.getKonsoli().tulostaJaSuoritaKayttajanKomento();//tassa kohtaa komentoriville on hakeutunut oikea paiva
+
+        String tuloste = kali.getKonsoli().getTulosteAlue().getText();
+        String odotettu = tuloste.substring(37, tuloste.length());
+        //jätetään alusta komentorivin tervehdys, pyörivä kursori ja aluksi annettu komento.
+
+        assertEquals(" :Aloitusaika:",
+                odotettu);
+    }
     
+    @Test
+    public void onkoAikaTestiTUnnistaaVirheelisenAjan() {
+        kali.getKonsoli().kirjoitaKomentoriville("merk");
+        kali.getKonsoli().tulostaJaSuoritaKayttajanKomento();
+        kali.getKonsoli().tulostaJaSuoritaKayttajanKomento();//tassa kohtaa komentoriville on hakeutunut oikea paiva
+        kali.getKonsoli().kirjoitaKomentoriville("jeessys");
+        kali.getKonsoli().tulostaJaSuoritaKayttajanKomento();
+        
+        String tuloste = kali.getKonsoli().getTulosteAlue().getText();
+        String odotettu = " :Ei ole aika";
+        String aktuaali = tuloste.substring(tuloste.length() - odotettu.length(), tuloste.length());
+        
+        assertEquals(odotettu,
+                aktuaali);        
+    } 
     
-    //onkoPaivaTesti toimii
-    //onko Aika testi toimii, testejä 7
+    @Test
+    public void onkoAikaTestiTunnistaaOikeanAjan() {
+        kali.getKonsoli().kirjoitaKomentoriville("merk");
+        kali.getKonsoli().tulostaJaSuoritaKayttajanKomento();
+        kali.getKonsoli().tulostaJaSuoritaKayttajanKomento();//tassa kohtaa komentoriville on hakeutunut oikea paiva
+        kali.getKonsoli().kirjoitaKomentoriville("12.12");
+        kali.getKonsoli().tulostaJaSuoritaKayttajanKomento();
+        
+        String tuloste = kali.getKonsoli().getTulosteAlue().getText();
+        String odotettu = " :Lopetusaika:";
+        String aktuaali = tuloste.substring(tuloste.length() - odotettu.length(), tuloste.length());
+        
+        assertEquals(odotettu,
+                aktuaali);        
+    } 
+    //päiväykset ja kellonajat 0 eteen., testejä 7
     
     @After
     public void tearDown() {

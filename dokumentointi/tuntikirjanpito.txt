@@ -44,3 +44,14 @@ Lisätty ohjelman varsinaista toiminnallisuutta ja kirjoitettu yksi testi.
 
 6.11.13: 22.30-24.00
 Lisätty testejä.
+
+7.11.13: 18.00-19.41
+Kirjoitettu testejä loppuun, nyt on yhteensä 10 testiä.
+Kommentti: Koko koodista taitaa näkyä, että tein käyttöliittymän ensin: Käyttöliittymä on (melkein) valmis ja tuntuu määräävän kaiken muun toteuttamisessa hyvin monta asiaa. En osannut kirjoittaa testejä ihan test-driven developement -tyyliin, mutta niiden kirjoittaminen silti auttoi löytämään bugeja ja selkiyttämään ajatusta siitä, mitä ohjelmalta haluan. Tietokantaoperaatioista tuli testien avulla lisäksi vastaan monta avointa kysymystä - kuten missä muodossa tieto tallennetaan. Tavoitteena olisi että tiedostoa voisi lukea myös suoraan. Yhden päivän merkintä voisi näyttää tältä (monen eri kyseistä päivää koskevan merkinnän jälkeen):
+
+	!5.10.2010
+		&16.00-17.30 %Söin ison pitsan
+		&18.00-17.30 %Katsoin netistä AVGN-jakson.
+
+Tässä '!' olisi päiväyksen prefix, '&' kellonajan ja '%' selostuksen. Ilmeisestikin ohjelman tulisi tarkistaa, että aloituskellonaika on pienempi kuin lopetuskellonaika. Ohjelma voisi tukea myös "pistemäisiä" tapahtumia, eli tapahtumia, joihin liittyisi vain yksi kellonaika.
+				

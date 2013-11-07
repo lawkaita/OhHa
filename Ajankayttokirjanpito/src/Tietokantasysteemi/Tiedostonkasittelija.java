@@ -9,6 +9,9 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import kayttoliittyma.Dekooderi;
 
 /**
  *
@@ -37,6 +40,42 @@ public class Tiedostonkasittelija {
         FileWriter kirjoittaja = new FileWriter(tietokanta, true);
         kirjoittaja.write("\r\n" + lisattavat);
         kirjoittaja.close();
+    }
+    
+    //metodi ottaa kantaa siihen missa muodossa tieto on tallennettu
+    //eli tietoa on tallennettu avain sanan alle seuraavalle riville.
+    public String[] haeTietoKannasta(String hakusana) {
+        try {
+            alustaTietokannanLukija();
+            
+            //tässä pitää ottaa kantaa siihen miten haun tulokset esitetään
+            //ja mitä sanotaan jos mitään ei löydy
+            
+            String osumat = "";
+            
+            while(lukija.hasNextLine()) {
+                String rivi = lukija.nextLine();
+                
+                if(rivi.equals(hakusana)) {
+                    osumat = osumat + rivi + "\n" + lukija.nextLine() + "\n";
+                    //tässä oletust tapahtuu.
+                    //käytännössä tietoa tallennetaan päiväyksen alle muodossa kellonajat + mitä tehtiin.
+                    //ainakin toistaiseksi päässäni on näin.
+                }
+                
+            }
+            
+            //oletetaan että tietokantaan tallennetaan tietoa niin että päätietoalkio,
+            //esim päiväys, alkaa merkillä !.
+            Dekooderi d = new Dekooderi();            
+            String[] tuloksetLajiteltu = d.dekoodaa(osumat, "!".charAt(0));            
+            
+            return tuloksetLajiteltu;
+           
+        } catch (FileNotFoundException ex) {
+            return null;
+        }
+        
     }
     
     public Scanner getTietokannanLukija() throws FileNotFoundException {

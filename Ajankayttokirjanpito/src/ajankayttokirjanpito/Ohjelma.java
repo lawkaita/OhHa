@@ -89,7 +89,7 @@ public class Ohjelma {
         tulostaKonsoliin("Ei ole komento");
     }
 
-    private void tulostaKonsoliin(String s) {
+    public void tulostaKonsoliin(String s) {
         kali.getKonsoli().tulostaViesti(s);
     }
 
@@ -120,5 +120,9 @@ public class Ohjelma {
 
     public void kerroLisayksesta() {
         tulostaKonsoliin("Lisätty merkintä:");
+    }
+
+    public void pyydaHakusana() {
+        tulostaKonsoliin("Anna hakusana:");
     }
 }
