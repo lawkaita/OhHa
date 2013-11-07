@@ -113,3 +113,8 @@ testitekstientesti
 !testiteksti3:
 testitekstienteksti
 testiteksti
+testiteksti
+!testiteksti2:
+testitekstientesti
+!testiteksti3:
+testitekstienteksti

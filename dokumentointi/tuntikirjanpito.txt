@@ -54,4 +54,7 @@ Kommentti: Koko koodista taitaa näkyä, että tein käyttöliittymän ensin: Käyttöli
 		&18.00-17.30 %Katsoin netistä AVGN-jakson.
 
 Tässä '!' olisi päiväyksen prefix, '&' kellonajan ja '%' selostuksen. Ilmeisestikin ohjelman tulisi tarkistaa, että aloituskellonaika on pienempi kuin lopetuskellonaika. Ohjelma voisi tukea myös "pistemäisiä" tapahtumia, eli tapahtumia, joihin liittyisi vain yksi kellonaika.
+
+7.11.13: 19.41-21.38
+Luotu UML-kaavio.
 				

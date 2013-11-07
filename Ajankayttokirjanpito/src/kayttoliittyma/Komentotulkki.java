@@ -24,7 +24,6 @@ public class Komentotulkki {
 
     public Komentotulkki(Ohjelma ohjelma) {
         this.ohjelma = ohjelma;
-
         merkintaanPaiva = false;
         merkintaanAloitusAika = false;
         merkintaanLopetusAika = false;
@@ -40,6 +39,8 @@ public class Komentotulkki {
     public void haarauta(String komento) {
         
         if(hakuKaynnissa == true) {
+            
+            //tämä tulisi hoitaa ohjelma -luokassa.
             Tiedostonkasittelija tika = new Tiedostonkasittelija();
             String[] osumat = tika.haeTietoKannasta(komento);
             
@@ -183,6 +184,7 @@ public class Komentotulkki {
     }
 
     private void lisaaOhjelmanTiedostoonMuistettavaString() {
+        //tämä tulisi tehdä ohjelmassa.
         Tiedostonkasittelija tika = new Tiedostonkasittelija();
         try {
             tika.lisaaTietokantaan(muistettavaString);

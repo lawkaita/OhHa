@@ -22,6 +22,7 @@ public class Ohjelma {
     private Kayttoliittyma kali;
 
     public Ohjelma(Kayttoliittyma kali) {
+        //laitetaan ohjelmalle suoraan konsoli.
         this.kali = kali;
     }
 
