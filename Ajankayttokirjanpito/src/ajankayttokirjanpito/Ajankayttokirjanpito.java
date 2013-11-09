@@ -18,9 +18,7 @@ public class Ajankayttokirjanpito {
      * @param args the command line arguments
      */
     public static void main(String[] args) {        
-        Kayttoliittyma kali = new Kayttoliittyma();
-        Tiedostonkasittelija tika = new Tiedostonkasittelija();      
-             
+        Kayttoliittyma kali = new Kayttoliittyma();             
         SwingUtilities.invokeLater(kali);
         // TODO code application logic here
     }

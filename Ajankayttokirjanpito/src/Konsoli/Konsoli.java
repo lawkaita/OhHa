@@ -34,7 +34,7 @@ public class Konsoli extends JPanel implements Paivitettava {
     private Komentotulkki komentotulkki;
 
     public Konsoli(Kayttoliittyma kali) {
-        komentotulkki = new Komentotulkki(new Ohjelma(kali));
+        komentotulkki = new Komentotulkki(kali);
         Font f = new Font("Monospaced", Font.PLAIN, 12);
 
         setPreferredSize(new Dimension(400, 400));
@@ -146,4 +146,5 @@ public class Konsoli extends JPanel implements Paivitettava {
     public void kirjoitaKomentoriville(String S) {
         this.rivi.setText(S);
     }
+
 }

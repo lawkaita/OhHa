@@ -6,11 +6,10 @@ package ajankayttokirjanpito;
 
 import Tietokantasysteemi.Tiedostonkasittelija;
 import kayttoliittyma.Dekooderi;
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Scanner;
 import kayttoliittyma.Kayttoliittyma;
 
 /**
@@ -20,17 +19,19 @@ import kayttoliittyma.Kayttoliittyma;
 public class Ohjelma {
 
     private Kayttoliittyma kali;
+    private Tiedostonkasittelija tika;
 
     public Ohjelma(Kayttoliittyma kali) {
         //laitetaan ohjelmalle suoraan konsoli.
         this.kali = kali;
+        this.tika = new Tiedostonkasittelija();
     }
 
     public Kayttoliittyma getKali() {
         return this.kali;
     }
 
-    public void nyt() {
+    public void sanoMikaAikaNytOn() {
         Date dNow = new Date();
         SimpleDateFormat ft =
                 new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
@@ -38,7 +39,7 @@ public class Ohjelma {
         tulostaKonsoliin(ft.format(dNow));
     }
 
-    public String paiva() {
+    public String annaTamaPaiva() {
         Date dNow = new Date();
         SimpleDateFormat ft =
                 new SimpleDateFormat("dd.MM.YYYY");
@@ -46,7 +47,7 @@ public class Ohjelma {
         return ft.format(dNow);
     }
 
-    public String aika() {
+    public String annaTamaAika() {
         Date dNow = new Date();
         SimpleDateFormat ft =
                 new SimpleDateFormat("HH.mm");
@@ -67,7 +68,6 @@ public class Ohjelma {
 
     public void tulostaTiedosto() {
         try {
-            Tiedostonkasittelija tika = new Tiedostonkasittelija();
             tika.alustaTietokannanLukija();
 
             if (!tika.lukijallaSeuraavaRivi()) {
@@ -126,4 +126,50 @@ public class Ohjelma {
     public void pyydaHakusana() {
         tulostaKonsoliin("Anna hakusana:");
     }
+
+    public void tapaKali() {
+        this.kali.tapa();
+    }
+
+    public void haku(String komento) {
+        //tämä tulisi hoitaa ohjelma -luokassa.
+            String[] osumat = tika.haeTietoKannasta(komento);
+
+            String osumatString = "";
+
+            for (String osuma : osumat) {
+                osumatString += osuma;
+            }
+
+            if (osumatString.isEmpty()) {
+                tulostaKonsoliin("Ei osumia");
+            } else {
+                listaaKonsoliin(osumatString);
+            }
+    }
+
+    public void lisaaTiedostoon(String muistettavaString) {
+        try {
+            tika.kirjoitaTietokantaanLisaten(muistettavaString,true);
+        } catch (IOException ex) {
+            //mitä tähän tulisi lisätä?
+        }
+    }
+
+    public void tulostaEiOlePaiva() {
+        tulostaKonsoliin("Ei ole päivä");
+    }
+
+    public void nollaaTietoKanta() {
+        try {        
+            tika.nollaaTiedosto();
+        } catch (IOException ex) {
+            //
+        }
+    }
+
+    public void ilmoitaNollaamisesta() {
+        tulostaKonsoliin("Muisti nollattu");
+    }
+
 }

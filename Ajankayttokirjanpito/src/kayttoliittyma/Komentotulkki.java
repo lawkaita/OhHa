@@ -18,18 +18,18 @@ public class Komentotulkki {
     private boolean merkintaanPaiva;
     private boolean merkintaanAloitusAika;
     private boolean merkintaanLopetusAika;
-    private boolean merkintaanSelostus;    
+    private boolean merkintaanSelostus;
     private boolean hakuKaynnissa;
     private String muistettavaString;
 
-    public Komentotulkki(Ohjelma ohjelma) {
-        this.ohjelma = ohjelma;
+    public Komentotulkki(Kayttoliittyma kali) {
+        this.ohjelma = new Ohjelma(kali);
         merkintaanPaiva = false;
         merkintaanAloitusAika = false;
         merkintaanLopetusAika = false;
         merkintaanSelostus = false;
         hakuKaynnissa = false;
-        muistettavaString = "";        
+        muistettavaString = "";
     }
 
     public void enter(String komento) {
@@ -37,25 +37,9 @@ public class Komentotulkki {
     }
 
     public void haarauta(String komento) {
-        
-        if(hakuKaynnissa == true) {
-            
-            //tämä tulisi hoitaa ohjelma -luokassa.
-            Tiedostonkasittelija tika = new Tiedostonkasittelija();
-            String[] osumat = tika.haeTietoKannasta(komento);
-            
-            String osumatString = "";
-            
-            for (String osuma : osumat) {
-                osumatString += osuma;
-            }
-            
-            if (osumatString.isEmpty()) {
-                ohjelma.tulostaKonsoliin("Ei osumia");
-            } else {
-                ohjelma.listaaKonsoliin(osumatString);
-            }     
-            
+
+        if (hakuKaynnissa == true) {            
+            ohjelma.haku(komento);            
             hakuKaynnissa = false;
             return;
         }
@@ -65,8 +49,8 @@ public class Komentotulkki {
                 muistettavaString = komento;
                 merkintaanAloitusAika();
             } else {
-                ohjelma.tulostaKonsoliin("Ei ole päivä");
-                String paiva = ohjelma.paiva();
+                ohjelma.tulostaEiOlePaiva();
+                String paiva = ohjelma.annaTamaPaiva();
                 ohjelma.getKali().getKonsoli().kirjoitaKomentoriville(paiva);
                 return;
             }
@@ -76,7 +60,7 @@ public class Komentotulkki {
         }
 
         if (merkintaanAloitusAika == true) {
-            if (testaaOnkoAika(komento)) {
+            if (onAika(komento)) {
                 muistettavaString += ": " + komento;
                 merkintaanLopetusAika();
             } else {
@@ -84,7 +68,7 @@ public class Komentotulkki {
                 ohjelma.getKali().getKonsoli().kirjoitaKomentoriville("hh.mm");
                 return;
             }
-            
+
             merkintaanAloitusAika = false;
 
             return;
@@ -99,7 +83,7 @@ public class Komentotulkki {
         }
 
         if (merkintaanSelostus == true) {
-            muistettavaString += "\n" + komento;
+            muistettavaString += "\r\n  " + komento + "\r\n";
             ohjelma.kerroLisayksesta();
             ohjelma.listaaKonsoliin(muistettavaString);
 
@@ -121,7 +105,7 @@ public class Komentotulkki {
 
     public void merkintaanLopetusAika() {
         ohjelma.pyydaLopetusAikaa();
-        ohjelma.getKali().getKonsoli().kirjoitaKomentoriville(ohjelma.aika());
+        ohjelma.getKali().getKonsoli().kirjoitaKomentoriville(ohjelma.annaTamaAika());
         merkintaanLopetusAika = true;
     }
 
@@ -137,21 +121,21 @@ public class Komentotulkki {
         }
 
         if (komento.equals("exit")) {
-            this.ohjelma.getKali().tapa();
+            this.ohjelma.tapaKali();
         }
 
         if (komento.equals("nyt")) {
-            ohjelma.nyt();
+            ohjelma.sanoMikaAikaNytOn();
             return;
         }
 
         if (komento.equals("paiva")) {
-            ohjelma.paiva();
+            ohjelma.annaTamaPaiva();
             return;
         }
 
         if (komento.equals("aika")) {
-            ohjelma.aika();
+            ohjelma.annaTamaAika();
             return;
         }
 
@@ -172,26 +156,28 @@ public class Komentotulkki {
         }
 
         if (komento.equals("merk")) {
-            ohjelma.pyydaPaivaa();
-            String paiva = ohjelma.paiva();
-            ohjelma.getKali().getKonsoli().kirjoitaKomentoriville(paiva);
-            this.merkintaanPaiva = true;
+            merk();
             return;
         }
         
+        if (komento.equals("nollaa muisti")) {
+            ohjelma.nollaaTietoKanta();
+            ohjelma.ilmoitaNollaamisesta();
+            return;
+        }
 
         ohjelma.tulostaVirhe();
     }
 
-    private void lisaaOhjelmanTiedostoonMuistettavaString() {
-        //tämä tulisi tehdä ohjelmassa.
-        Tiedostonkasittelija tika = new Tiedostonkasittelija();
-        try {
-            tika.lisaaTietokantaan(muistettavaString);
-        } catch (IOException ex) {
-            //
-        }
+    private void merk() {
+        ohjelma.pyydaPaivaa();
+        String paiva = ohjelma.annaTamaPaiva();
+        ohjelma.getKali().getKonsoli().kirjoitaKomentoriville(paiva);
+        this.merkintaanPaiva = true;
+    }
 
+    private void lisaaOhjelmanTiedostoonMuistettavaString() {
+        ohjelma.lisaaTiedostoon(muistettavaString);
     }
 
     private boolean onPaiva(String komento) {
@@ -225,7 +211,7 @@ public class Komentotulkki {
 
     }
 
-    private boolean testaaOnkoAika(String komento) {
+    private boolean onAika(String komento) {
         Dekooderi d = new Dekooderi();
         Character piste = ".".charAt(0);
 

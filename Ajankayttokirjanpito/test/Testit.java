@@ -6,8 +6,6 @@
 import Tietokantasysteemi.Tiedostonkasittelija;
 import kayttoliittyma.Dekooderi;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import kayttoliittyma.Kayttoliittyma;
 import org.junit.After;
@@ -48,10 +46,10 @@ public class Testit {
     @Test
     public void tiedostonKasittelijaPystyyLoytamaanTiedostostaHaettavaaAsiaa() {        
         try {
-            tika.lisaaTietokantaan("!testiteksti2:\n"
-                    + "testitekstientesti");
-            tika.lisaaTietokantaan("!testiteksti3:\n"
-                    + "testitekstienteksti");
+            tika.kirjoitaTietokantaanLisaten("!testiteksti2:\n"
+                    + "testitekstientesti", true);
+            tika.kirjoitaTietokantaanLisaten("!testiteksti3:\n"
+                    + "testitekstienteksti", true);
             tika.alustaTietokannanLukija();            
             //oletetaan että tietokantaan tallennetaan tietoa niin että päätietoalkio,
             //esim päiväys, alkaa merkillä !.
@@ -76,7 +74,7 @@ public class Testit {
     @Test
     public void tiedostonKasittelijaPystyyKirjoittamaanTiedostoonJaLukemaanSita() {
         try {
-            tika.lisaaTietokantaan("testiteksti");
+            tika.kirjoitaTietokantaanLisaten("testiteksti", true);
             tika.alustaTietokannanLukija();
 
             String vikaRivi = "";

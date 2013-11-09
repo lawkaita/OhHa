@@ -57,4 +57,7 @@ Tässä '!' olisi päiväyksen prefix, '&' kellonajan ja '%' selostuksen. Ilmeisesti
 
 7.11.13: 19.41-21.38
 Luotu UML-kaavio.
+
+9.11.13: 13.00-16.33
+Lisätty ja jäsennelty koodia. Luotu uusi UML-kaavio.
 				
