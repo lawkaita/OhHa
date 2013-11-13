@@ -66,4 +66,7 @@ Lisätty koodia ja mietitty ohjelman toiminnallisuutta.
 
 13.11.13 11.30-13.06
 lisätty testejä ja selkiytetty ohjelman rakennetta sekä järjestelty uudelleen luokkia paketteihin.
+
+13.11.13 13.06-13.41
+hienosäätöä.
 				

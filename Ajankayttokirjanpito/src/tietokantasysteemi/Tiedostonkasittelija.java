@@ -21,9 +21,21 @@ public class Tiedostonkasittelija {
     
     private File tietokanta;
     private Scanner lukija;
+    private Dekooderi dekooderi;
     
-    public Tiedostonkasittelija() {
-        tietokanta = haeTiedostoJaLisaaSilleLukija();
+    public Tiedostonkasittelija(){
+        tietokanta = new File("kirjaukset.txt");
+        try {
+            tietokanta.createNewFile();
+        } catch (IOException ex) {
+            System.out.println("TiedostonkasittelijaIOException");
+        }
+        try {  
+            lukija = new Scanner(tietokanta);
+        } catch (FileNotFoundException ex) {
+            System.out.println("TiedostonkastittelijaFileNotFoundException");
+        }
+        dekooderi = new Dekooderi();
     }
     
     public File getTietokanta() {
@@ -62,9 +74,8 @@ public class Tiedostonkasittelija {
             }
 
             //oletetaan että tietokantaan tallennetaan tietoa niin että päätietoalkio,
-            //esim päiväys, alkaa merkillä !.
-            Dekooderi d = new Dekooderi();            
-            String[] tuloksetLajiteltu = d.dekoodaa(osumat, "!".charAt(0));            
+            //esim päiväys, alkaa merkillä !.           
+            String[] tuloksetLajiteltu = dekooderi.dekoodaa(osumat, "!".charAt(0));            
             
             return tuloksetLajiteltu;            
         } catch (FileNotFoundException ex) {
@@ -72,8 +83,7 @@ public class Tiedostonkasittelija {
         }        
     }
     
-    public Scanner getTietokannanLukija() throws FileNotFoundException {
-        this.lukija = new Scanner(new File("kirjaukset.txt"));        
+    public Scanner getTietokannanLukija() {      
         return lukija;
     }
     
@@ -103,18 +113,5 @@ public class Tiedostonkasittelija {
         alustaTietokannanLukija();
     }
     
-    private File haeTiedostoJaLisaaSilleLukija() {
-        File tiedosto = new File("kirjaukset.txt");
-        
-        try {
-            tiedosto.createNewFile();
-            alustaTietokannanLukija();
-        } catch (IOException ex) {
-            System.out.println("haeTiedostoJaLisaaSilleLukijaIOEx");
-            //ei tehdä mitään jos tiedosto on olemassa.
-        }
-        
-        return tiedosto;
-    }
 }
 //Tiedostonkasittelijalla on yksi tiedosto johon se tallettaa ja kirjoittaa tietoja.

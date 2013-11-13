@@ -122,7 +122,6 @@ public class KayttoliittymaTest {
     
     @Test
     public void testi0(){
-        System.out.println("hei");
     }
     
     @After

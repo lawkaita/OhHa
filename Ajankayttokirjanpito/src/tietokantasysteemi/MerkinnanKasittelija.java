@@ -13,13 +13,17 @@ import sovelluslogiikka.Dekooderi;
  * @author Envy 6-1010
  */
 public class MerkinnanKasittelija {
+    private Dekooderi dekooderi;
+    
+    public MerkinnanKasittelija() {
+        dekooderi = new Dekooderi();
+    }
   
   //tällä muunnetaan kolmirivinen käyttöliittymän antama merkintä
   public String muutaKayttajanAntamaMerkintaTietokannanMerkinnaksi(String merkinta) {
-      Dekooderi d = new Dekooderi();
       Character rivinvaihto = "\n".charAt(0);
       
-      String[] merkintarivit = d.dekoodaa(merkinta, rivinvaihto);      
+      String[] merkintarivit = dekooderi.dekoodaa(merkinta, rivinvaihto);      
       String paiva = merkintarivit[0];      
       String kellonajat = merkintarivit[1];
       String seloste = merkintarivit[2];
@@ -29,10 +33,9 @@ public class MerkinnanKasittelija {
   }
   
   public ArrayList<String> muutaTietokannanMerkintaKasiteltavaksi(String merkinta) {
-      Dekooderi d = new Dekooderi();
       Character rivinvaihto = "\n".charAt(0);
       
-      String[] merkintarivit = d.dekoodaa(merkinta, rivinvaihto);      
+      String[] merkintarivit = dekooderi.dekoodaa(merkinta, rivinvaihto);      
       String paiva = merkintarivit[0];
       ArrayList<String> tapahtumat = new ArrayList<>();
       
