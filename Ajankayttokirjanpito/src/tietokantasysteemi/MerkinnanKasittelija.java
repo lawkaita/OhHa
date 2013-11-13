@@ -6,7 +6,7 @@ package tietokantasysteemi;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import kayttoliittyma.Dekooderi;
+import sovelluslogiikka.Dekooderi;
 
 /**
  *
@@ -42,4 +42,6 @@ public class MerkinnanKasittelija {
       
       return null;
   }
+  //paikan voi hakea osoittimen paiaksta.
+  
 }

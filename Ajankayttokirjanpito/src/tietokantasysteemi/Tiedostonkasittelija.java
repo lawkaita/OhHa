@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import kayttoliittyma.Dekooderi;
+import sovelluslogiikka.Dekooderi;
 
 /**
  *
@@ -110,6 +110,7 @@ public class Tiedostonkasittelija {
             tiedosto.createNewFile();
             alustaTietokannanLukija();
         } catch (IOException ex) {
+            System.out.println("haeTiedostoJaLisaaSilleLukijaIOEx");
             //ei tehdä mitään jos tiedosto on olemassa.
         }
         

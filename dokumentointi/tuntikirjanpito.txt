@@ -63,4 +63,7 @@ Lisätty ja jäsennelty koodia. Luotu uusi UML-kaavio.
 
 13.11.13 1.30-4.37
 Lisätty koodia ja mietitty ohjelman toiminnallisuutta.
+
+13.11.13 11.30-13.06
+lisätty testejä ja selkiytetty ohjelman rakennetta sekä järjestelty uudelleen luokkia paketteihin.
 				

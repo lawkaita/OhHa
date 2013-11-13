@@ -4,7 +4,7 @@
  */
 package konsoli;
 
-import ajankayttokirjanpito.Ohjelma;
+import kayttoliittyma.Tulostaja;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -40,7 +40,7 @@ public class Konsoli extends JPanel implements Paivitettava {
         setPreferredSize(new Dimension(400, 400));
         setLayout(new BorderLayout());
 
-        dimensioLuku1 = 17; //kotikoneella 17, koulun ubuntulla 15.
+        dimensioLuku1 = 15; //kotikoneella 17, koulun ubuntulla 15.
         int dimensioLuku2 = 21; //kotikoneella toistaiseksi 15, koulun ubuntulla 21
 
         tulosteAlue = new Tulostealue(f, dimensioLuku1);

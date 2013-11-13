@@ -4,8 +4,8 @@
  */
 package kayttoliittyma;
 
+import sovelluslogiikka.Dekooderi;
 import tietokantasysteemi.Tiedostonkasittelija;
-import ajankayttokirjanpito.Ohjelma;
 import java.io.IOException;
 
 /**
@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 public class Komentotulkki {
 
-    private Ohjelma ohjelma;
+    private Tulostaja ohjelma;
     private boolean merkintaanPaiva;
     private boolean merkintaanAloitusAika;
     private boolean merkintaanLopetusAika;
@@ -23,7 +23,7 @@ public class Komentotulkki {
     private String muistettavaString;
 
     public Komentotulkki(Kayttoliittyma kali) {
-        this.ohjelma = new Ohjelma(kali);
+        this.ohjelma = new Tulostaja(kali);
         merkintaanPaiva = false;
         merkintaanAloitusAika = false;
         merkintaanLopetusAika = false;

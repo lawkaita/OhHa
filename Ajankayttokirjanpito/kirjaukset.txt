@@ -1,15 +1,20 @@
-sohjo
+alustaTietokantaTestiTeksti
+TestimerkintÃ¶jÃ¤
 
-Testimerkintöjä
 
-testiteksti
-
-Testimerkintöjä
+TestimerkintÃ¶jÃ¤
 
 !testiteksti2:
 testitekstientesti
 !testiteksti3:
 testitekstienteksti
 
-Testimerkintöjä
+TestimerkintÃ¶jÃ¤
 
+
+TestimerkintÃ¶jÃ¤
+
+
+TestimerkintÃ¶jÃ¤
+
+testiteksti

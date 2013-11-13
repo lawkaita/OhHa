@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ajankayttokirjanpito;
+package kayttoliittyma;
 
 import tietokantasysteemi.Tiedostonkasittelija;
-import kayttoliittyma.Dekooderi;
+import sovelluslogiikka.Dekooderi;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -16,12 +16,12 @@ import kayttoliittyma.Kayttoliittyma;
  *
  * @author lawkaita
  */
-public class Ohjelma {
+public class Tulostaja {
 
     private Kayttoliittyma kali;
     private Tiedostonkasittelija tika;
 
-    public Ohjelma(Kayttoliittyma kali) {
+    public Tulostaja(Kayttoliittyma kali) {
         //laitetaan ohjelmalle suoraan konsoli.
         this.kali = kali;
         this.tika = new Tiedostonkasittelija();
@@ -126,7 +126,9 @@ public class Ohjelma {
     public void pyydaHakusana() {
         tulostaKonsoliin("Anna hakusana:");
     }
-
+    
+    
+    //tämä voisi olla jonkun muun tehtävä kuin tulostajan. Käyttöliittymän tehtävä kuitenkin.
     public void tapaKali() {
         this.kali.tapa();
     }

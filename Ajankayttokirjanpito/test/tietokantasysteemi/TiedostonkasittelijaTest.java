@@ -4,6 +4,7 @@
  */
 package tietokantasysteemi;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,15 +29,60 @@ public class TiedostonkasittelijaTest {
         try {
             tika.kirjoitaTietokantaanLisaten("\nTestimerkintöjä\n", true);
         } catch (IOException ex) {
-            
+            System.out.println("TiedostonkasittelijaTestIOException");
         }
         
+    }
+    
+    @Test
+    public void tikallaOnTiedostoLuomisensaJalkeen () {
+        boolean tikallaOnteidostoLuomisensaJalkeen = (tika.getTietokanta() != null);
+            
+        assertEquals(tikallaOnteidostoLuomisensaJalkeen, true);
+    }
+    
+    @Test
+    public void tikanTiedostonNimiOnOikein () {
+        String tiedostonNimi = this.tika.getTietokanta().toString();
+            
+        assertEquals(tiedostonNimi, "kirjaukset.txt");
+    }
+    
+    @Test
+    public void alustaTietokannanLukijaEiAiheutaFileNotFoundExceptionia() {
+        try {
+            tika.alustaTietokannanLukija();
+        } catch (FileNotFoundException ex) {
+            System.out.println("FileNotFoundException");
+            assertEquals(true, false);
+       }   
+    }
+    
+    @Test
+    public void kirjoitaTietokantaanLisatenEiAiheutaIOExceptionia() {
+        try {
+            tika.kirjoitaTietokantaanLisaten("alustaTietokantaTestiTeksti", false);
+        } catch (IOException ex) {
+            System.out.println("IOException");
+            assertEquals(true, false);
+        }
+    }
+    
+    @Test
+    public void alustaTietokannanLukijanJalkeenLukijallaOnNext() {
+        try {   
+            tika.alustaTietokannanLukija();
+            boolean onSeuraava = tika.getTietokannanLukija().hasNextLine();
+            assertEquals(true, onSeuraava);
+        } catch (FileNotFoundException ex) {
+            System.out.println("FileNotFoundException");
+            assertEquals(true, false);
+       }   
     }
 
     @Test
     public void tiedostonKasittelijaPystyyLoytamaanTiedostostaHaettavaaAsiaa() {
-        try {
-            
+        try {           
 
             tika.kirjoitaTietokantaanLisaten("!testiteksti2:\n"
                     + "testitekstientesti", true);
@@ -59,12 +105,8 @@ public class TiedostonkasittelijaTest {
             assertEquals(1, 2);
             //mitä tähän pitäisi kirjoittaa?
         }
-    }
-
-    @Test
-    public void tiedostonTulostaminenKonsoliinTulostaaTiedostonTiedotOikein() {
-    }
-
+    }       
+ 
     @Test
     public void tiedostonKasittelijaPystyyKirjoittamaanTiedostoonJaLukemaanSita() {
         try {

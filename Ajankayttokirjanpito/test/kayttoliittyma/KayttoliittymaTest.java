@@ -6,7 +6,7 @@ package kayttoliittyma;
  */
 
 import tietokantasysteemi.Tiedostonkasittelija;
-import kayttoliittyma.Dekooderi;
+import sovelluslogiikka.Dekooderi;
 import java.io.IOException;
 import javax.swing.SwingUtilities;
 import kayttoliittyma.Kayttoliittyma;
