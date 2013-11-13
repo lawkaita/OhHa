@@ -4,7 +4,7 @@
  */
 package ajankayttokirjanpito;
 
-import Tietokantasysteemi.Tiedostonkasittelija;
+import tietokantasysteemi.Tiedostonkasittelija;
 import kayttoliittyma.Dekooderi;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -148,7 +148,7 @@ public class Ohjelma {
             }
     }
 
-    public void lisaaTiedostoon(String muistettavaString) {
+    public void lisaaTiedostoonMuistettavaString(String muistettavaString) {
         try {
             tika.kirjoitaTietokantaanLisaten(muistettavaString,true);
         } catch (IOException ex) {

@@ -4,7 +4,7 @@
  */
 package ajankayttokirjanpito;
 
-import Tietokantasysteemi.Tiedostonkasittelija;
+import tietokantasysteemi.Tiedostonkasittelija;
 import javax.swing.SwingUtilities;
 import kayttoliittyma.Kayttoliittyma;
 

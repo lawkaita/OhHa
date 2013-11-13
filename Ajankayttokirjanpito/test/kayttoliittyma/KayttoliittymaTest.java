@@ -1,9 +1,11 @@
+package kayttoliittyma;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
-import Tietokantasysteemi.Tiedostonkasittelija;
+import tietokantasysteemi.Tiedostonkasittelija;
 import kayttoliittyma.Dekooderi;
 import java.io.IOException;
 import javax.swing.SwingUtilities;
@@ -17,15 +19,13 @@ import static org.junit.Assert.*;
  *
  * @author lawkaita
  */
-public class Testit {
+public class KayttoliittymaTest {
 
     private Kayttoliittyma kali;
-    private Tiedostonkasittelija tika;
 
     @Before
     public void setUp() {
         kali = new Kayttoliittyma();
-        tika = new Tiedostonkasittelija();
 
         SwingUtilities.invokeLater(kali);
     }
@@ -41,70 +41,6 @@ public class Testit {
 
         assertEquals("> Jeessys\n :Ei ole komento",
                 odotettu);
-    }
-
-    @Test
-    public void tiedostonKasittelijaPystyyLoytamaanTiedostostaHaettavaaAsiaa() {        
-        try {
-            tika.kirjoitaTietokantaanLisaten("!testiteksti2:\n"
-                    + "testitekstientesti", true);
-            tika.kirjoitaTietokantaanLisaten("!testiteksti3:\n"
-                    + "testitekstienteksti", true);
-            tika.alustaTietokannanLukija();            
-            //oletetaan että tietokantaan tallennetaan tietoa niin että päätietoalkio,
-            //esim päiväys, alkaa merkillä !.
-            
-            //tässä tehdään oletus haun tuloksen muodosta.
-            String[] osumat = tika.haeTietoKannasta("!testiteksti2:");
-            String odotettu = "testiteksti2:\n"
-                    + "testitekstientesti\n";
-            
-            assertEquals(odotettu, osumat[1]);
-            
-            //oletetaan, että tietokantaan ei ole lisätty otsikolla '!testiteksti' muita tietoalkioita.
-            
-            
-            
-        } catch (IOException ex) {
-            assertEquals(1, 2);
-            //mitä tähän pitäisi kirjoittaa?
-        }
-    }
-
-    @Test
-    public void tiedostonKasittelijaPystyyKirjoittamaanTiedostoonJaLukemaanSita() {
-        try {
-            tika.kirjoitaTietokantaanLisaten("testiteksti", true);
-            tika.alustaTietokannanLukija();
-
-            String vikaRivi = "";
-
-            while (tika.lukijallaSeuraavaRivi()) {
-                vikaRivi = tika.lukijanSeuraavaRivi();
-            }
-
-            assertEquals("testiteksti", vikaRivi);
-        } catch (IOException ex) {
-            assertEquals(1, 2);
-            //mitä tähän pitäisi kirjoittaa?
-        }
-    }
-
-    @Test
-    public void tiedostonTulostaminenKonsoliinTulostaaTiedostonTiedotOikein() {
-    }
-
-    @Test
-    public void dekooderiLajitteleeStringOlionOikein() {
-        String s = "hei olen pekka";
-
-        Dekooderi d = new Dekooderi();
-
-        String[] dekoodi = d.dekoodaa(s, null);
-
-        assertEquals(dekoodi[0], "hei");
-        assertEquals(dekoodi[1], "olen");
-        assertEquals(dekoodi[2], "pekka");
     }
 
     @Test
@@ -183,6 +119,11 @@ public class Testit {
                 aktuaali);        
     } 
     //päiväykset ja kellonajat 0 eteen., testejä 7
+    
+    @Test
+    public void testi0(){
+        System.out.println("hei");
+    }
     
     @After
     public void tearDown() {

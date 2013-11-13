@@ -4,7 +4,7 @@
  */
 package kayttoliittyma;
 
-import Tietokantasysteemi.Tiedostonkasittelija;
+import tietokantasysteemi.Tiedostonkasittelija;
 import ajankayttokirjanpito.Ohjelma;
 import java.io.IOException;
 
@@ -46,7 +46,7 @@ public class Komentotulkki {
 
         if (merkintaanPaiva == true) {
             if (onPaiva(komento)) {
-                muistettavaString = komento;
+                muistettavaString = komento + "\n";
                 merkintaanAloitusAika();
             } else {
                 ohjelma.tulostaEiOlePaiva();
@@ -61,7 +61,7 @@ public class Komentotulkki {
 
         if (merkintaanAloitusAika == true) {
             if (onAika(komento)) {
-                muistettavaString += ": " + komento;
+                muistettavaString += komento;
                 merkintaanLopetusAika();
             } else {
                 ohjelma.tulostaKonsoliin("Ei ole aika");
@@ -75,7 +75,7 @@ public class Komentotulkki {
         }
 
         if (merkintaanLopetusAika == true) {
-            muistettavaString += "-" + komento;
+            muistettavaString += "-" + komento + "\n";
             merkintaanSelostus();
             merkintaanLopetusAika = false;
 
@@ -83,7 +83,7 @@ public class Komentotulkki {
         }
 
         if (merkintaanSelostus == true) {
-            muistettavaString += "\r\n  " + komento + "\r\n";
+            muistettavaString += komento;
             ohjelma.kerroLisayksesta();
             ohjelma.listaaKonsoliin(muistettavaString);
 
@@ -177,7 +177,7 @@ public class Komentotulkki {
     }
 
     private void lisaaOhjelmanTiedostoonMuistettavaString() {
-        ohjelma.lisaaTiedostoon(muistettavaString);
+        ohjelma.lisaaTiedostoonMuistettavaString(muistettavaString);
     }
 
     private boolean onPaiva(String komento) {

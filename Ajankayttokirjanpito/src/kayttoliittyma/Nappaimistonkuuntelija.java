@@ -4,7 +4,7 @@
  */
 package kayttoliittyma;
 
-import Konsoli.Konsoli;
+import konsoli.Konsoli;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

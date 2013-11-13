@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Konsoli;
+package konsoli;
 
 import ajankayttokirjanpito.Ohjelma;
 import java.awt.BorderLayout;
