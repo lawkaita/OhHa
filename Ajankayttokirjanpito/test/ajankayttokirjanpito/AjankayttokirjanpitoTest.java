@@ -53,7 +53,7 @@ public class AjankayttokirjanpitoTest {
     @Test
     public void vihreellinenKomentoTulostaaKomennonJaVirheuilmoituksen() {
         kali.getKonsoli().kirjoitaKomentoriville("Jeessys");
-        kali.getKonsoli().tulostaKomento();
+        kotu.otaKomento();
 
         String tuloste = kali.getKonsoli().getTulosteAlue().getText();
         String odotettu = tuloste.substring(5, tuloste.length());
@@ -66,9 +66,9 @@ public class AjankayttokirjanpitoTest {
     @Test
     public void onkoPaivaTestiTunnistaaVirheellisenPaivanKunPaivassaOnKirjaimia() {
         kali.getKonsoli().kirjoitaKomentoriville("merk");
-        kali.getKonsoli().tulostaKomento();
+        kotu.otaKomento();
         kali.getKonsoli().kirjoitaKomentoriville("jeessys");
-        kali.getKonsoli().tulostaKomento();
+        kotu.otaKomento();
 
         String tuloste = kali.getKonsoli().getTulosteAlue().getText();
         String odotettu = tuloste.substring(34, tuloste.length());
@@ -81,9 +81,9 @@ public class AjankayttokirjanpitoTest {
     @Test
     public void onkoPaivaTestiTunnistaaVirheellisenPaivanKunPaivassaLiikaaPisteellaEroteltujaNumeroSekvensseja() {
         kali.getKonsoli().kirjoitaKomentoriville("merk");
-        kali.getKonsoli().tulostaKomento();
+        kotu.otaKomento();
         kali.getKonsoli().kirjoitaKomentoriville(".13");
-        kali.getKonsoli().tulostaKomento();
+        kotu.otaKomento();
 
         String tuloste = kali.getKonsoli().getTulosteAlue().getText();
         String odotettu = tuloste.substring(30, tuloste.length());
@@ -96,8 +96,8 @@ public class AjankayttokirjanpitoTest {
     @Test
     public void onkoPaivaTestiTunnistaaOikeanPaivanJaOhjlemaSiirtyyKysymaanAloitusAikaa() {
         kali.getKonsoli().kirjoitaKomentoriville("merk");
-        kali.getKonsoli().tulostaKomento();
-        kali.getKonsoli().tulostaKomento();//tassa kohtaa komentoriville on hakeutunut oikea paiva
+        kotu.otaKomento();
+        kotu.otaKomento();//tassa kohtaa komentoriville on hakeutunut oikea paiva
 
         String tuloste = kali.getKonsoli().getTulosteAlue().getText();
         String odotettu = tuloste.substring(37, tuloste.length());
@@ -110,10 +110,10 @@ public class AjankayttokirjanpitoTest {
     @Test
     public void onkoAikaTestiTUnnistaaVirheelisenAjan() {
         kali.getKonsoli().kirjoitaKomentoriville("merk");
-        kali.getKonsoli().tulostaKomento();
-        kali.getKonsoli().tulostaKomento();//tassa kohtaa komentoriville on hakeutunut oikea paiva
+        kotu.otaKomento();
+        kotu.otaKomento();//tassa kohtaa komentoriville on hakeutunut oikea paiva
         kali.getKonsoli().kirjoitaKomentoriville("jeessys");
-        kali.getKonsoli().tulostaKomento();
+        kotu.otaKomento();
         
         String tuloste = kali.getKonsoli().getTulosteAlue().getText();
         String odotettu = " :Ei ole aika";
@@ -126,10 +126,10 @@ public class AjankayttokirjanpitoTest {
     @Test
     public void onkoAikaTestiTunnistaaOikeanAjan() {
         kali.getKonsoli().kirjoitaKomentoriville("merk");
-        kali.getKonsoli().tulostaKomento();
-        kali.getKonsoli().tulostaKomento();//tassa kohtaa komentoriville on hakeutunut oikea paiva
+        kotu.otaKomento();
+        kotu.otaKomento();//tassa kohtaa komentoriville on hakeutunut oikea paiva
         kali.getKonsoli().kirjoitaKomentoriville("12.12");
-        kali.getKonsoli().tulostaKomento();
+        kotu.otaKomento();
         
         String tuloste = kali.getKonsoli().getTulosteAlue().getText();
         String odotettu = " :Lopetusaika:";
