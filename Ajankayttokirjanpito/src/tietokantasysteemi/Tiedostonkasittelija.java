@@ -23,7 +23,7 @@ public class Tiedostonkasittelija {
     private Scanner lukija;
     private Dekooderi dekooderi;
     
-    public Tiedostonkasittelija(){
+    public Tiedostonkasittelija(Dekooderi dekooderi){
         tietokanta = new File("kirjaukset.txt");
         try {
             tietokanta.createNewFile();
@@ -35,7 +35,7 @@ public class Tiedostonkasittelija {
         } catch (FileNotFoundException ex) {
             System.out.println("TiedostonkastittelijaFileNotFoundException");
         }
-        dekooderi = new Dekooderi();
+        this. dekooderi = dekooderi;
     }
     
     public File getTietokanta() {

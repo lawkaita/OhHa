@@ -7,6 +7,8 @@ package kayttoliittyma;
 import sovelluslogiikka.Dekooderi;
 import tietokantasysteemi.Tiedostonkasittelija;
 import java.io.IOException;
+import konsoli.Konsoli;
+import sovelluslogiikka.Ajantestaaja;
 
 /**
  *
@@ -15,6 +17,10 @@ import java.io.IOException;
 public class Komentotulkki {
 
     private Tulostaja tulostaja;
+    private Ajantestaaja ajantestaaja;
+    private Tiedostonkasittelija tika;
+    private Konsoli konsoli;
+    
     private boolean merkintaanPaiva;
     private boolean merkintaanAloitusAika;
     private boolean merkintaanLopetusAika;
@@ -22,14 +28,20 @@ public class Komentotulkki {
     private boolean hakuKaynnissa;
     private String muistettavaString;
 
-    public Komentotulkki(Kayttoliittyma kali) {
-        this.tulostaja = new Tulostaja(kali);
+    public Komentotulkki(Tulostaja tulostaja, Tiedostonkasittelija tika, Konsoli konsoli) {
+        this.tulostaja = tulostaja;
+        this.ajantestaaja = new Ajantestaaja();
+        this.tika = tika;
+        this.konsoli = konsoli;
+
         merkintaanPaiva = false;
         merkintaanAloitusAika = false;
         merkintaanLopetusAika = false;
         merkintaanSelostus = false;
         hakuKaynnissa = false;
+
         muistettavaString = "";
+
     }
 
     public void enter(String komento) {
@@ -38,31 +50,36 @@ public class Komentotulkki {
 
     public void haarauta(String komento) {
 
-        if (hakuKaynnissa == true) {            
-            tulostaja.haku(komento);            
+        if (hakuKaynnissa == true) {
+            String[] osumat = tika.haeTietoKannasta(komento);
+            tulostaja.tulostaHaunOsumat(osumat);
             hakuKaynnissa = false;
             return;
         }
 
         if (merkintaanPaiva == true) {
-            if (onPaiva(komento)) {
-                muistettavaString = komento + "\n";
-                merkintaanAloitusAika();
+            if (ajantestaaja.onPaiva(komento)) {
+                muistettavaString = komento + "\r\n";
+                tulostaja.pyydaAloitusAikaa();
+                tulostaja.getKali().getKonsoli().kirjoitaKomentoriville("hh.mm");
+                merkintaanAloitusAika = true;
             } else {
                 tulostaja.tulostaEiOlePaiva();
-                String paiva = tulostaja.annaTamaPaiva();
+                String paiva = tulostaja.getAjan().annaTamaPaiva();
                 tulostaja.getKali().getKonsoli().kirjoitaKomentoriville(paiva);
                 return;
             }
-
             merkintaanPaiva = false;
             return;
         }
 
         if (merkintaanAloitusAika == true) {
-            if (onAika(komento)) {
+            if (ajantestaaja.onAika(komento)) {
                 muistettavaString += komento;
-                merkintaanLopetusAika();
+                tulostaja.pyydaLopetusAikaa();
+                tulostaja.getKali().getKonsoli().kirjoitaKomentoriville(tulostaja.getAjan().annaTamaAika());
+                merkintaanLopetusAika = true;
+
             } else {
                 tulostaja.tulostaKonsoliin("Ei ole aika");
                 tulostaja.getKali().getKonsoli().kirjoitaKomentoriville("hh.mm");
@@ -76,7 +93,8 @@ public class Komentotulkki {
 
         if (merkintaanLopetusAika == true) {
             muistettavaString += "-" + komento + "\n";
-            merkintaanSelostus();
+            tulostaja.pyydaSelostus();
+            merkintaanSelostus = true;
             merkintaanLopetusAika = false;
 
             return;
@@ -87,7 +105,11 @@ public class Komentotulkki {
             tulostaja.kerroLisayksesta();
             tulostaja.listaaKonsoliin(muistettavaString);
 
-            lisaaOhjelmanTiedostoonMuistettavaString();
+            try {
+                tika.kirjoitaTietokantaanLisaten(muistettavaString, true);
+            } catch (IOException ex) {
+                //mitä tähän tulisi lisätä?
+            }
 
             merkintaanSelostus = false;
             muistettavaString = "";
@@ -97,23 +119,6 @@ public class Komentotulkki {
         tulkitse(komento);
     }
 
-    public void merkintaanAloitusAika() {
-        tulostaja.pyydaAloitusAikaa();
-        tulostaja.getKali().getKonsoli().kirjoitaKomentoriville("hh.mm");
-        merkintaanAloitusAika = true;
-    }
-
-    public void merkintaanLopetusAika() {
-        tulostaja.pyydaLopetusAikaa();
-        tulostaja.getKali().getKonsoli().kirjoitaKomentoriville(tulostaja.annaTamaAika());
-        merkintaanLopetusAika = true;
-    }
-
-    public void merkintaanSelostus() {
-        tulostaja.pyydaSelostus();
-        merkintaanSelostus = true;
-    }
-
     public void tulkitse(String komento) {
 
         if (komento.equals("")) {
@@ -121,7 +126,7 @@ public class Komentotulkki {
         }
 
         if (komento.equals("exit")) {
-            this.tulostaja.tapaKali();
+            this.tulostaja.getKali().tapa();
         }
 
         if (komento.equals("nyt")) {
@@ -130,12 +135,12 @@ public class Komentotulkki {
         }
 
         if (komento.equals("paiva")) {
-            tulostaja.annaTamaPaiva();
+            tulostaja.getAjan().annaTamaPaiva();
             return;
         }
 
         if (komento.equals("aika")) {
-            tulostaja.annaTamaAika();
+            tulostaja.getAjan().annaTamaAika();
             return;
         }
 
@@ -159,9 +164,13 @@ public class Komentotulkki {
             merk();
             return;
         }
-        
+
         if (komento.equals("nollaa muisti")) {
-            tulostaja.nollaaTietoKanta();
+            try {
+                tika.nollaaTiedosto();
+            } catch (IOException ex) {
+                //
+            }
             tulostaja.ilmoitaNollaamisesta();
             return;
         }
@@ -171,73 +180,16 @@ public class Komentotulkki {
 
     private void merk() {
         tulostaja.pyydaPaivaa();
-        String paiva = tulostaja.annaTamaPaiva();
+        String paiva = tulostaja.getAjan().annaTamaPaiva();
         tulostaja.getKali().getKonsoli().kirjoitaKomentoriville(paiva);
         this.merkintaanPaiva = true;
     }
-
-    private void lisaaOhjelmanTiedostoonMuistettavaString() {
-        tulostaja.lisaaTiedostoonMuistettavaString(muistettavaString);
+    
+    public void otaKomento() {
+        String komento = konsoli.getVarsinainenKomentoRivi().getText();
+        konsoli.tulostaKomento();
+        
+        enter(komento);
     }
-
-    private boolean onPaiva(String komento) {
-        Dekooderi d = new Dekooderi();
-        Character piste = ".".charAt(0);
-
-        if (d.laskeKomentojenMaara(komento, piste) != 3) {
-            return false;
-        }
-
-        String[] osat = d.dekoodaa(komento, piste);
-
-        int[] lukuina = new int[3];
-        for (int i = 0; i < 3; i++) {
-            try {
-                lukuina[i] = Integer.parseInt(osat[i]);
-            } catch (NumberFormatException nfe) {
-                return false;
-            }
-        }
-
-        if (!(0 < lukuina[0] && lukuina[0] < 32)) {
-            return false;
-        }
-
-        if (!(0 < lukuina[1] && lukuina[1] < 13)) {
-            return false;
-        }
-
-        return true;
-
-    }
-
-    private boolean onAika(String komento) {
-        Dekooderi d = new Dekooderi();
-        Character piste = ".".charAt(0);
-
-        if (d.laskeKomentojenMaara(komento, piste) != 2) {
-            return false;
-        }
-
-        String[] osat = d.dekoodaa(komento, piste);
-
-        int[] lukuina = new int[2];
-        for (int i = 0; i < 2; i++) {
-            try {
-                lukuina[i] = Integer.parseInt(osat[i]);
-            } catch (NumberFormatException nfe) {
-                return false;
-            }
-        }
-
-        if (!(0 <= lukuina[0] && lukuina[0] < 24)) {
-            return false;
-        }
-
-        if (!(0 <= lukuina[1] && lukuina[1] < 60)) {
-            return false;
-        }
-
-        return true;
-    }
+    
 }

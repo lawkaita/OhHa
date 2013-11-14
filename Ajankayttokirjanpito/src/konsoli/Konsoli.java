@@ -31,16 +31,13 @@ public class Konsoli extends JPanel implements Paivitettava {
     
     private int dimensioLuku1;
     
-    private Komentotulkki komentotulkki;
-
-    public Konsoli(Kayttoliittyma kali) {
-        komentotulkki = new Komentotulkki(kali);
+    public Konsoli() {
         Font f = new Font("Monospaced", Font.PLAIN, 12);
 
         setPreferredSize(new Dimension(400, 400));
         setLayout(new BorderLayout());
 
-        dimensioLuku1 = 15; //kotikoneella 17, koulun ubuntulla 15.
+        dimensioLuku1 = 17; //kotikoneella 17, koulun ubuntulla 15.
         int dimensioLuku2 = 21; //kotikoneella toistaiseksi 15, koulun ubuntulla 21
 
         tulosteAlue = new Tulostealue(f, dimensioLuku1);
@@ -62,10 +59,8 @@ public class Konsoli extends JPanel implements Paivitettava {
 
     @Override
     public void paivita(String teksti, boolean kirjoittajaOnKayttaja) {;
-        skrollausnakyma.setPaivitetaan(true);
-    
+        skrollausnakyma.setPaivitetaan(true);    
         String dialogi = tulosteAlue.getText();
-
         String etumerkki = komentorivi.getKursori().annaMerkki() + "> ";
 
         if (!kirjoittajaOnKayttaja) {
@@ -76,11 +71,8 @@ public class Konsoli extends JPanel implements Paivitettava {
                 (tulosteAlue.getPreferredSize().height + dimensioLuku1)));
 
         tulosteAlue.setText(dialogi + "\n" + etumerkki + teksti);
-
         tyhjaTila.madallaKorkeutta();
-
         //tyhjaTila.kasvataKorkeutta();
-
     }
     //kirjoittajaOnKauttaja asettaa sen, mika etumerkki tulostetaan,
     //kun paivitetaan tulostuskenttaa.
@@ -88,14 +80,14 @@ public class Konsoli extends JPanel implements Paivitettava {
     public void tulostaViesti(String viesti) {
         paivita(viesti, false);
     }
-
-    public void tulostaJaSuoritaKayttajanKomento() {
+    
+    //tämä jonnekin muualle? -tämä ei ole käytössä
+    public void tulostaKomento() {
         String komento = rivi.getText() + tyhjaTila.getTyhja().getText();
         paivita(komento, true);
         rivi.setText("");
 
         nollaaTyhjaTila();
-        komentotulkki.enter(komento);
     }
 
     public void jatkaKirjoitustaTyhjaanKenttaan() {
@@ -125,14 +117,6 @@ public class Konsoli extends JPanel implements Paivitettava {
 
     public JTextArea getTyhjanTilanTyhja() {
         return this.tyhjaTila.getTyhja();
-    }
-
-    public String annaKomento(String komento) {
-        return komento;
-    }
-
-    public Komentotulkki getKomentotulkki() {
-        return this.komentotulkki;
     }
     
     public VarsinainenKomentoRivi getKomentoRivi() {

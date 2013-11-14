@@ -21,9 +21,13 @@ public class Kayttoliittyma implements Runnable{
     private Konsoli konsoli;
     private Nappaimistonkuuntelija naku;
     
-    public Kayttoliittyma(){
-        this.konsoli = new Konsoli(this);
-        this.naku = new Nappaimistonkuuntelija(this.konsoli);        
+    public Kayttoliittyma(Konsoli konsoli, Nappaimistonkuuntelija nappaimistonkuuntelija){
+        this.konsoli = konsoli;
+        this.naku = nappaimistonkuuntelija;        
+    }
+    
+    public void otaNappaimistonkuuntelija(Nappaimistonkuuntelija nappaimistonkuuntelija) {
+        this.naku = nappaimistonkuuntelija;
     }
     
     @Override
@@ -58,9 +62,6 @@ public class Kayttoliittyma implements Runnable{
         return this.naku;
     }
     
-    public Komentotulkki getKomentotulkki() {
-        return this.naku.getKomentotulkki();
-    }
     
     public Konsoli getKonsoli() {
         return this.konsoli;

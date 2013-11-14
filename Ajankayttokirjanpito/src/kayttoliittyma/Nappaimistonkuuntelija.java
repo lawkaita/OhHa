@@ -14,9 +14,11 @@ import java.awt.event.KeyListener;
  */
 public class Nappaimistonkuuntelija implements KeyListener{
     private Konsoli konsoli;
+    private Komentotulkki komentotulkki;
     
-    public Nappaimistonkuuntelija(Konsoli konsoli) {
+    public Nappaimistonkuuntelija(Konsoli konsoli, Komentotulkki komentotulkki) {
         this.konsoli = konsoli;
+        this.komentotulkki = komentotulkki;
     }
 
     @Override
@@ -26,7 +28,7 @@ public class Nappaimistonkuuntelija implements KeyListener{
     @Override
     public void keyPressed(KeyEvent ke) {
         if (ke.getKeyCode() == KeyEvent.VK_ENTER){
-            konsoli.tulostaJaSuoritaKayttajanKomento();            
+            komentotulkki.otaKomento();
         }
         
         if (konsoli.getVarsinainenKomentoRivi().getText().length() > 30) {
@@ -38,10 +40,6 @@ public class Nappaimistonkuuntelija implements KeyListener{
 
     @Override
     public void keyReleased(KeyEvent ke) {
-    }
-    
-    public Komentotulkki getKomentotulkki() {
-        return this.konsoli.getKomentotulkki();
     }
     
 }

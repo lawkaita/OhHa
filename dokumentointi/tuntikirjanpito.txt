@@ -69,4 +69,9 @@ lis‰tty testej‰ ja selkiytetty ohjelman rakennetta sek‰ j‰rjestelty uudelleen lu
 
 13.11.13 13.06-13.41
 hienos‰‰tˆ‰.
-				
+
+14.11.13 8.30-9.43
+j‰sennelty ohjelmaa. Huomattu, ett‰ jos tiedostoonkirjoitusoperaatioissa ei k‰ytet‰ "\r\n" vaan "\n", tekstitiedostossa tieto voi j‰‰d‰ yhdelle riville.
+			
+14.11.13 9.43-11.25
+j‰sennelty lis‰‰ ohjelmaa. Nyt koko ohjelmaa testaavat testit eiv‰t toimi vaikka ohjelma toimii ainakin jotenkin.	

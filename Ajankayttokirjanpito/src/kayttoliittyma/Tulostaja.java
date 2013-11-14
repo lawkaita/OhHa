@@ -4,6 +4,7 @@
  */
 package kayttoliittyma;
 
+import sovelluslogiikka.AjanAntaja;
 import tietokantasysteemi.Tiedostonkasittelija;
 import sovelluslogiikka.Dekooderi;
 import java.io.FileNotFoundException;
@@ -20,11 +21,15 @@ public class Tulostaja {
 
     private Kayttoliittyma kali;
     private Tiedostonkasittelija tika;
+    private AjanAntaja ajan;
+    private Dekooderi dekooderi;
 
-    public Tulostaja(Kayttoliittyma kali) {
+    public Tulostaja(Kayttoliittyma kali, Tiedostonkasittelija tika, AjanAntaja ajan, Dekooderi dekooderi) {
         //laitetaan ohjelmalle suoraan konsoli.
         this.kali = kali;
-        this.tika = new Tiedostonkasittelija();
+        this.tika = tika;
+        this.ajan = ajan;
+        this.dekooderi = dekooderi;
     }
 
     public Kayttoliittyma getKali() {
@@ -32,27 +37,7 @@ public class Tulostaja {
     }
 
     public void sanoMikaAikaNytOn() {
-        Date dNow = new Date();
-        SimpleDateFormat ft =
-                new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
-
-        tulostaKonsoliin(ft.format(dNow));
-    }
-
-    public String annaTamaPaiva() {
-        Date dNow = new Date();
-        SimpleDateFormat ft =
-                new SimpleDateFormat("dd.MM.YYYY");
-
-        return ft.format(dNow);
-    }
-
-    public String annaTamaAika() {
-        Date dNow = new Date();
-        SimpleDateFormat ft =
-                new SimpleDateFormat("HH.mm");
-
-        return ft.format(dNow);
+        tulostaKonsoliin(ajan.mikaAikaNytOn());
     }
 
     public void apua() {
@@ -65,7 +50,8 @@ public class Tulostaja {
         }
 
     }
-
+    
+    //tämä jonnekin muualle
     public void tulostaTiedosto() {
         try {
             tika.alustaTietokannanLukija();
@@ -111,8 +97,7 @@ public class Tulostaja {
     }
 
     public void listaaKonsoliin(String s) {
-        Dekooderi d = new Dekooderi();
-        String[] tulostettava = d.dekoodaa(s, "\n".charAt(0));
+        String[] tulostettava = dekooderi.dekoodaa(s, "\n".charAt(0));
 
         for (String z : tulostettava) {
             kali.getKonsoli().tulostaViesti(" " + z);
@@ -125,18 +110,9 @@ public class Tulostaja {
 
     public void pyydaHakusana() {
         tulostaKonsoliin("Anna hakusana:");
-    }
-    
-    
-    //tämä voisi olla jonkun muun tehtävä kuin tulostajan. Käyttöliittymän tehtävä kuitenkin.
-    public void tapaKali() {
-        this.kali.tapa();
-    }
+    }    
 
-    public void haku(String komento) {
-        //tämä tulisi hoitaa ohjelma -luokassa.
-            String[] osumat = tika.haeTietoKannasta(komento);
-
+    public void tulostaHaunOsumat(String[] osumat) {
             String osumatString = "";
 
             for (String osuma : osumat) {
@@ -150,28 +126,17 @@ public class Tulostaja {
             }
     }
 
-    public void lisaaTiedostoonMuistettavaString(String muistettavaString) {
-        try {
-            tika.kirjoitaTietokantaanLisaten(muistettavaString,true);
-        } catch (IOException ex) {
-            //mitä tähän tulisi lisätä?
-        }
-    }
 
     public void tulostaEiOlePaiva() {
         tulostaKonsoliin("Ei ole päivä");
     }
 
-    public void nollaaTietoKanta() {
-        try {        
-            tika.nollaaTiedosto();
-        } catch (IOException ex) {
-            //
-        }
-    }
-
     public void ilmoitaNollaamisesta() {
         tulostaKonsoliin("Muisti nollattu");
+    }
+
+    public AjanAntaja getAjan() {
+        return ajan;
     }
 
 }

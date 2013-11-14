@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import sovelluslogiikka.Dekooderi;
 
 /**
  *
@@ -25,7 +26,7 @@ public class TiedostonkasittelijaTest {
 
     @Before
     public void setUp() {
-        this.tika = new Tiedostonkasittelija();
+        this.tika = new Tiedostonkasittelija(new Dekooderi());
         try {
             tika.kirjoitaTietokantaanLisaten("\nTestimerkintöjä\n", true);
         } catch (IOException ex) {
@@ -61,7 +62,7 @@ public class TiedostonkasittelijaTest {
     @Test
     public void kirjoitaTietokantaanLisatenEiAiheutaIOExceptionia() {
         try {
-            tika.kirjoitaTietokantaanLisaten("alustaTietokantaTestiTeksti", false);
+            tika.kirjoitaTietokantaanLisaten("alustaTietokantaTestiTeksti\r\n", false);
         } catch (IOException ex) {
             System.out.println("IOException");
             assertEquals(true, false);
