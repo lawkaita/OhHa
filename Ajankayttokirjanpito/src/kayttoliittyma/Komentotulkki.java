@@ -9,6 +9,7 @@ import tietokantasysteemi.Tiedostonkasittelija;
 import java.io.IOException;
 import konsoli.Konsoli;
 import sovelluslogiikka.Ajantestaaja;
+import tietokantasysteemi.Merkinta;
 
 /**
  *
@@ -59,7 +60,7 @@ public class Komentotulkki {
 
         if (merkintaanPaiva == true) {
             if (ajantestaaja.onPaiva(komento)) {
-                muistettavaString = komento + "\r\n";
+                muistettavaString = komento + "!";
                 tulostaja.pyydaAloitusAikaa();
                 tulostaja.getKali().getKonsoli().kirjoitaKomentoriville("hh.mm");
                 merkintaanAloitusAika = true;
@@ -92,7 +93,7 @@ public class Komentotulkki {
         }
 
         if (merkintaanLopetusAika == true) {
-            muistettavaString += "-" + komento + "\n";
+            muistettavaString += "-" + komento + "!";
             tulostaja.pyydaSelostus();
             merkintaanSelostus = true;
             merkintaanLopetusAika = false;
@@ -104,9 +105,10 @@ public class Komentotulkki {
             muistettavaString += komento;
             tulostaja.kerroLisayksesta();
             tulostaja.listaaKonsoliin(muistettavaString);
-
-            try {
-                tika.kirjoitaTietokantaanLisaten(muistettavaString, true);
+            
+            try {                
+                Merkinta merkinta = tika.getMerkinnanKasittelija().muutaKayttajanAntamaMerkintaTietokannanMerkinnaksi(muistettavaString);
+                tika.kirjoitaTietokantaanLisaten(merkinta.toString(), true);
             } catch (IOException ex) {
                 //mitä tähän tulisi lisätä?
             }

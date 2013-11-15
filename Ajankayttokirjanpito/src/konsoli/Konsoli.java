@@ -31,13 +31,18 @@ public class Konsoli extends JPanel implements Paivitettava {
     
     private int dimensioLuku1;
     
-    public Konsoli() {
+    public Konsoli(boolean ubuntulla) {
         Font f = new Font("Monospaced", Font.PLAIN, 12);
 
         setPreferredSize(new Dimension(400, 400));
         setLayout(new BorderLayout());
-
+        
         dimensioLuku1 = 17; //kotikoneella 17, koulun ubuntulla 15.
+        if(ubuntulla) {
+            dimensioLuku1 = 15;
+        }
+
+
         int dimensioLuku2 = 21; //kotikoneella toistaiseksi 15, koulun ubuntulla 21
 
         tulosteAlue = new Tulostealue(f, dimensioLuku1);

@@ -22,6 +22,7 @@ public class Tiedostonkasittelija {
     private File tietokanta;
     private Scanner lukija;
     private Dekooderi dekooderi;
+    private MerkinnanKasittelija meka;
     
     public Tiedostonkasittelija(Dekooderi dekooderi){
         tietokanta = new File("kirjaukset.txt");
@@ -35,17 +36,18 @@ public class Tiedostonkasittelija {
         } catch (FileNotFoundException ex) {
             System.out.println("TiedostonkastittelijaFileNotFoundException");
         }
-        this. dekooderi = dekooderi;
+        this.dekooderi = dekooderi;
+        this.meka = new MerkinnanKasittelija();
     }
     
     public File getTietokanta() {
         return tietokanta;
     }
     
-    public void kirjoitaTietokantaanLisaten(String lisattavat, boolean b) throws IOException {
-        FileWriter kirjoittaja = new FileWriter(tietokanta, b);
+    public void kirjoitaTietokantaanLisaten(String lisattavat, boolean kirjoitetaanLisaten) throws IOException {
+        FileWriter kirjoittaja = new FileWriter(tietokanta, kirjoitetaanLisaten);
         
-        if (b == true) {
+        if (kirjoitetaanLisaten == true) {
             kirjoittaja.write(lisattavat + "\r\n");
         } else {
             kirjoittaja.write(lisattavat);
@@ -111,6 +113,10 @@ public class Tiedostonkasittelija {
         this.suljeLukija();
         kirjoitaTietokantaanLisaten("", false);        
         alustaTietokannanLukija();
+    }
+    
+    public MerkinnanKasittelija getMerkinnanKasittelija() {
+        return this.meka;
     }
     
 }

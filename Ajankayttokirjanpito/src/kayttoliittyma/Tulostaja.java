@@ -97,7 +97,7 @@ public class Tulostaja {
     }
 
     public void listaaKonsoliin(String s) {
-        String[] tulostettava = dekooderi.dekoodaa(s, "\n".charAt(0));
+        String[] tulostettava = dekooderi.dekoodaa(s, "!".charAt(0));
 
         for (String z : tulostettava) {
             kali.getKonsoli().tulostaViesti(" " + z);

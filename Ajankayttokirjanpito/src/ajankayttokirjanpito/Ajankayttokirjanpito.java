@@ -23,8 +23,10 @@ public class Ajankayttokirjanpito {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {  
-        Konsoli konsoli = new Konsoli();        
+    public static void main(String[] args) {
+        boolean ubuntulla = true;
+        
+        Konsoli konsoli = new Konsoli(ubuntulla);        
         Kayttoliittyma kali = new Kayttoliittyma(konsoli, null);            
         Dekooderi dekooderi = new  Dekooderi();
         AjanAntaja ajan = new AjanAntaja();

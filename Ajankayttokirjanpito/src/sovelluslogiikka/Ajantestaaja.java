@@ -35,7 +35,7 @@ public class Ajantestaaja {
 
         if (!(0 < lukuina[1] && lukuina[1] < 13)) {
             return false;
-        }
+    }
 
         return true;
 

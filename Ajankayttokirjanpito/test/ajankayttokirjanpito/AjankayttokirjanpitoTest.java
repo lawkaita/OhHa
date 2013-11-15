@@ -37,7 +37,7 @@ public class AjankayttokirjanpitoTest {
 
     @Before
     public void setUp() {
-        konsoli = new Konsoli();        
+        konsoli = new Konsoli(true);        
         kali = new Kayttoliittyma(konsoli, null);            
         dekooderi = new  Dekooderi();
         ajan = new AjanAntaja();

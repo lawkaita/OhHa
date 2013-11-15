@@ -26,11 +26,11 @@ public class MerkinnanKasittelijaTest {
     
     @Test
     public void muuttaaKayttajanAntamanMerkinnanOikeanMuotoiseksi() {
-        String syote = "20.10.2013\n13.45-15.00\ntestikirjaus";
+        String syote = "20.10.2013!13.45-15.00!testikirjaus"; //! on toistaiseksi erottajasymboli tässä
         
-        String mekanMuuttama = meka.muutaKayttajanAntamaMerkintaTietokannanMerkinnaksi(syote);
+        String mekanMuuttama = meka.muutaKayttajanAntamaMerkintaTietokannanMerkinnaksi(syote).toString();
         
-        String odotettu = "20.10.2013\n  13.45-15.00: testikirjaus";
+        String odotettu = "20.10.2013\n    13.45-15.00: testikirjaus\n";
    
         assertEquals(odotettu, mekanMuuttama);
     }

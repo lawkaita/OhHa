@@ -74,4 +74,7 @@ hienos‰‰tˆ‰.
 j‰sennelty ohjelmaa. Huomattu, ett‰ jos tiedostoonkirjoitusoperaatioissa ei k‰ytet‰ "\r\n" vaan "\n", tekstitiedostossa tieto voi j‰‰d‰ yhdelle riville.
 			
 14.11.13 9.43-11.25
-j‰sennelty lis‰‰ ohjelmaa. Nyt koko ohjelmaa testaavat testit eiv‰t toimi vaikka ohjelma toimii ainakin jotenkin.	
+j‰sennelty lis‰‰ ohjelmaa. Nyt koko ohjelmaa testaavat testit eiv‰t toimi vaikka ohjelma toimii ainakin jotenkin.
+
+15.11.13 15.30-18.15
+Luotu tallennusformaattia.	
