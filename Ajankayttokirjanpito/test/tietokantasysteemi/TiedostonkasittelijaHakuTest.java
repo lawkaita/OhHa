@@ -1,0 +1,135 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package tietokantasysteemi;
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+import sovelluslogiikka.Dekooderi;
+
+/**
+ *
+ * @author Envy 6-1010
+ */
+public class TiedostonkasittelijaHakuTest {
+
+    private Tiedostonkasittelija tika;
+
+    @Before
+    public void setUp() {
+        this.tika = new Tiedostonkasittelija(new Dekooderi());
+        try {
+            tika.kirjoitaTietokantaanLisaten("\nTestimerkintöjä\n", true);
+        } catch (IOException ex) {
+            System.out.println("TiedostonkasittelijaTestIOException");
+        }
+
+    }
+
+    @Test
+    public void tiedostonKasittelijaEiPalautaNullTauluaKunHaunOsumaOnTietokannassa() {
+        try {
+            tika.kirjoitaTietokantaanLisaten("1.1.1990", true);
+            tika.kirjoitaTietokantaanLisaten("    02.00-03.00: nulltest", true);
+            tika.kirjoitaTietokantaanLisaten("\n", true);
+
+            String[] merkintaTaulu = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla("1.1.1990");
+
+            boolean tauluEiOleNolla = !(merkintaTaulu == null);
+
+            assertEquals(true, tauluEiOleNolla);
+
+        } catch (IOException ex) {
+            assertEquals(true, false);
+            System.out.println("IOException");
+        }
+    }
+
+    @Test
+    public void tiedostonKasittelijaPalauttaaNullTaulunKunHaunKohdeEiOleTietokannassa() {
+
+        String[] merkintaTaulu = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla("xbörfmeezormox");
+
+        boolean tauluOnNull = (merkintaTaulu == null);
+
+        assertEquals(true, tauluOnNull);
+    }
+
+    @Test
+    public void tiedostonKasittelijaLoytaaTiedostostaSenMikaSinneJuuriKirjoitettiinKunKirjoitettiinPaivaysJaTastaSiisEnsimmainenRivi() {
+        try {
+            tika.kirjoitaTietokantaanLisaten("2.3.4567", true);
+            tika.kirjoitaTietokantaanLisaten("    00.01-00.03: juuri-kirjoitettu-testiteksti", true);
+            tika.kirjoitaTietokantaanLisaten("\n", true);
+
+            String[] osumat = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla("2.3.4567");
+
+            String odotettu = "2.3.4567";
+
+            assertEquals(odotettu, osumat[0]);
+
+        } catch (IOException ex) {
+            assertEquals(true, false);
+            System.out.println("IOException");
+        }
+    }
+    
+    @Test
+    public void tiedostonKasittelijaLoytaaTiedostostaSenMikaSinneJuuriKirjoitettiinKunKirjoitettiinJotainSatunnaista() {
+        try {
+            tika.kirjoitaTietokantaanLisaten("abcTesti", true);
+            tika.kirjoitaTietokantaanLisaten("bbcRadiokanava", true);
+            tika.kirjoitaTietokantaanLisaten("\n", true);
+
+            String[] osumat = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla("abcTesti");
+
+            String odotettu = "abcTesti";
+
+            assertEquals(odotettu, osumat[0]);
+
+        } catch (IOException ex) {
+            assertEquals(true, false);
+            System.out.println("IOException");
+        }
+    }
+
+    @Test
+    public void tiedostonKasittelijaPystyyLoytamaanTiedostostaHaettavaaAsiaaTarkemminAntamaanTuloksen() {
+        try {
+            //Täällä, onko "1.1.2000" jälkeen \n vai \r\n vaikuttaa windowsissa, 
+            //tuleeko rivinvaihtoa.
+            tika.kirjoitaTietokantaanLisaten("1.1.2000", true);
+            tika.kirjoitaTietokantaanLisaten("    00.00-01.00: testitekstientesti", true);
+            tika.kirjoitaTietokantaanLisaten("\n", true);
+            tika.kirjoitaTietokantaanLisaten("1.2.2001", true);
+            tika.kirjoitaTietokantaanLisaten("    01.00-01.30: testitekstienteksti", true);
+            tika.kirjoitaTietokantaanLisaten("\n", true);
+
+            String[] osumat = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla("1.1.2000");
+            String odotettu = "    00.00-01.00: testitekstientesti";
+
+            assertEquals(odotettu, osumat[1]);
+
+        } catch (IOException ex) {
+            assertEquals(1, 2);
+            System.out.println("IOException");
+        }
+    }
+
+    @After
+    public void tearDown() {
+    }
+    // TODO add test methods here.
+    // The methods must be annotated with annotation @Test. For example:
+    //
+    // @Test
+    // public void hello() {}
+}

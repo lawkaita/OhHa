@@ -66,7 +66,6 @@ public class Tulostaja {
 
             tulostaKonsoliin("::::");
             
-            tika.suljeLukija();
         } catch (FileNotFoundException ex) {
             tulostaKonsoliin("Tiedostoa ei löydy");
         }

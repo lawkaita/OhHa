@@ -27,6 +27,8 @@ public class Komentotulkki {
     private boolean merkintaanLopetusAika;
     private boolean merkintaanSelostus;
     private boolean hakuKaynnissa;
+    private char dekoodausMerkki;
+    
     private String muistettavaString;
 
     public Komentotulkki(Tulostaja tulostaja, Tiedostonkasittelija tika, Konsoli konsoli) {
@@ -40,6 +42,7 @@ public class Komentotulkki {
         merkintaanLopetusAika = false;
         merkintaanSelostus = false;
         hakuKaynnissa = false;
+        dekoodausMerkki = "!".charAt(0);
 
         muistettavaString = "";
 
@@ -52,15 +55,15 @@ public class Komentotulkki {
     public void haarauta(String komento) {
 
         if (hakuKaynnissa == true) {
-            String[] osumat = tika.haeTietoKannasta(komento);
-            tulostaja.tulostaHaunOsumat(osumat);
+            String[] osumaString = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla(komento);
+            tulostaja.tulostaHaunOsumat(osumaString);
             hakuKaynnissa = false;
             return;
         }
 
         if (merkintaanPaiva == true) {
             if (ajantestaaja.onPaiva(komento)) {
-                muistettavaString = komento + "!";
+                muistettavaString = komento + dekoodausMerkki;
                 tulostaja.pyydaAloitusAikaa();
                 tulostaja.getKali().getKonsoli().kirjoitaKomentoriville("hh.mm");
                 merkintaanAloitusAika = true;
@@ -93,7 +96,7 @@ public class Komentotulkki {
         }
 
         if (merkintaanLopetusAika == true) {
-            muistettavaString += "-" + komento + "!";
+            muistettavaString += "-" + komento + dekoodausMerkki;
             tulostaja.pyydaSelostus();
             merkintaanSelostus = true;
             merkintaanLopetusAika = false;

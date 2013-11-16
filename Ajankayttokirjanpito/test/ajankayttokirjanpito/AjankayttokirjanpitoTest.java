@@ -4,10 +4,11 @@ package ajankayttokirjanpito;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import tietokantasysteemi.Tiedostonkasittelija;
 import sovelluslogiikka.Dekooderi;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import kayttoliittyma.Kayttoliittyma;
 import kayttoliittyma.Kayttoliittyma;
@@ -26,7 +27,7 @@ import sovelluslogiikka.AjanAntaja;
  * @author lawkaita
  */
 public class AjankayttokirjanpitoTest {
-    
+
     private Konsoli konsoli;
     private Kayttoliittyma kali;
     private Dekooderi dekooderi;
@@ -37,16 +38,16 @@ public class AjankayttokirjanpitoTest {
 
     @Before
     public void setUp() {
-        konsoli = new Konsoli(true);        
-        kali = new Kayttoliittyma(konsoli, null);            
-        dekooderi = new  Dekooderi();
+        konsoli = new Konsoli(true);
+        kali = new Kayttoliittyma(konsoli, null);
+        dekooderi = new Dekooderi();
         ajan = new AjanAntaja();
         tika = new Tiedostonkasittelija(dekooderi);
         tulostaja = new Tulostaja(kali, tika, ajan, dekooderi);
         kotu = new Komentotulkki(tulostaja, tika, konsoli);
-        
+
         kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));
-        
+
         SwingUtilities.invokeLater(kali);
     }
 
@@ -106,7 +107,7 @@ public class AjankayttokirjanpitoTest {
         assertEquals(" :Aloitusaika:",
                 odotettu);
     }
-    
+
     @Test
     public void onkoAikaTestiTUnnistaaVirheelisenAjan() {
         kali.getKonsoli().kirjoitaKomentoriville("merk");
@@ -114,15 +115,15 @@ public class AjankayttokirjanpitoTest {
         kotu.otaKomento();//tassa kohtaa komentoriville on hakeutunut oikea paiva
         kali.getKonsoli().kirjoitaKomentoriville("jeessys");
         kotu.otaKomento();
-        
+
         String tuloste = kali.getKonsoli().getTulosteAlue().getText();
         String odotettu = " :Ei ole aika";
         String aktuaali = tuloste.substring(tuloste.length() - odotettu.length(), tuloste.length());
-        
+
         assertEquals(odotettu,
-                aktuaali);        
-    } 
-    
+                aktuaali);
+    }
+
     @Test
     public void onkoAikaTestiTunnistaaOikeanAjan() {
         kali.getKonsoli().kirjoitaKomentoriville("merk");
@@ -130,20 +131,36 @@ public class AjankayttokirjanpitoTest {
         kotu.otaKomento();//tassa kohtaa komentoriville on hakeutunut oikea paiva
         kali.getKonsoli().kirjoitaKomentoriville("12.12");
         kotu.otaKomento();
-        
+
         String tuloste = kali.getKonsoli().getTulosteAlue().getText();
         String odotettu = " :Lopetusaika:";
         String aktuaali = tuloste.substring(tuloste.length() - odotettu.length(), tuloste.length());
-        
+
         assertEquals(odotettu,
-                aktuaali);        
-    } 
-    //päiväykset ja kellonajat 0 eteen., testejä 7
-    
-    @Test
-    public void testi0(){
+                aktuaali);
     }
-    
+
+    @Test
+    public void tulostaKomentoEiTulostaEiMerkintojaViestiaKunTietokantaEiOleTyhja() {
+        try {
+            tika.kirjoitaTietokantaanLisaten("lisataanMeluaMuistiin", true);
+            kali.getKonsoli().kirjoitaKomentoriville("hae");
+            kotu.otaKomento();
+            kali.getKonsoli().kirjoitaKomentoriville("muta");
+            kotu.otaKomento();
+            
+            String eiOdotettu = " :Ei merkintöjä";
+            String tuloste = kali.getKonsoli().getTulosteAlue().getText();
+            String aktuaali = tuloste.substring(tuloste.length() - eiOdotettu.length(), tuloste.length());
+            boolean tulosteOnEriViestiKuinEiMerkintoja = (!aktuaali.equals(eiOdotettu));
+            
+            assertEquals(true, tulosteOnEriViestiKuinEiMerkintoja);
+        } catch (IOException ex) {
+            System.out.println("IOException");
+        }
+    }
+    //päiväykset ja kellonajat 0 eteen., testejä 7
+
     @After
     public void tearDown() {
     }

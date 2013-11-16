@@ -57,29 +57,20 @@ public class Tiedostonkasittelija {
 
     //metodi ottaa kantaa siihen missa muodossa tieto on tallennettu
     //eli tietoa on tallennettu avain sanan alle seuraavalle riville.
-    public String[] haeTietoKannasta(String hakusana) {
+    public String[] haeStringtaulunaTietoKannastaMerkintaPaivalla(String hakusana) {
         try {
-            alustaTietokannanLukija();
-
-            //tässä pitää ottaa kantaa siihen miten haun tulokset esitetään
-            //ja mitä sanotaan jos mitään ei löydy            
-            String osumat = "";            
+            alustaTietokannanLukija();          
+            String[] merkintaTaulu = null;            
             while (lukija.hasNextLine()) {
                 String rivi = lukija.nextLine();
                 
-                if (rivi.equals(hakusana)) {
-                    osumat = osumat + rivi + "\n" + lukija.nextLine() + "\n";
-                    //tässä oletust tapahtuu.
-                    //käytännössä tietoa tallennetaan päiväyksen alle muodossa kellonajat + mitä tehtiin.
-                    //ainakin toistaiseksi päässäni on näin.
+                if (rivi.equals(hakusana)) {                    
+                    merkintaTaulu = rakennaMerkintaString(lukija, rivi);
+                    break;
                 }                
             }
-
-            //oletetaan että tietokantaan tallennetaan tietoa niin että päätietoalkio,
-            //esim päiväys, alkaa merkillä !.           
-            String[] tuloksetLajiteltu = dekooderi.dekoodaa(osumat, "!".charAt(0));            
             
-            return tuloksetLajiteltu;            
+            return merkintaTaulu;
         } catch (FileNotFoundException ex) {
             return null;
         }        
@@ -90,7 +81,9 @@ public class Tiedostonkasittelija {
     }
     
     public void alustaTietokannanLukija() throws FileNotFoundException {
-        this.lukija = new Scanner(new File("kirjaukset.txt"));        
+        this.lukija.close();
+        this.lukija = new Scanner(tietokanta);
+        this.lukija.reset();
     }
     
     public boolean lukijallaSeuraavaRivi() {
@@ -118,6 +111,16 @@ public class Tiedostonkasittelija {
     public MerkinnanKasittelija getMerkinnanKasittelija() {
         return this.meka;
     }
-    
+
+    private String[] rakennaMerkintaString(Scanner lukija, String osuma) {
+        if (lukija.hasNextLine()) {
+            String lukijanSeuraava = lukija.nextLine();
+            if (!lukijanSeuraava.isEmpty()) {
+                rakennaMerkintaString(lukija, osuma);
+                osuma = osuma + "!" + lukijanSeuraava;                
+            }               
+        }
+        return dekooderi.dekoodaa(osuma, "!".charAt(0));
+    }    
 }
 //Tiedostonkasittelijalla on yksi tiedosto johon se tallettaa ja kirjoittaa tietoja.

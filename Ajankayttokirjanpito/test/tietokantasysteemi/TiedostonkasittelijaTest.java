@@ -62,7 +62,7 @@ public class TiedostonkasittelijaTest {
     @Test
     public void kirjoitaTietokantaanLisatenEiAiheutaIOExceptionia() {
         try {
-            tika.kirjoitaTietokantaanLisaten("alustaTietokantaTestiTeksti\r\n", false);
+            tika.kirjoitaTietokantaanLisaten("alustaTietokantaTestiTeksti\r\n", true);
         } catch (IOException ex) {
             System.out.println("IOException");
             assertEquals(true, false);
@@ -80,33 +80,6 @@ public class TiedostonkasittelijaTest {
             assertEquals(true, false);
        }   
     }
-
-    @Test
-    public void tiedostonKasittelijaPystyyLoytamaanTiedostostaHaettavaaAsiaa() {
-        try {           
-
-            tika.kirjoitaTietokantaanLisaten("!testiteksti2:\n"
-                    + "testitekstientesti", true);
-            tika.kirjoitaTietokantaanLisaten("!testiteksti3:\n"
-                    + "testitekstienteksti", true);
-            tika.alustaTietokannanLukija();
-            //oletetaan että tietokantaan tallennetaan tietoa niin että päätietoalkio,
-            //esim päiväys, alkaa merkillä !.
-
-            //tässä tehdään oletus haun tuloksen muodosta.
-            String[] osumat = tika.haeTietoKannasta("!testiteksti2:");
-            String odotettu = "testiteksti2:\n"
-                    + "testitekstientesti\n";
-
-            assertEquals(odotettu, osumat[1]);
-
-            //oletetaan, että tietokantaan ei ole lisätty otsikolla '!testiteksti' muita tietoalkioita.           
-
-        } catch (IOException ex) {
-            assertEquals(1, 2);
-            //mitä tähän pitäisi kirjoittaa?
-        }
-    }       
  
     @Test
     public void tiedostonKasittelijaPystyyKirjoittamaanTiedostoonJaLukemaanSita() {
@@ -123,8 +96,25 @@ public class TiedostonkasittelijaTest {
             assertEquals("testiteksti", vikaRivi);
         } catch (IOException ex) {
             assertEquals(1, 2);
-            //mitä tähän pitäisi kirjoittaa?
+            System.out.println("tika ei onnistunut kirjoittamaan tiedostoon ja lukemaan tiedostoa");
         }
+    }
+    
+    @Test 
+    public void tiedostonKasittelijaOsaaNollataTiedoston() {
+        this.tika.suljeLukija();
+        try {
+            this.tika.nollaaTiedosto();
+        } catch (IOException ex) {
+            System.out.println("Tiedoston nollaustestissä nollaaminen ei onnistu");
+        }
+        try {
+            this.tika.alustaTietokannanLukija();
+        } catch (FileNotFoundException ex) {
+            System.out.println("Tiedoston nollaamistestissä tiedostoa ei löydy");
+        }
+        
+        assertEquals(false, tika.getTietokannanLukija().hasNext());        
     }
 
 
