@@ -20,8 +20,8 @@ public class MerkinnanKasittelija {
 
     private Dekooderi dekooderi;
 
-    public MerkinnanKasittelija() {
-        dekooderi = new Dekooderi();
+    public MerkinnanKasittelija(Dekooderi dekooderi) {
+        this.dekooderi = dekooderi;
     }
 
     //tällä muunnetaan kolmirivinen käyttöliittymän antama merkintä
@@ -34,13 +34,10 @@ public class MerkinnanKasittelija {
 
         String kellonajat = merkintarivit[1];
         String[] kellonajatOsina = dekooderi.dekoodaa(kellonajat, "-".charAt(0));
-        String[] aloitusaikaOsina = dekooderi.dekoodaa(kellonajatOsina[0], ".".charAt(0));
-        Kellonaika aloitusaika = luoKellonaika(aloitusaikaOsina);
-        String[] lopetusaikaOsina = dekooderi.dekoodaa(kellonajatOsina[1], ".".charAt(0));
-        Kellonaika lopetusaika = luoKellonaika(lopetusaikaOsina);
+        Kellonaika[] ajat = luoAloitusaikajaLopetusaika(kellonajat);
 
         String seloste = merkintarivit[2];
-        Tapahtuma tapahtuma = new Tapahtuma(aloitusaika, lopetusaika, seloste);
+        Tapahtuma tapahtuma = new Tapahtuma(ajat[0], ajat[1], seloste);
         Merkinta valmisMerkinta = new Merkinta(paivays, tapahtuma);
         return valmisMerkinta;
     }
@@ -68,7 +65,7 @@ public class MerkinnanKasittelija {
     }
     //paikan voi hakea osoittimen paiaksta.
 
-    private Paivays luoPaivays(String paivamaara) {
+    public Paivays luoPaivays(String paivamaara) {
         String[] paivamaaraOsina = dekooderi.dekoodaa(paivamaara, ".".charAt(0));
         int paiva = Integer.parseInt(paivamaaraOsina[0]);
         int kuukausi = Integer.parseInt(paivamaaraOsina[1]);
@@ -76,11 +73,50 @@ public class MerkinnanKasittelija {
         Paivays paivays = new Paivays(paiva, kuukausi, vuosi);
         return paivays;
     }
+    
+    public Kellonaika[] luoAloitusaikajaLopetusaika(String kellonajat) {
+        String[] kellonajatOsina = dekooderi.dekoodaa(kellonajat, "-".charAt(0));
+        String[] aloitusaikaOsina = dekooderi.dekoodaa(kellonajatOsina[0], ".".charAt(0));
+        Kellonaika aloitusaika = luoKellonaika(aloitusaikaOsina);
+        String[] lopetusaikaOsina = dekooderi.dekoodaa(kellonajatOsina[1], ".".charAt(0));
+        Kellonaika lopetusaika = luoKellonaika(lopetusaikaOsina);
+        
+        Kellonaika[] palautettava = new Kellonaika[2];
+        palautettava[0] = aloitusaika;
+        palautettava[1] = lopetusaika;
+        
+        return palautettava;
+    }
 
-    private Kellonaika luoKellonaika(String[] aikaOsina) {                
+    public Kellonaika luoKellonaika(String[] aikaOsina) {                
         int aikaTunti = Integer.parseInt(aikaOsina[0]);
         int aikaMinuutti = Integer.parseInt(aikaOsina[1]);
         Kellonaika aika = new Kellonaika(aikaTunti, aikaMinuutti);
         return aika;
+    }
+
+    //oletetaan, että osuma ei ole null
+    public Merkinta luoMerkintaHaunTuloksesta(String[] osuma) {
+        Paivays paivays = luoPaivays(osuma[0]);
+        ArrayList<Tapahtuma> tapahtumat = new ArrayList<>();
+        
+        for (int i = 1; i < osuma.length; i++) {
+            Tapahtuma t = luoTapahtuma(osuma[i]);
+            tapahtumat.add(t);
+        }
+        
+        Merkinta merkinta = new Merkinta(paivays, tapahtumat);
+        return merkinta;
+    }
+
+    private Tapahtuma luoTapahtuma(String tapahtumaString) {
+        String[] tapahtumaAlkiot = dekooderi.dekoodaa(tapahtumaString, ':');
+        Kellonaika[] kellonajat = luoAloitusaikajaLopetusaika(tapahtumaAlkiot[0]);
+        Kellonaika aloitusaika = kellonajat[0];
+        Kellonaika lopetusaika = kellonajat[1];
+        String seloste = tapahtumaAlkiot[1].substring(4); //otetaan pois 'tab' eli neljä whitespacea.
+        
+        Tapahtuma tapahtuma = new Tapahtuma(aloitusaika, lopetusaika, seloste);
+        return tapahtuma;
     }
 }

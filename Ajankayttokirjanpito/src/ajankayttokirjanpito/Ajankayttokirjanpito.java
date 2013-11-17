@@ -29,9 +29,8 @@ public class Ajankayttokirjanpito {
         Konsoli konsoli = new Konsoli(ubuntulla);        
         Kayttoliittyma kali = new Kayttoliittyma(konsoli, null);            
         Dekooderi dekooderi = new  Dekooderi();
-        AjanAntaja ajan = new AjanAntaja();
         Tiedostonkasittelija tika = new Tiedostonkasittelija(dekooderi);
-        Tulostaja tulostaja = new Tulostaja(kali, tika, ajan, dekooderi);
+        Tulostaja tulostaja = new Tulostaja(kali, tika, dekooderi);
         Komentotulkki kotu = new Komentotulkki(tulostaja, tika, konsoli);
         
         kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));

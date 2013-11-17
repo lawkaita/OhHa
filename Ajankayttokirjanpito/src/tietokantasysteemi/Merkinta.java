@@ -11,16 +11,22 @@ import java.util.Date;
  *
  * @author lawkaita
  */
-public class Merkinta implements Comparable<Merkinta>{
+public class Merkinta implements Comparable<Merkinta> {
+
     private Paivays paivays;
     private ArrayList<Tapahtuma> tapahtumat;
-    
+
     public Merkinta(Paivays paivays, Tapahtuma tapahtuma) {
         this.paivays = paivays;
         this.tapahtumat = new ArrayList<Tapahtuma>();
-        this.tapahtumat.add(tapahtuma);        
+        this.tapahtumat.add(tapahtuma);
     }
-    
+
+    Merkinta(Paivays paivays, ArrayList<Tapahtuma> tapahtumat) {
+        this.paivays = paivays;
+        this.tapahtumat = tapahtumat;
+    }
+
     @Override
     public int compareTo(Merkinta m) {
         return this.paivays.compareTo(m.paivays);
@@ -29,21 +35,20 @@ public class Merkinta implements Comparable<Merkinta>{
     @Override
     public String toString() {
         String palautettava = this.paivays.toString() + "\n";
-        
-        for(Tapahtuma t : tapahtumat) {
+
+        for (Tapahtuma t : tapahtumat) {
             palautettava += t.toString();
         }
-        
-        palautettava += "\n";        
-        return palautettava;        
+
+        palautettava += "\n";
+        return palautettava;
     }
 
     public ArrayList<Tapahtuma> getTapahtumat() {
         return tapahtumat;
     }
-     
-    public void lisaaTapahtuma (Tapahtuma tapahtuma) {
+
+    public void lisaaTapahtuma(Tapahtuma tapahtuma) {
         this.tapahtumat.add(tapahtuma);
-    }   
-     
+    }
 }

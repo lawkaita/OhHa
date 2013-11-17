@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import sovelluslogiikka.Dekooderi;
 
 /**
  *
@@ -21,7 +22,7 @@ public class MerkinnanKasittelijaTest {
         
     @Before
     public void setUp() {
-        this.meka = new MerkinnanKasittelija();
+        this.meka = new MerkinnanKasittelija(new Dekooderi());
     }
     
     @Test

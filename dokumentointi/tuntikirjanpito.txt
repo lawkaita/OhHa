@@ -84,3 +84,9 @@ Muokattu hakutoiminnallisuutta ja testejä.
 
 17.11.13 11.00-12.00
 Muokattu hakutoiminnallisuutta ja testejä lisää.
+
+17.11.13 13.00-13.30
+Muokattu hakutoiminnallisuutta ja testejä.
+
+17.11.13 14.00-15.00
+luotu uusi UML -kaavio.

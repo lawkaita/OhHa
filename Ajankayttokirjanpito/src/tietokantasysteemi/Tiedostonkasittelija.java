@@ -37,7 +37,7 @@ public class Tiedostonkasittelija {
             System.out.println("TiedostonkastittelijaFileNotFoundException");
         }
         this.dekooderi = dekooderi;
-        this.meka = new MerkinnanKasittelija();
+        this.meka = new MerkinnanKasittelija(this.dekooderi);
     }
     
     public File getTietokanta() {

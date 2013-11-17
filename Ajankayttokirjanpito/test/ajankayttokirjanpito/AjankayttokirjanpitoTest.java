@@ -31,7 +31,6 @@ public class AjankayttokirjanpitoTest {
     private Konsoli konsoli;
     private Kayttoliittyma kali;
     private Dekooderi dekooderi;
-    private AjanAntaja ajan;
     private Tiedostonkasittelija tika;
     private Tulostaja tulostaja;
     private Komentotulkki kotu;
@@ -41,9 +40,8 @@ public class AjankayttokirjanpitoTest {
         konsoli = new Konsoli(true);
         kali = new Kayttoliittyma(konsoli, null);
         dekooderi = new Dekooderi();
-        ajan = new AjanAntaja();
         tika = new Tiedostonkasittelija(dekooderi);
-        tulostaja = new Tulostaja(kali, tika, ajan, dekooderi);
+        tulostaja = new Tulostaja(kali, tika, dekooderi);
         kotu = new Komentotulkki(tulostaja, tika, konsoli);
 
         kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));

@@ -55,8 +55,10 @@ public class Komentotulkki {
     public void haarauta(String komento) {
 
         if (hakuKaynnissa == true) {
-            String[] osumaString = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla(komento);
-            tulostaja.tulostaHaunOsumat(osumaString);
+            String[] osuma = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla(komento);
+            //Merkinta merkinta = tika.getMerkinnanKasittelija().luoMerkintaHaunTuloksesta(osuma);
+            tulostaja.tulostaHaunOsumat(osuma);
+            //tulostaja.listaaKonsoliin(merkinta.toString());
             hakuKaynnissa = false;
             return;
         }
@@ -170,7 +172,7 @@ public class Komentotulkki {
             return;
         }
 
-        if (komento.equals("nollaa muisti")) {
+        if (komento.equals("nollaa")) {
             try {
                 tika.nollaaTiedosto();
             } catch (IOException ex) {

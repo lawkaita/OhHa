@@ -24,11 +24,11 @@ public class Tulostaja {
     private AjanAntaja ajan;
     private Dekooderi dekooderi;
 
-    public Tulostaja(Kayttoliittyma kali, Tiedostonkasittelija tika, AjanAntaja ajan, Dekooderi dekooderi) {
+    public Tulostaja(Kayttoliittyma kali, Tiedostonkasittelija tika, Dekooderi dekooderi) {
         //laitetaan ohjelmalle suoraan konsoli.
         this.kali = kali;
         this.tika = tika;
-        this.ajan = ajan;
+        this.ajan = new AjanAntaja();
         this.dekooderi = dekooderi;
     }
 
@@ -51,7 +51,7 @@ public class Tulostaja {
 
     }
 
-    //tämä jonnekin muualle
+    //tämä jonnekin muualle?
     public void tulostaTiedosto() {
         try {
             tika.alustaTietokannanLukija();
