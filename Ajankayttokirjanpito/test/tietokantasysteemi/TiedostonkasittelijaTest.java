@@ -112,9 +112,31 @@ public class TiedostonkasittelijaTest {
             this.tika.alustaTietokannanLukija();
         } catch (FileNotFoundException ex) {
             System.out.println("Tiedoston nollaamistestissä tiedostoa ei löydy");
+            assertEquals(1, 2);
         }
         
         assertEquals(false, tika.getTietokannanLukija().hasNext());        
+    }
+    
+    @Test
+    public void tiedostonKasittelijaOsaaSanoaEttaMerkintaJokaOnKannassaOnKannassa() {
+        try {
+            tika.kirjoitaTietokantaanLisaten("haeMinut", true);
+            boolean onKannassa = tika.kannassaOnMerkintaPaivalla("haeMinut");
+            
+            assertEquals(true, onKannassa);
+            
+        } catch (IOException ex) {
+            System.out.println("IOException testissa 'haeMinut onKannassa'");
+            assertEquals(1, 2);
+        }
+    }
+    
+    @Test
+    public void tiedostonKasittelijaOsaaSanoaEttaMerkintaJokaEiOleKannassaEiTosiaanOleKannassa() {
+        boolean onKannassa = tika.kannassaOnMerkintaPaivalla("meezormoxEliMinuaEiSaaLoytya");
+        
+        assertEquals(false, onKannassa);        
     }
 
 

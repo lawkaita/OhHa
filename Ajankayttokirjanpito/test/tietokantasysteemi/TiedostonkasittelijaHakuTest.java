@@ -31,7 +31,6 @@ public class TiedostonkasittelijaHakuTest {
         } catch (IOException ex) {
             System.out.println("TiedostonkasittelijaTestIOException");
         }
-
     }
 
     @Test
@@ -64,7 +63,7 @@ public class TiedostonkasittelijaHakuTest {
     }
 
     @Test
-    public void tiedostonKasittelijaLoytaaTiedostostaSenMikaSinneJuuriKirjoitettiinKunKirjoitettiinPaivaysJaTastaSiisEnsimmainenRivi() {
+    public void tiedostonKasittelijaLoytaaTiedostostaSenPaivanMikaSinneJuuriKirjoitettiin() {
         try {
             tika.kirjoitaTietokantaanLisaten("2.3.4567", true);
             tika.kirjoitaTietokantaanLisaten("    00.01-00.03: juuri-kirjoitettu-testiteksti", true);
@@ -81,9 +80,9 @@ public class TiedostonkasittelijaHakuTest {
             System.out.println("IOException");
         }
     }
-    
+
     @Test
-    public void tiedostonKasittelijaLoytaaTiedostostaSenMikaSinneJuuriKirjoitettiinKunKirjoitettiinJotainSatunnaista() {
+    public void tiedostonKasittelijaLoytaaTiedostostaSenSatunnaisenTekstinMikaSinneKirjoitettiin() {
         try {
             tika.kirjoitaTietokantaanLisaten("abcTesti", true);
             tika.kirjoitaTietokantaanLisaten("bbcRadiokanava", true);
@@ -118,6 +117,42 @@ public class TiedostonkasittelijaHakuTest {
 
             assertEquals(odotettu, osumat[1]);
 
+        } catch (IOException ex) {
+            assertEquals(1, 2);
+            System.out.println("IOException");
+        }
+    }
+
+    @Test
+    public void pystyyHahmottamaanKokonaisenHaettavanMerkinnanJaAntamaanSen() {
+        try {
+            tika.kirjoitaTietokantaanLisaten("1.1.1666", true);
+            tika.kirjoitaTietokantaanLisaten("    16.00-21.00: merkinta1", true);
+            tika.kirjoitaTietokantaanLisaten("    21.30-22.30: merkinta2", true);
+            
+            String[] osuma = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla("1.1.1666");
+            
+            boolean osumaOnOikea = true;
+            
+            if(osuma.length != 3) {
+                osumaOnOikea = false;
+            }
+            
+            if(!osuma[0].equals("1.1.1666")) {
+                osumaOnOikea = false;
+            }
+            
+            if(!osuma[1].equals("    16.00-21.00: merkinta1")) {
+                osumaOnOikea = false;
+            }
+            
+            if(!osuma[2].equals("    21.30-22.30: merkinta2")) {
+                osumaOnOikea = false;
+            }
+            
+            assertEquals(true, osumaOnOikea);
+            
+            
         } catch (IOException ex) {
             assertEquals(1, 2);
             System.out.println("IOException");

@@ -47,7 +47,7 @@ public class PaivaysTest {
     }
     
     @Test
-    public void osaaJarjestaaPaiviaSuhteessaToisiinsa() {
+    public void osaaJarjestaaPaiviaSuhteessaToisiinsaKoskaOnOverridattuComparableMetodit() {
         ArrayList<Paivays> paivaykset = new ArrayList<Paivays>();
         Paivays[] paivayksetOikeassaJarjestyksessa = new Paivays[4];
         

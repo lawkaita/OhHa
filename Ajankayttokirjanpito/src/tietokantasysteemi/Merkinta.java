@@ -32,15 +32,17 @@ public class Merkinta implements Comparable<Merkinta> {
         return this.paivays.compareTo(m.paivays);
     }
 
+    // tarvittiin tänne \r\n jotta windowsilla kirjoitus tiedostoon tapahtui oikein.
+    // toisaalta se rikkoo merkinnankasittelijaTestin.
     @Override
     public String toString() {
-        String palautettava = this.paivays.toString() + "\n";
+        String palautettava = this.paivays.toString() + "\r\n";
 
         for (Tapahtuma t : tapahtumat) {
             palautettava += t.toString();
         }
 
-        palautettava += "\n";
+        palautettava += "\r\n";
         return palautettava;
     }
 

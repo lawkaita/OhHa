@@ -31,7 +31,8 @@ public class MerkinnanKasittelijaTest {
         
         String mekanMuuttama = meka.muutaKayttajanAntamaMerkintaTietokannanMerkinnaksi(syote).toString();
         
-        String odotettu = "20.10.2013\n    13.45-15.00: testikirjaus\n";
+        //\r\n vaaditaan windowssissa, jotta tieto kirjoitetaan tiedostoon oikein
+        String odotettu = "20.10.2013\r\n    13.45-15.00: testikirjaus\r\n";
    
         assertEquals(odotettu, mekanMuuttama);
     }

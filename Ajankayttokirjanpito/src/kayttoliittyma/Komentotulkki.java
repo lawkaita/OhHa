@@ -9,6 +9,7 @@ import tietokantasysteemi.Tiedostonkasittelija;
 import java.io.IOException;
 import konsoli.Konsoli;
 import sovelluslogiikka.Ajantestaaja;
+import tietokantasysteemi.MerkinnanKasittelija;
 import tietokantasysteemi.Merkinta;
 
 /**
@@ -21,14 +22,12 @@ public class Komentotulkki {
     private Ajantestaaja ajantestaaja;
     private Tiedostonkasittelija tika;
     private Konsoli konsoli;
-    
     private boolean merkintaanPaiva;
     private boolean merkintaanAloitusAika;
     private boolean merkintaanLopetusAika;
     private boolean merkintaanSelostus;
     private boolean hakuKaynnissa;
     private char dekoodausMerkki;
-    
     private String muistettavaString;
 
     public Komentotulkki(Tulostaja tulostaja, Tiedostonkasittelija tika, Konsoli konsoli) {
@@ -110,9 +109,16 @@ public class Komentotulkki {
             muistettavaString += komento;
             tulostaja.kerroLisayksesta();
             tulostaja.listaaKonsoliin(muistettavaString);
-            
-            try {                
+
+            try {
                 Merkinta merkinta = tika.getMerkinnanKasittelija().muutaKayttajanAntamaMerkintaTietokannanMerkinnaksi(muistettavaString);
+                String paivaysMuistista = tika.getDekooderi().dekoodaa(muistettavaString, '!')[0];
+                String[] vanhaMerkintaUudenPaivallaTauluna = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla(paivaysMuistista);
+                if (vanhaMerkintaUudenPaivallaTauluna != null) {
+                    Merkinta samallaPaivallaValmisMerkinta = tika.getMerkinnanKasittelija().luoMerkintaHaunTuloksesta(vanhaMerkintaUudenPaivallaTauluna);
+                    Merkinta synteesiMerkinta = tika.getMerkinnanKasittelija().yhdista(merkinta, samallaPaivallaValmisMerkinta);
+                    System.out.println(synteesiMerkinta.toString());
+                }
                 tika.kirjoitaTietokantaanLisaten(merkinta.toString(), true);
             } catch (IOException ex) {
                 //mitä tähän tulisi lisätä?
@@ -181,6 +187,11 @@ public class Komentotulkki {
             tulostaja.ilmoitaNollaamisesta();
             return;
         }
+        
+        if (komento.equals("poista")) {
+            tika.poistaMerkintaPaivanPerusteella("17.11.2013");
+            return;
+        }
 
         tulostaja.tulostaVirhe();
     }
@@ -191,12 +202,11 @@ public class Komentotulkki {
         tulostaja.getKali().getKonsoli().kirjoitaKomentoriville(paiva);
         this.merkintaanPaiva = true;
     }
-    
+
     public void otaKomento() {
         String komento = konsoli.getVarsinainenKomentoRivi().getText();
         konsoli.tulostaKomento();
-        
+
         enter(komento);
     }
-    
 }

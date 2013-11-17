@@ -118,7 +118,7 @@ public class Tulostaja {
 
             String osumatString = "";
             for (String osuma : osumat) {
-                osumatString += osuma;
+                osumatString += osuma + "!";
             }
             listaaKonsoliin(osumatString);
         }

@@ -50,21 +50,6 @@ public class MerkinnanKasittelija {
         return eka;
     }
 
-    public Merkinta muutaTietokannanTapahtumatKasiteltaviksi(String merkintaString) {
-        Character rivinvaihto = "\n".charAt(0);
-
-        String[] merkintarivit = dekooderi.dekoodaa(merkintaString, rivinvaihto);
-        String paiva = merkintarivit[0];
-        ArrayList<String> tapahtumat = new ArrayList<>();
-
-        for (int i = 1; i < merkintarivit.length; i++) {
-            tapahtumat.add(merkintarivit[i]);
-        }
-
-        return null;
-    }
-    //paikan voi hakea osoittimen paiaksta.
-
     public Paivays luoPaivays(String paivamaara) {
         String[] paivamaaraOsina = dekooderi.dekoodaa(paivamaara, ".".charAt(0));
         int paiva = Integer.parseInt(paivamaaraOsina[0]);

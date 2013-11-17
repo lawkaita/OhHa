@@ -90,3 +90,6 @@ Muokattu hakutoiminnallisuutta ja testejä.
 
 17.11.13 14.00-15.00
 luotu uusi UML -kaavio.
+
+17.11.13 17.00-19.54
+Luotu tietokantatoimintoja ja kirjoitettu testejä.
