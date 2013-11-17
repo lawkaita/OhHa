@@ -50,7 +50,7 @@ public class Tulostaja {
         }
 
     }
-    
+
     //tämä jonnekin muualle
     public void tulostaTiedosto() {
         try {
@@ -65,7 +65,7 @@ public class Tulostaja {
             }
 
             tulostaKonsoliin("::::");
-            
+
         } catch (FileNotFoundException ex) {
             tulostaKonsoliin("Tiedostoa ei löydy");
         }
@@ -109,22 +109,20 @@ public class Tulostaja {
 
     public void pyydaHakusana() {
         tulostaKonsoliin("Anna hakusana:");
-    }    
+    }
 
     public void tulostaHaunOsumat(String[] osumat) {
-            String osumatString = "";
+        if (osumat == null) {
+            tulostaKonsoliin("Ei osumia");
+        } else {
 
+            String osumatString = "";
             for (String osuma : osumat) {
                 osumatString += osuma;
             }
-
-            if (osumatString.isEmpty()) {
-                tulostaKonsoliin("Ei osumia");
-            } else {
-                listaaKonsoliin(osumatString);
-            }
+            listaaKonsoliin(osumatString);
+        }
     }
-
 
     public void tulostaEiOlePaiva() {
         tulostaKonsoliin("Ei ole päivä");
@@ -137,5 +135,4 @@ public class Tulostaja {
     public AjanAntaja getAjan() {
         return ajan;
     }
-
 }

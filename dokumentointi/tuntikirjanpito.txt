@@ -78,3 +78,9 @@ j‰sennelty lis‰‰ ohjelmaa. Nyt koko ohjelmaa testaavat testit eiv‰t toimi vaikka
 
 15.11.13 15.30-18.15
 Luotu tallennusformaattia.	
+
+16.11.13 19.00-23.00
+Muokattu hakutoiminnallisuutta ja testej‰.
+
+17.11.13 11.00-12.00
+Muokattu hakutoiminnallisuutta ja testej‰ lis‰‰.

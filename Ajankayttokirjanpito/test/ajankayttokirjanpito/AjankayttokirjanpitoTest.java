@@ -141,25 +141,26 @@ public class AjankayttokirjanpitoTest {
     }
 
     @Test
-    public void tulostaKomentoEiTulostaEiMerkintojaViestiaKunTietokantaEiOleTyhja() {
+    public void haeKomentoTulostaaEiOsumiaViestinKunTietokantaEiOleTyhjaMuttaHakusanallaEiLoydyMitaan() {
         try {
             tika.kirjoitaTietokantaanLisaten("lisataanMeluaMuistiin", true);
             kali.getKonsoli().kirjoitaKomentoriville("hae");
             kotu.otaKomento();
-            kali.getKonsoli().kirjoitaKomentoriville("muta");
+            kali.getKonsoli().kirjoitaKomentoriville("mutaxoxoxo");
             kotu.otaKomento();
-            
-            String eiOdotettu = " :Ei merkintöjä";
+
+            String odotettu = " :Ei osumia";
             String tuloste = kali.getKonsoli().getTulosteAlue().getText();
-            String aktuaali = tuloste.substring(tuloste.length() - eiOdotettu.length(), tuloste.length());
-            boolean tulosteOnEriViestiKuinEiMerkintoja = (!aktuaali.equals(eiOdotettu));
-            
-            assertEquals(true, tulosteOnEriViestiKuinEiMerkintoja);
+            String aktuaali = tuloste.substring(tuloste.length() - odotettu.length(), tuloste.length());
+            boolean tulosteOnSamaViestiKuinEiOsumia = (aktuaali.equals(odotettu));
+
+            System.out.println(aktuaali);
+
+            assertEquals(true, tulosteOnSamaViestiKuinEiOsumia);
         } catch (IOException ex) {
             System.out.println("IOException");
         }
     }
-    //päiväykset ja kellonajat 0 eteen., testejä 7
 
     @After
     public void tearDown() {

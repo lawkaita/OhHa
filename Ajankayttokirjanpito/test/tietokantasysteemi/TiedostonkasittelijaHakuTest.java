@@ -102,7 +102,7 @@ public class TiedostonkasittelijaHakuTest {
     }
 
     @Test
-    public void tiedostonKasittelijaPystyyLoytamaanTiedostostaHaettavaaAsiaaTarkemminAntamaanTuloksen() {
+    public void tiedostonKasittelijaPystyyLoytamaanTiedostostaHaettavaaAsiaaKunHalutaanHakusananAllaOlevaAsia() {
         try {
             //Täällä, onko "1.1.2000" jälkeen \n vai \r\n vaikuttaa windowsissa, 
             //tuleeko rivinvaihtoa.
