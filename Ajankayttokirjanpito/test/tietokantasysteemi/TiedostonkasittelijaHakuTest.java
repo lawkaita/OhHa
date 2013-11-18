@@ -27,7 +27,7 @@ public class TiedostonkasittelijaHakuTest {
     public void setUp() {
         this.tika = new Tiedostonkasittelija(new Dekooderi());
         try {
-            tika.kirjoitaTietokantaanLisaten("\nTestimerkintöjä\n", true);
+            tika.kirjoitaTietokantaanLisaten("\nTiedostonkasittelijaHakuTesti\n", true);
         } catch (IOException ex) {
             System.out.println("TiedostonkasittelijaTestIOException");
         }

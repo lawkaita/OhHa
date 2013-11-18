@@ -42,12 +42,10 @@ public class MerkinnanKasittelija {
         return valmisMerkinta;
     }
 
-    public Merkinta yhdista(Merkinta eka, Merkinta toka) {
+    public void yhdista(Merkinta eka, Merkinta toka) {
         for (Tapahtuma t : toka.getTapahtumat()) {
             eka.lisaaTapahtuma(t);
         }
-
-        return eka;
     }
 
     public Paivays luoPaivays(String paivamaara) {
@@ -73,9 +71,11 @@ public class MerkinnanKasittelija {
         return palautettava;
     }
 
-    public Kellonaika luoKellonaika(String[] aikaOsina) {                
-        int aikaTunti = Integer.parseInt(aikaOsina[0]);
-        int aikaMinuutti = Integer.parseInt(aikaOsina[1]);
+    public Kellonaika luoKellonaika(String[] aikaOsina) {
+        String tuntiString = aikaOsina[0].trim();
+        String minuuttiString = aikaOsina[1].trim();
+        int aikaTunti = Integer.parseInt(tuntiString);
+        int aikaMinuutti = Integer.parseInt(minuuttiString);
         Kellonaika aika = new Kellonaika(aikaTunti, aikaMinuutti);
         return aika;
     }
@@ -99,7 +99,7 @@ public class MerkinnanKasittelija {
         Kellonaika[] kellonajat = luoAloitusaikajaLopetusaika(tapahtumaAlkiot[0]);
         Kellonaika aloitusaika = kellonajat[0];
         Kellonaika lopetusaika = kellonajat[1];
-        String seloste = tapahtumaAlkiot[1].substring(4); //otetaan pois 'tab' eli neljä whitespacea.
+        String seloste = tapahtumaAlkiot[1].substring(1); //otetaan erottava välilyönti
         
         Tapahtuma tapahtuma = new Tapahtuma(aloitusaika, lopetusaika, seloste);
         return tapahtuma;

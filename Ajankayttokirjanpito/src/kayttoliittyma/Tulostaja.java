@@ -135,4 +135,12 @@ public class Tulostaja {
     public AjanAntaja getAjan() {
         return ajan;
     }
+
+    void tulostaMerkinnanPoistoOnnistui() {
+        tulostaKonsoliin("Merkinnän poisto onnistui");
+    }
+
+    void tulostaKeskeytettiin() {
+        tulostaKonsoliin("Keskeytettiin");
+    }
 }

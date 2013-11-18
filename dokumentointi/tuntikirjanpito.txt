@@ -93,3 +93,9 @@ luotu uusi UML -kaavio.
 
 17.11.13 17.00-19.54
 Luotu tietokantatoimintoja ja kirjoitettu testejä.
+
+18.11.13 11.00-12.00
+Luotu poistotoiminnallisuutta. Nyt ohjelma kaatuu jos tietokannassa on yksi ohjelman kautta syötetty merkintä, ja syötetään ohjelman kautta toinen merkintä.
+
+18.11.13 12.00-15.00
+Korjattu ongelma, lisätty toiminnallisuutta päällekkäisen tiedon tallettamiseen

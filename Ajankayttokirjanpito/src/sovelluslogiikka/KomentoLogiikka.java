@@ -8,6 +8,6 @@ package sovelluslogiikka;
  *
  * @author Envy 6-1010
  */
-public class OhjelmanKomennot {
+public class KomentoLogiikka {
     
 }

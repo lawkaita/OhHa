@@ -4,6 +4,7 @@
  */
 package tietokantasysteemi;
 
+import java.awt.List;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -158,46 +159,101 @@ public class Tiedostonkasittelija {
         }
     }
 
-    public int poistaMerkintaPaivanPerusteella(String paiva) {
-        int riviIndexi = -1;
+    public int haeKannastaMerkinnanPaivayksenPaikkaPaivayksella(String paiva) {
+        int riviIndeksi = -1;
         try {
             alustaTietokannanLukija();
             while (lukija.hasNextLine()) {
-                riviIndexi++;
+                riviIndeksi++;
                 if (lukija.nextLine().equals(paiva)) {
-                    poistaKannastaRivit(riviIndexi, haeStringtaulunaTietoKannastaMerkintaPaivalla(paiva).length);
-                    return riviIndexi;
+                    return riviIndeksi;
                 }
             }
 
-            return riviIndexi;
+            return -3;
+        } catch (FileNotFoundException ex) {
+            return -2;
+        }
+    }
+
+    public int poistaMerkintaPaivanPerusteella(String paiva) {
+        int riviIndeksi = -1;
+        try {
+            alustaTietokannanLukija();
+            while (lukija.hasNextLine()) {
+                riviIndeksi++;
+                if (lukija.nextLine().equals(paiva)) {
+                    poistaKannastaRivit(riviIndeksi, haeStringtaulunaTietoKannastaMerkintaPaivalla(paiva).length);
+                    return riviIndeksi;
+                }
+            }
+
+            return riviIndeksi;
         } catch (FileNotFoundException ex) {
             return -2;
         }
     }
 
     private void poistaKannastaRivit(int riviIndexi, int length) {
-        poistaKannastaRivi(riviIndexi);
+        ArrayList<String> tietokantaTauluna = getTietokantaTekstiTauluna();
 
-        if (length > 2) {
-            poistaKannastaRivit(riviIndexi, length - 1);
+        poistaTaulustaRivit(riviIndexi, length, tietokantaTauluna);
+
+        kirjoitaKannanYli(tietokantaTauluna);
+    }
+
+    private void poistaTaulustaRivit(int riviIndexi, int length, ArrayList<String> tietokantaTauluna) {
+        while (length > 0) {
+            tietokantaTauluna.remove(riviIndexi);
+            length--;
+        }
+    }
+
+    public void kirjoitaKannanYli(ArrayList<String> tekstitaulu) {
+        try {
+            kirjoitaTietokantaanLisaten(kirjoitaKantaTekstitauluStringiksiRivittaen(tekstitaulu), false);
+        } catch (IOException ex) {
+            //
         }
     }
 
     private void poistaKannastaRivi(int riviIndexi) {
         ArrayList<String> tekstitaulu = getTietokantaTekstiTauluna();
         tekstitaulu.remove(riviIndexi);
-        
-        String tekstitauluStringina = "";
-        
-        for (String rivi : tekstitaulu) {
-            tekstitauluStringina += rivi;
-        }
+        String tekstitauluStringina = kirjoitaKantaTekstitauluStringiksiRivittaen(tekstitaulu);
+
         try {
             kirjoitaTietokantaanLisaten(tekstitauluStringina, false);
         } catch (IOException ex) {
             //
         }
+    }
+
+    private String kirjoitaKantaTekstitauluStringiksiRivittaen(ArrayList<String> tekstitaulu) {
+        String tekstitauluStringina = "";
+
+        for (String rivi : tekstitaulu) {
+            tekstitauluStringina += rivi + "\r\n";
+        }
+
+        return tekstitauluStringina;
+    }
+
+    private void kirjoitaTauluunAnnetustaRiviNumerostaEteenpäin(String kirjoitettava, int indeksi, ArrayList<String> tekstitaulu) {
+
+        if (indeksi < tekstitaulu.size()) {
+            tekstitaulu.add(indeksi, kirjoitettava);
+        }
+    }
+
+    public void poistaVanhaMerkintaJaLisaaUusiYhdistettyMerkintaJaKirjaaMuutosTietokantaan(int indeksi, int vanhanMerkinnanPituus, Merkinta uusiMerkinta) {
+        ArrayList<String> tietokantaTauluna = getTietokantaTekstiTauluna();
+
+        poistaTaulustaRivit(indeksi, vanhanMerkinnanPituus, tietokantaTauluna);
+
+        kirjoitaTauluunAnnetustaRiviNumerostaEteenpäin(uusiMerkinta.toString(), indeksi, tietokantaTauluna);
+
+        kirjoitaKannanYli(tietokantaTauluna);
     }
 }
 //Tiedostonkasittelijalla on yksi tiedosto johon se tallettaa ja kirjoittaa tietoja.

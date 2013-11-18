@@ -27,6 +27,7 @@ public class Komentotulkki {
     private boolean merkintaanLopetusAika;
     private boolean merkintaanSelostus;
     private boolean hakuKaynnissa;
+    private boolean poistetaanMerkintaa;
     private char dekoodausMerkki;
     private String muistettavaString;
 
@@ -41,8 +42,9 @@ public class Komentotulkki {
         merkintaanLopetusAika = false;
         merkintaanSelostus = false;
         hakuKaynnissa = false;
-        dekoodausMerkki = "!".charAt(0);
+        poistetaanMerkintaa = false;
 
+        dekoodausMerkki = "!".charAt(0);
         muistettavaString = "";
 
     }
@@ -111,21 +113,44 @@ public class Komentotulkki {
             tulostaja.listaaKonsoliin(muistettavaString);
 
             try {
-                Merkinta merkinta = tika.getMerkinnanKasittelija().muutaKayttajanAntamaMerkintaTietokannanMerkinnaksi(muistettavaString);
-                String paivaysMuistista = tika.getDekooderi().dekoodaa(muistettavaString, '!')[0];
-                String[] vanhaMerkintaUudenPaivallaTauluna = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla(paivaysMuistista);
-                if (vanhaMerkintaUudenPaivallaTauluna != null) {
+                Merkinta uusiMerkinta = tika.getMerkinnanKasittelija().muutaKayttajanAntamaMerkintaTietokannanMerkinnaksi(muistettavaString);
+                String paivaysMuistettavaStringista = tika.getDekooderi().dekoodaa(muistettavaString, '!')[0];
+
+                boolean kannassaOnMerkintaSamallaPaivalla = tika.kannassaOnMerkintaPaivalla(paivaysMuistettavaStringista);
+
+                if (kannassaOnMerkintaSamallaPaivalla) {
+                    String[] vanhaMerkintaUudenPaivallaTauluna = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla(paivaysMuistettavaStringista);
+
                     Merkinta samallaPaivallaValmisMerkinta = tika.getMerkinnanKasittelija().luoMerkintaHaunTuloksesta(vanhaMerkintaUudenPaivallaTauluna);
-                    Merkinta synteesiMerkinta = tika.getMerkinnanKasittelija().yhdista(merkinta, samallaPaivallaValmisMerkinta);
-                    System.out.println(synteesiMerkinta.toString());
+                    int vanhanMerkinnanPituus = samallaPaivallaValmisMerkinta.getTapahtumienMaara() + 1;
+                    int vanhanMerkinnanPaikkaIndeksi = tika.haeKannastaMerkinnanPaivayksenPaikkaPaivayksella(paivaysMuistettavaStringista);
+                    
+                    tika.getMerkinnanKasittelija().yhdista(uusiMerkinta, samallaPaivallaValmisMerkinta);
+                    
+                    tika.poistaVanhaMerkintaJaLisaaUusiYhdistettyMerkintaJaKirjaaMuutosTietokantaan(vanhanMerkinnanPaikkaIndeksi, vanhanMerkinnanPituus, uusiMerkinta);
+
+                } else {
+                    tika.kirjoitaTietokantaanLisaten(uusiMerkinta.toString(), true);
                 }
-                tika.kirjoitaTietokantaanLisaten(merkinta.toString(), true);
+
             } catch (IOException ex) {
                 //mitä tähän tulisi lisätä?
             }
 
             merkintaanSelostus = false;
             muistettavaString = "";
+            return;
+        }
+
+        if (poistetaanMerkintaa == true) {
+            if (ajantestaaja.onPaiva(komento)) {
+                tika.poistaMerkintaPaivanPerusteella(komento);
+
+                tulostaja.tulostaMerkinnanPoistoOnnistui();
+                poistetaanMerkintaa = false;
+            } else {
+                tulostaja.tulostaEiOlePaiva();
+            }
             return;
         }
 
@@ -187,9 +212,10 @@ public class Komentotulkki {
             tulostaja.ilmoitaNollaamisesta();
             return;
         }
-        
+
         if (komento.equals("poista")) {
-            tika.poistaMerkintaPaivanPerusteella("17.11.2013");
+            tulostaja.pyydaPaivaa();
+            this.poistetaanMerkintaa = true;
             return;
         }
 
@@ -208,5 +234,18 @@ public class Komentotulkki {
         konsoli.tulostaKomento();
 
         enter(komento);
+    }
+
+    void keskeytaKaikki() {
+        merkintaanAloitusAika = false;
+        merkintaanLopetusAika = false;
+        merkintaanPaiva = false;
+        merkintaanSelostus = false;
+        hakuKaynnissa = false;
+        poistetaanMerkintaa = false;
+        
+        this.tulostaja.tulostaKeskeytettiin();
+        
+        this.konsoli.kirjoitaKomentoriville("");
     }
 }

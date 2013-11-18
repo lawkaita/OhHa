@@ -31,6 +31,10 @@ public class Nappaimistonkuuntelija implements KeyListener{
             komentotulkki.otaKomento();
         }
         
+        if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            komentotulkki.keskeytaKaikki();
+        }
+        
         if (konsoli.getVarsinainenKomentoRivi().getText().length() > 30) {
             //konsoli.jatkaKirjoitustaTyhjaanKenttaan();
             konsoli.estaLiianPitkaKomento();

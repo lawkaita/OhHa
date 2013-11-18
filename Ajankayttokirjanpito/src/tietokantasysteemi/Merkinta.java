@@ -39,7 +39,7 @@ public class Merkinta implements Comparable<Merkinta> {
         String palautettava = this.paivays.toString() + "\r\n";
 
         for (Tapahtuma t : tapahtumat) {
-            palautettava += t.toString();
+            palautettava += t.toString() + "\r\n";
         }
 
         palautettava += "\r\n";
@@ -52,5 +52,9 @@ public class Merkinta implements Comparable<Merkinta> {
 
     public void lisaaTapahtuma(Tapahtuma tapahtuma) {
         this.tapahtumat.add(tapahtuma);
+    }
+    
+    public int getTapahtumienMaara() {
+        return this.tapahtumat.size();
     }
 }

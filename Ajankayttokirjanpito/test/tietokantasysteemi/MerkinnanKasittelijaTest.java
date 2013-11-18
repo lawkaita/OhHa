@@ -37,6 +37,8 @@ public class MerkinnanKasittelijaTest {
         assertEquals(odotettu, mekanMuuttama);
     }
     
+    //testi merkinnan hakemiselle kannasta!
+    
     @After
     public void tearDown() {
     }
