@@ -99,3 +99,6 @@ Luotu poistotoiminnallisuutta. Nyt ohjelma kaatuu jos tietokannassa on yksi ohje
 
 18.11.13 12.00-15.00
 Korjattu ongelma, lis‰tty toiminnallisuutta p‰‰llekk‰isen tiedon tallettamiseen
+
+18.11.13 15.15-17.00
+Hienos‰‰detty testej‰, tulostusta ja tallennusta.

@@ -121,8 +121,11 @@ public class Komentotulkki {
                 if (kannassaOnMerkintaSamallaPaivalla) {
                     String[] vanhaMerkintaUudenPaivallaTauluna = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla(paivaysMuistettavaStringista);
 
-                    Merkinta samallaPaivallaValmisMerkinta = tika.getMerkinnanKasittelija().luoMerkintaHaunTuloksesta(vanhaMerkintaUudenPaivallaTauluna);
-                    int vanhanMerkinnanPituus = samallaPaivallaValmisMerkinta.getTapahtumienMaara() + 1;
+                    Merkinta samallaPaivallaValmisMerkinta = tika.getMerkinnanKasittelija()
+                            .luoMerkintaHaunTuloksesta(vanhaMerkintaUudenPaivallaTauluna);
+                    
+                    //+2 sillä 1 päiväykselle ja 1 viimeiselle rivinvaihdolle.
+                    int vanhanMerkinnanPituus = samallaPaivallaValmisMerkinta.getTapahtumienMaara() + 2; 
                     int vanhanMerkinnanPaikkaIndeksi = tika.haeKannastaMerkinnanPaivayksenPaikkaPaivayksella(paivaysMuistettavaStringista);
                     
                     tika.getMerkinnanKasittelija().yhdista(uusiMerkinta, samallaPaivallaValmisMerkinta);

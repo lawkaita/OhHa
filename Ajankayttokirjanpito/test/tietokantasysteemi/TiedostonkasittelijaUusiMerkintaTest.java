@@ -5,6 +5,7 @@
 package tietokantasysteemi;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.After;
@@ -26,12 +27,6 @@ public class TiedostonkasittelijaUusiMerkintaTest {
     @Before
     public void setUp() {
         this.tika = new Tiedostonkasittelija(new Dekooderi());
-
-        try {
-            tika.nollaaTiedosto();
-        } catch (IOException ex) {
-            System.out.println("TiedostonkasittelijaTestIOException");
-        }
     }
 
     @Test
@@ -39,13 +34,23 @@ public class TiedostonkasittelijaUusiMerkintaTest {
         
         Merkinta vanhaMerkinta = new Merkinta(new Paivays(1, 1, 1990), new Tapahtuma(new Kellonaika(0, 1), new Kellonaika(1, 3), "vanhaMerkinta"));
         Merkinta merkinta = new Merkinta(new Paivays(1, 1, 1990), new Tapahtuma(new Kellonaika(2, 2), new Kellonaika(4, 8), "lisattyMerkinta"));
+        Merkinta uudempiMerkinta = new Merkinta(new Paivays(1, 1, 1990), new Tapahtuma(new Kellonaika(3, 3), new Kellonaika(15, 15), "JuuriSeMerkintä"));
 
         try {
+            tika.nollaaTiedosto();
             tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun(vanhaMerkinta.toString(), true);
-            tika.getMerkinnanKasittelija().yhdista(merkinta, vanhaMerkinta);            
+            tika.getMerkinnanKasittelija().yhdista(merkinta, vanhaMerkinta);
+            //tika.getMerkinnanKasittelija().yhdista(uudempiMerkinta, merkinta);
             int paikkaindeksi = tika.haeKannastaMerkinnanPaivayksenPaikkaPaivayksella("01.01.1990"); //TEE JOTAIN NOLLILLE!
             System.out.println(paikkaindeksi);
             tika.poistaVanhaMerkintaJaLisaaUusiYhdistettyMerkintaJaKirjaaMuutosTietokantaan(paikkaindeksi, 2, merkinta);
+            
+            ArrayList<String> tekstitaulu = tika.getTietokantaTekstiTauluna();
+            
+            for(String s : tekstitaulu) {
+                System.out.println(s + tekstitaulu.size());
+            }
+            
         } catch (IOException ex) {
             assertEquals(true, false);
         }

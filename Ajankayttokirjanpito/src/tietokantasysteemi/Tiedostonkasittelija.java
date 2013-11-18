@@ -205,6 +205,7 @@ public class Tiedostonkasittelija {
     }
 
     private void poistaTaulustaRivit(int riviIndexi, int length, ArrayList<String> tietokantaTauluna) {
+        //otetaan nolla mukaann niin poistuuylimääräinen rivinvaihto.
         while (length > 0) {
             tietokantaTauluna.remove(riviIndexi);
             length--;
@@ -245,6 +246,8 @@ public class Tiedostonkasittelija {
 
         if (indeksi < tekstitaulu.size()) {
             tekstitaulu.add(indeksi, kirjoitettava);
+        } else {
+            tekstitaulu.add(kirjoitettava);
         }
     }
 
