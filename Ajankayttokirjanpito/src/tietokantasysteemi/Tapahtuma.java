@@ -34,5 +34,9 @@ public class Tapahtuma implements Comparable<Tapahtuma>{
         return "    " + aloitusaika + "-" + lopetusaika + ": " + seloste;
     }
     
+    public Kellonaika getKesto() {
+        return null;
+    }
+    
     
 }

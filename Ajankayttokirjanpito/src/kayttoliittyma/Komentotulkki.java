@@ -9,6 +9,7 @@ import tietokantasysteemi.Tiedostonkasittelija;
 import java.io.IOException;
 import konsoli.Konsoli;
 import sovelluslogiikka.Ajantestaaja;
+import sovelluslogiikka.KomentoLogiikka;
 import tietokantasysteemi.MerkinnanKasittelija;
 import tietokantasysteemi.Merkinta;
 
@@ -22,20 +23,22 @@ public class Komentotulkki {
     private Ajantestaaja ajantestaaja;
     private Tiedostonkasittelija tika;
     private Konsoli konsoli;
-    private boolean merkintaanPaiva;
-    private boolean merkintaanAloitusAika;
-    private boolean merkintaanLopetusAika;
-    private boolean merkintaanSelostus;
-    private boolean hakuKaynnissa;
-    private boolean poistetaanMerkintaa;
+    private KomentoLogiikka komentologiikka;
+    public boolean merkintaanPaiva;
+    public boolean merkintaanAloitusAika;
+    public boolean merkintaanLopetusAika;
+    public boolean merkintaanSelostus;
+    public boolean hakuKaynnissa;
+    public boolean poistetaanMerkintaa;
     private char dekoodausMerkki;
-    private String muistettavaString;
+    public String muistettavaString;
 
     public Komentotulkki(Tulostaja tulostaja, Tiedostonkasittelija tika, Konsoli konsoli) {
         this.tulostaja = tulostaja;
         this.ajantestaaja = new Ajantestaaja();
         this.tika = tika;
         this.konsoli = konsoli;
+        this.komentologiikka = new KomentoLogiikka(this, this.tulostaja, this.ajantestaaja, this.tika, this.konsoli);
 
         merkintaanPaiva = false;
         merkintaanAloitusAika = false;
@@ -56,10 +59,7 @@ public class Komentotulkki {
     public void haarauta(String komento) {
 
         if (hakuKaynnissa == true) {
-            String[] osuma = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla(komento);
-            //Merkinta merkinta = tika.getMerkinnanKasittelija().luoMerkintaHaunTuloksesta(osuma);
-            tulostaja.tulostaHaunOsumat(osuma);
-            //tulostaja.listaaKonsoliin(merkinta.toString());
+            komentologiikka.haku(komento);
             hakuKaynnissa = false;
             return;
         }
@@ -109,36 +109,7 @@ public class Komentotulkki {
 
         if (merkintaanSelostus == true) {
             muistettavaString += komento;
-            tulostaja.kerroLisayksesta();
-            tulostaja.listaaKonsoliin(muistettavaString);
-
-            try {
-                Merkinta uusiMerkinta = tika.getMerkinnanKasittelija().muutaKayttajanAntamaMerkintaTietokannanMerkinnaksi(muistettavaString);
-                String paivaysMuistettavaStringista = tika.getDekooderi().dekoodaa(muistettavaString, '!')[0];
-
-                boolean kannassaOnMerkintaSamallaPaivalla = tika.kannassaOnMerkintaPaivalla(paivaysMuistettavaStringista);
-
-                if (kannassaOnMerkintaSamallaPaivalla) {
-                    String[] vanhaMerkintaUudenPaivallaTauluna = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla(paivaysMuistettavaStringista);
-
-                    Merkinta samallaPaivallaValmisMerkinta = tika.getMerkinnanKasittelija()
-                            .luoMerkintaHaunTuloksesta(vanhaMerkintaUudenPaivallaTauluna);
-                    
-                    //+2 sillä 1 päiväykselle ja 1 viimeiselle rivinvaihdolle.
-                    int vanhanMerkinnanPituus = samallaPaivallaValmisMerkinta.getTapahtumienMaara() + 2; 
-                    int vanhanMerkinnanPaikkaIndeksi = tika.haeKannastaMerkinnanPaivayksenPaikkaPaivayksella(paivaysMuistettavaStringista);
-                    
-                    tika.getMerkinnanKasittelija().yhdista(uusiMerkinta, samallaPaivallaValmisMerkinta);
-                    
-                    tika.poistaVanhaMerkintaJaLisaaUusiYhdistettyMerkintaJaKirjaaMuutosTietokantaan(vanhanMerkinnanPaikkaIndeksi, vanhanMerkinnanPituus, uusiMerkinta);
-
-                } else {
-                    tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun(uusiMerkinta.toString(), true);
-                }
-
-            } catch (IOException ex) {
-                //mitä tähän tulisi lisätä?
-            }
+            komentologiikka.luodaanMerkinta(muistettavaString);            
 
             merkintaanSelostus = false;
             muistettavaString = "";
@@ -202,16 +173,13 @@ public class Komentotulkki {
         }
 
         if (komento.equals("merk")) {
-            merk();
+            this.komentologiikka.merkinnanAloitus();
+            this.merkintaanPaiva = true;
             return;
         }
 
         if (komento.equals("nollaa")) {
-            try {
-                tika.nollaaTiedosto();
-            } catch (IOException ex) {
-                //
-            }
+            this.komentologiikka.nollaaTiedosto();
             tulostaja.ilmoitaNollaamisesta();
             return;
         }
@@ -223,13 +191,6 @@ public class Komentotulkki {
         }
 
         tulostaja.tulostaVirhe();
-    }
-
-    private void merk() {
-        tulostaja.pyydaPaivaa();
-        String paiva = tulostaja.getAjan().annaTamaPaiva();
-        tulostaja.getKali().getKonsoli().kirjoitaKomentoriville(paiva);
-        this.merkintaanPaiva = true;
     }
 
     public void otaKomento() {
@@ -246,9 +207,9 @@ public class Komentotulkki {
         merkintaanSelostus = false;
         hakuKaynnissa = false;
         poistetaanMerkintaa = false;
-        
+
         this.tulostaja.tulostaKeskeytettiin();
-        
+
         this.konsoli.kirjoitaKomentoriville("");
     }
 }

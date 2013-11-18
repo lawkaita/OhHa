@@ -9,6 +9,8 @@ import java.text.FieldPosition;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import sovelluslogiikka.Dekooderi;
 
@@ -46,6 +48,8 @@ public class MerkinnanKasittelija {
         for (Tapahtuma t : toka.getTapahtumat()) {
             eka.lisaaTapahtuma(t);
         }
+        
+        Collections.sort(eka.getTapahtumat());
     }
 
     public Paivays luoPaivays(String paivamaara) {
