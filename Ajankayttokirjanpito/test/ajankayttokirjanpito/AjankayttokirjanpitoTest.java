@@ -141,7 +141,7 @@ public class AjankayttokirjanpitoTest {
     @Test
     public void haeKomentoTulostaaEiOsumiaViestinKunTietokantaEiOleTyhjaMuttaHakusanallaEiLoydyMitaan() {
         try {
-            tika.kirjoitaTietokantaanLisaten("lisataanMeluaMuistiin", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("lisataanMeluaMuistiin", true);
             kali.getKonsoli().kirjoitaKomentoriville("hae");
             kotu.otaKomento();
             kali.getKonsoli().kirjoitaKomentoriville("mutaxoxoxo");

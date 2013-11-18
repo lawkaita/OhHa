@@ -61,13 +61,15 @@ public class Tiedostonkasittelija {
 
     }
 
-    public void kirjoitaTietokantaanLisaten(String lisattavat, boolean kirjoitetaanLisaten) throws IOException {
+    public void kirjoitaTietokantaanLisatenRivinvaihtoLoppuun(String lisattava, boolean kirjoitetaanLisaten) throws IOException {
         FileWriter kirjoittaja = new FileWriter(tietokanta, kirjoitetaanLisaten);
+        
+        //kirjoittaja.write(lisattava); //kirjoittaja ei enää huolehdi rivinvaihdosta
 
         if (kirjoitetaanLisaten == true) {
-            kirjoittaja.write(lisattavat + "\r\n");
+            kirjoittaja.write(lisattava + "\r\n"); //tämä voi aiheuttaa ylimääräisiä rivinvaihtoja kun käsitellään merkintöjä
         } else {
-            kirjoittaja.write(lisattavat);
+            kirjoittaja.write(lisattava);
         }
         kirjoittaja.close();
     }
@@ -125,7 +127,7 @@ public class Tiedostonkasittelija {
 
     public void nollaaTiedosto() throws IOException {
         this.suljeLukija();
-        kirjoitaTietokantaanLisaten("", false);
+        kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("", false);
         alustaTietokannanLukija();
     }
 
@@ -211,7 +213,7 @@ public class Tiedostonkasittelija {
 
     public void kirjoitaKannanYli(ArrayList<String> tekstitaulu) {
         try {
-            kirjoitaTietokantaanLisaten(kirjoitaKantaTekstitauluStringiksiRivittaen(tekstitaulu), false);
+            kirjoitaTietokantaanLisatenRivinvaihtoLoppuun(kirjoitaKantaTekstitauluStringiksiRivittaen(tekstitaulu), false);
         } catch (IOException ex) {
             //
         }
@@ -223,7 +225,7 @@ public class Tiedostonkasittelija {
         String tekstitauluStringina = kirjoitaKantaTekstitauluStringiksiRivittaen(tekstitaulu);
 
         try {
-            kirjoitaTietokantaanLisaten(tekstitauluStringina, false);
+            kirjoitaTietokantaanLisatenRivinvaihtoLoppuun(tekstitauluStringina, false);
         } catch (IOException ex) {
             //
         }

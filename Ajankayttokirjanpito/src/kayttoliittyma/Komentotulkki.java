@@ -130,7 +130,7 @@ public class Komentotulkki {
                     tika.poistaVanhaMerkintaJaLisaaUusiYhdistettyMerkintaJaKirjaaMuutosTietokantaan(vanhanMerkinnanPaikkaIndeksi, vanhanMerkinnanPituus, uusiMerkinta);
 
                 } else {
-                    tika.kirjoitaTietokantaanLisaten(uusiMerkinta.toString(), true);
+                    tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun(uusiMerkinta.toString(), true);
                 }
 
             } catch (IOException ex) {

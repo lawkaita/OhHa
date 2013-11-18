@@ -41,19 +41,14 @@ public class TiedostonkasittelijaUusiMerkintaTest {
         Merkinta merkinta = new Merkinta(new Paivays(1, 1, 1990), new Tapahtuma(new Kellonaika(2, 2), new Kellonaika(4, 8), "lisattyMerkinta"));
 
         try {
-            tika.kirjoitaTietokantaanLisaten(vanhaMerkinta.toString(), true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun(vanhaMerkinta.toString(), true);
             tika.getMerkinnanKasittelija().yhdista(merkinta, vanhaMerkinta);            
-            int paikkaindeksi = tika.haeKannastaMerkinnanPaivayksenPaikkaPaivayksella("01.01.1990"); //TEE JOTAIN NOLILLE!
+            int paikkaindeksi = tika.haeKannastaMerkinnanPaivayksenPaikkaPaivayksella("01.01.1990"); //TEE JOTAIN NOLLILLE!
             System.out.println(paikkaindeksi);
             tika.poistaVanhaMerkintaJaLisaaUusiYhdistettyMerkintaJaKirjaaMuutosTietokantaan(paikkaindeksi, 2, merkinta);
         } catch (IOException ex) {
             assertEquals(true, false);
         }
-
-
-
-
-
     }
 
     @After

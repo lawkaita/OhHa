@@ -72,7 +72,7 @@ public class AjankayttokirjanitoTiedostonTulostusTest {
     @Test
     public void tulostaKomentoEiTulostaEimerkintojaViestiaKunTietokantaEiOleTyhja() {
         try {
-            tika.kirjoitaTietokantaanLisaten("lisataanMeluaMuistiin", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("lisataanMeluaMuistiin", true);
             kali.getKonsoli().kirjoitaKomentoriville("tulosta");
             kotu.otaKomento();
 

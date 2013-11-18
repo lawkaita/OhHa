@@ -28,7 +28,7 @@ public class TiedostonkasittelijaPoistoTest {
     public void setUp() {
         this.tika = new Tiedostonkasittelija(new Dekooderi());
         try {
-            tika.kirjoitaTietokantaanLisaten("\nTiedostonkasittelijaPoistoTesti\n", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("\nTiedostonkasittelijaPoistoTesti\n", true);
         } catch (IOException ex) {
             System.out.println("TiedostonkasittelijaTestIOException");
         }
@@ -38,9 +38,9 @@ public class TiedostonkasittelijaPoistoTest {
     @Test
     public void poistoMetodiJalkeenTietokantaTiedostossaOnYksiRiviVahemman() {
         try {
-            tika.kirjoitaTietokantaanLisaten("eka!", true);
-            tika.kirjoitaTietokantaanLisaten("poistaminut", true);
-            tika.kirjoitaTietokantaanLisaten("alapoistaminua", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("eka!", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("poistaminut", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("alapoistaminua", true);
             
             ArrayList<String> tietokantaTauluna = tika.getTietokantaTekstiTauluna();
             int tietokannanAlkuperainenKokoRiveina = tietokantaTauluna.size();            
@@ -60,9 +60,9 @@ public class TiedostonkasittelijaPoistoTest {
     @Test
     public void poistoMetodiPoistaaOikeanRivin() {
         try {
-            tika.kirjoitaTietokantaanLisaten("eka!", true);
-            tika.kirjoitaTietokantaanLisaten("poistaminut", true);
-            tika.kirjoitaTietokantaanLisaten("alapoistaminua", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("eka!", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("poistaminut", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("alapoistaminua", true);
             
             ArrayList<String> tietokantaTauluna = tika.getTietokantaTekstiTauluna();
             int tietokannanAlkuperainenKokoRiveina = tietokantaTauluna.size();            
@@ -83,13 +83,13 @@ public class TiedostonkasittelijaPoistoTest {
     public void poistoKomentoHahmottaaJaPoistaaKokonaisenMerkinnan() {
         try {
             tika.nollaaTiedosto();
-            tika.kirjoitaTietokantaanLisaten("eka!", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("eka!", true);
             
-            tika.kirjoitaTietokantaanLisaten("7.7.1777", true);
-            tika.kirjoitaTietokantaanLisaten("    16.00-21.00: poistaMinut1", true);
-            tika.kirjoitaTietokantaanLisaten("    21.30-22.30: poistaMinut2", true);
-            tika.kirjoitaTietokantaanLisaten("", true);
-            tika.kirjoitaTietokantaanLisaten("alapoistaminua", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("7.7.1777", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("    16.00-21.00: poistaMinut1", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("    21.30-22.30: poistaMinut2", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("alapoistaminua", true);
             
             ArrayList<String> tekstiTaulu = tika.getTietokantaTekstiTauluna();
             

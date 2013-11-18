@@ -41,8 +41,12 @@ public class Merkinta implements Comparable<Merkinta> {
         for (Tapahtuma t : tapahtumat) {
             palautettava += t.toString() + "\r\n";
         }
-
-        palautettava += "\r\n";
+        
+        //palautettava = palautettava.substring(0, palautettava.length() -2);
+        //otetaan ylimääräinen \r\n lopusta pois
+        
+        //viimeinen rivinvaihto tulee viimeisen tapahtuman lisäyksessä.
+        //palautettava += "\r\n"; //viimeinen rivinvaihto
         return palautettava;
     }
 

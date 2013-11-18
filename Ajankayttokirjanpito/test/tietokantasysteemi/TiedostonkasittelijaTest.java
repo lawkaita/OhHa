@@ -28,7 +28,7 @@ public class TiedostonkasittelijaTest {
     public void setUp() {
         this.tika = new Tiedostonkasittelija(new Dekooderi());
         try {
-            tika.kirjoitaTietokantaanLisaten("\nTestimerkintöjä\n", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("\nTestimerkintöjä\n", true);
         } catch (IOException ex) {
             System.out.println("TiedostonkasittelijaTestIOException");
         }
@@ -62,7 +62,7 @@ public class TiedostonkasittelijaTest {
     @Test
     public void kirjoitaTietokantaanLisatenEiAiheutaIOExceptionia() {
         try {
-            tika.kirjoitaTietokantaanLisaten("alustaTietokantaTestiTeksti\r\n", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("alustaTietokantaTestiTeksti\r\n", true);
         } catch (IOException ex) {
             System.out.println("IOException");
             assertEquals(true, false);
@@ -84,7 +84,7 @@ public class TiedostonkasittelijaTest {
     @Test
     public void tiedostonKasittelijaPystyyKirjoittamaanTiedostoonJaLukemaanSita() {
         try {
-            tika.kirjoitaTietokantaanLisaten("testiteksti", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("testiteksti", true);
             tika.alustaTietokannanLukija();
 
             String vikaRivi = "";
@@ -121,7 +121,7 @@ public class TiedostonkasittelijaTest {
     @Test
     public void tiedostonKasittelijaOsaaSanoaEttaMerkintaJokaOnKannassaOnKannassa() {
         try {
-            tika.kirjoitaTietokantaanLisaten("haeMinut", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("haeMinut", true);
             boolean onKannassa = tika.kannassaOnMerkintaPaivalla("haeMinut");
             
             assertEquals(true, onKannassa);

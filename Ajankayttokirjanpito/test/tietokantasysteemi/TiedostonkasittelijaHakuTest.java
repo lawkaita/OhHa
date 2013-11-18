@@ -27,7 +27,7 @@ public class TiedostonkasittelijaHakuTest {
     public void setUp() {
         this.tika = new Tiedostonkasittelija(new Dekooderi());
         try {
-            tika.kirjoitaTietokantaanLisaten("\nTiedostonkasittelijaHakuTesti\n", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("\nTiedostonkasittelijaHakuTesti\n", true);
         } catch (IOException ex) {
             System.out.println("TiedostonkasittelijaTestIOException");
         }
@@ -36,9 +36,9 @@ public class TiedostonkasittelijaHakuTest {
     @Test
     public void tiedostonKasittelijaEiPalautaNullTauluaKunHaunOsumaOnTietokannassa() {
         try {
-            tika.kirjoitaTietokantaanLisaten("1.1.1990", true);
-            tika.kirjoitaTietokantaanLisaten("    02.00-03.00: nulltest", true);
-            tika.kirjoitaTietokantaanLisaten("\n", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("1.1.1990", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("    02.00-03.00: nulltest", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("\n", true);
 
             String[] merkintaTaulu = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla("1.1.1990");
 
@@ -65,9 +65,9 @@ public class TiedostonkasittelijaHakuTest {
     @Test
     public void tiedostonKasittelijaLoytaaTiedostostaSenPaivanMikaSinneJuuriKirjoitettiin() {
         try {
-            tika.kirjoitaTietokantaanLisaten("2.3.4567", true);
-            tika.kirjoitaTietokantaanLisaten("    00.01-00.03: juuri-kirjoitettu-testiteksti", true);
-            tika.kirjoitaTietokantaanLisaten("\n", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("2.3.4567", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("    00.01-00.03: juuri-kirjoitettu-testiteksti", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("\n", true);
 
             String[] osumat = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla("2.3.4567");
 
@@ -84,9 +84,9 @@ public class TiedostonkasittelijaHakuTest {
     @Test
     public void tiedostonKasittelijaLoytaaTiedostostaSenSatunnaisenTekstinMikaSinneKirjoitettiin() {
         try {
-            tika.kirjoitaTietokantaanLisaten("abcTesti", true);
-            tika.kirjoitaTietokantaanLisaten("bbcRadiokanava", true);
-            tika.kirjoitaTietokantaanLisaten("\n", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("abcTesti", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("bbcRadiokanava", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("\n", true);
 
             String[] osumat = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla("abcTesti");
 
@@ -105,12 +105,12 @@ public class TiedostonkasittelijaHakuTest {
         try {
             //Täällä, onko "1.1.2000" jälkeen \n vai \r\n vaikuttaa windowsissa, 
             //tuleeko rivinvaihtoa.
-            tika.kirjoitaTietokantaanLisaten("1.1.2000", true);
-            tika.kirjoitaTietokantaanLisaten("    00.00-01.00: testitekstientesti", true);
-            tika.kirjoitaTietokantaanLisaten("\n", true);
-            tika.kirjoitaTietokantaanLisaten("1.2.2001", true);
-            tika.kirjoitaTietokantaanLisaten("    01.00-01.30: testitekstienteksti", true);
-            tika.kirjoitaTietokantaanLisaten("\n", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("1.1.2000", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("    00.00-01.00: testitekstientesti", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("\n", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("1.2.2001", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("    01.00-01.30: testitekstienteksti", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("\n", true);
 
             String[] osumat = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla("1.1.2000");
             String odotettu = "    00.00-01.00: testitekstientesti";
@@ -126,9 +126,9 @@ public class TiedostonkasittelijaHakuTest {
     @Test
     public void pystyyHahmottamaanKokonaisenHaettavanMerkinnanJaAntamaanSen() {
         try {
-            tika.kirjoitaTietokantaanLisaten("1.1.1666", true);
-            tika.kirjoitaTietokantaanLisaten("    16.00-21.00: merkinta1", true);
-            tika.kirjoitaTietokantaanLisaten("    21.30-22.30: merkinta2", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("1.1.1666", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("    16.00-21.00: merkinta1", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("    21.30-22.30: merkinta2", true);
             
             String[] osuma = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla("1.1.1666");
             
