@@ -30,8 +30,8 @@ public class Ajankayttokirjanpito {
         Kayttoliittyma kali = new Kayttoliittyma(konsoli, null);            
         Dekooderi dekooderi = new  Dekooderi();
         Tiedostonkasittelija tika = new Tiedostonkasittelija(dekooderi);
-        Tulostaja tulostaja = new Tulostaja(kali, tika, dekooderi);
-        Komentotulkki kotu = new Komentotulkki(tulostaja, tika, konsoli);
+        Tulostaja tulostaja = new Tulostaja(konsoli, tika, dekooderi);
+        Komentotulkki kotu = new Komentotulkki(tulostaja, tika, konsoli, kali);
         
         kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));
         

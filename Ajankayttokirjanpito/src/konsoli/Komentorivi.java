@@ -12,7 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
- *
+ * Konsolin osa, jossa on varsinainen komentorivi-rivi, sekä sen paikkaa osoittava
+ * komentorivimerkki. Merkki voi olla sopivan mittainen merkkijono. Tässä kuitenkin merkin 'paikka' eli
+ * JTextField komentoriviMerkki annetaan luokassa luodulle kursori-oliolle, joka osaa sitten pyöriä tässä paikassa.
  * @author Envy 6-1010
  */
 public class Komentorivi extends JPanel {

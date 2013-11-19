@@ -12,7 +12,7 @@ import tietokantasysteemi.Merkinta;
 import tietokantasysteemi.Tiedostonkasittelija;
 
 /**
- *
+ * Sisältää metodeinaan komentokokonaisuuksia, joita komentotulkki kutsuu käskystä.
  * @author Envy 6-1010
  */
 public class KomentoLogiikka {
@@ -34,7 +34,7 @@ public class KomentoLogiikka {
     public void merkinnanAloitus() {
         tulostaja.pyydaPaivaa();
         String paiva = tulostaja.getAjan().annaTamaPaiva();
-        tulostaja.getKali().getKonsoli().kirjoitaKomentoriville(paiva);
+        konsoli.kirjoitaKomentoriville(paiva);
     }
 
     public void nollaaTiedosto() {

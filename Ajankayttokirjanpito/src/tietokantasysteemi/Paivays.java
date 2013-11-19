@@ -5,7 +5,7 @@
 package tietokantasysteemi;
 
 /**
- *
+ * Ohjelmassa käytettävä päiväyksen formaatti.
  * @author lawkaita
  */
 public class Paivays implements Comparable<Paivays>{

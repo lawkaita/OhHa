@@ -15,7 +15,7 @@ import java.util.Date;
 import sovelluslogiikka.Dekooderi;
 
 /**
- *
+ * Huolehtii Merkintä-olioiden tarkemmasta käsittelystä.
  * @author Envy 6-1010
  */
 public class MerkinnanKasittelija {

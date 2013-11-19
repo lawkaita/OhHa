@@ -10,7 +10,7 @@ import java.awt.Font;
 import javax.swing.JTextArea;
 
 /**
- *
+ * Konsolin osa, johon kirjoitetaan käyttäjän ja ohjelman dialogi.
  * @author Envy 6-1010
  */
 public class Tulostealue extends JTextArea {

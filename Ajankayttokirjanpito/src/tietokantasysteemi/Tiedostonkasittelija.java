@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import sovelluslogiikka.Dekooderi;
 
 /**
- *
+ * Huolehtii ohjelman tietokanta-tiedoston lukemisesta ja muusta käsittelystä.
  * @author Envy 6-1010
  */
 public class Tiedostonkasittelija {

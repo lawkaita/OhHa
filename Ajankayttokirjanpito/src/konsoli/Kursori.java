@@ -13,8 +13,9 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 
 /**
- *
- * @author Envy 6-1010
+ * Kursori näyttää konsolissa komentorivi-rivin paikan. 
+ * Kursori on animoitu \|/- -merkeillä, joita luetaan tedostosta "kursori.txt".
+ * @author lawkaita
  */
 public class Kursori extends Timer implements ActionListener{
 

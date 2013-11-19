@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- *
+ * Antaa tämän hetken erimuotoisina String-oliona.
  * @author lawkaita
  */
 public class AjanAntaja {

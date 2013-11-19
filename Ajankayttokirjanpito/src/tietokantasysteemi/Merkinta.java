@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- *
+ * Ohjelmassa käytettävän merkinnän formaatti. Merkintä-olio sisältää aina
+ * päivän, jona muistiin merkittävä tapahtuma tapahtui, sekä itse kaikki sinä päivänä tapahtuneet tapahtumat
+ * Tapahtuma-olioina.
  * @author lawkaita
  */
 public class Merkinta implements Comparable<Merkinta> {

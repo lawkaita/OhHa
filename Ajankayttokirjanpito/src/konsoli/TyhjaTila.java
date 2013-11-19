@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 /**
- *
+ * Konsolin kosmeettinen kokoaan muuttava alue.
  * @author Envy 6-1010
  */
 public class TyhjaTila extends JPanel {

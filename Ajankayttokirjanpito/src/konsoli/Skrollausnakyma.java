@@ -17,7 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 /**
- *
+ * Konsolin osa, jossa voi selata käyttäjän ja ohjelman dialogia.
  * @author lawkaita
  */
 public class Skrollausnakyma {

@@ -40,8 +40,8 @@ public class AjankayttokirjanitoTiedostonTulostusTest {
         kali = new Kayttoliittyma(konsoli, null);
         dekooderi = new Dekooderi();
         tika = new Tiedostonkasittelija(dekooderi);
-        tulostaja = new Tulostaja(kali, tika, dekooderi);
-        kotu = new Komentotulkki(tulostaja, tika, konsoli);
+        tulostaja = new Tulostaja(konsoli, tika, dekooderi);
+        kotu = new Komentotulkki(tulostaja, tika, konsoli, kali);
 
         kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));
 

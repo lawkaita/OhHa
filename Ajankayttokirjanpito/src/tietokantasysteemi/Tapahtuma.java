@@ -5,7 +5,8 @@
 package tietokantasysteemi;
 
 /**
- *
+ * Ohjelmassa käytettävän tapahtuman formaati. Tapahtuma sisältää aina aloitusajan, lopetusajan, ja lyhyen
+ * selosteen siitä mitä tehtiin.
  * @author lawkaita
  */
 public class Tapahtuma implements Comparable<Tapahtuma>{

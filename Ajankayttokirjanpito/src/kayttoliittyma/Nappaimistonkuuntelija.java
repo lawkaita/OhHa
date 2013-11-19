@@ -9,7 +9,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
- *
+ * Nappaimistokuuntelija seuraa nappaimiston tapahtumia. 
+ * Enter-näppäimellä annetaan konsoliin kirjoitettu komento komentotulkille ja 
+ * esc-näppäimellä poistutaan käynnissäolevasta komentokontekstista. 
+ * Nappaimistokuuntelija myös valvoo, ettei konsoliin ole kirjoitettu 
+ * liian pitkää komentoa.
  * @author Envy 6-1010
  */
 public class Nappaimistonkuuntelija implements KeyListener{

@@ -10,7 +10,7 @@ import java.awt.Font;
 import javax.swing.JTextField;
 
 /**
- *
+ * Se alue, johon käyttäjä kirjoittaa komennot.
  * @author Envy 6-1010
  */
 public class VarsinainenKomentoRivi extends JTextField{

@@ -4,17 +4,17 @@
  */
 package kayttoliittyma;
 
-import sovelluslogiikka.Dekooderi;
 import tietokantasysteemi.Tiedostonkasittelija;
-import java.io.IOException;
 import konsoli.Konsoli;
 import sovelluslogiikka.Ajantestaaja;
 import sovelluslogiikka.KomentoLogiikka;
-import tietokantasysteemi.MerkinnanKasittelija;
-import tietokantasysteemi.Merkinta;
 
 /**
- *
+ * Komentotulkki ottaa vastaan komentoja String-muodossa. 
+ * Tulkki tulkitsee komennon ja kutsuu komennon suorittamiseen tarvittavia 
+ * metodeja ohjelman tulostajalta, ajantestaajalta, tiedostonkasittelijalta,
+ * konsolilta ja komentologiikalta. Lisäksi Komentotulkki seuraa, missä
+ * kontekstissa seuraava komento annetaan. 
  * @author Envy 6-1010
  */
 public class Komentotulkki {
@@ -24,6 +24,7 @@ public class Komentotulkki {
     private Tiedostonkasittelija tika;
     private Konsoli konsoli;
     private KomentoLogiikka komentologiikka;
+    private Kayttoliittyma kali;
     public boolean merkintaanPaiva;
     public boolean merkintaanAloitusAika;
     public boolean merkintaanLopetusAika;
@@ -33,12 +34,13 @@ public class Komentotulkki {
     private char dekoodausMerkki;
     public String muistettavaString;
 
-    public Komentotulkki(Tulostaja tulostaja, Tiedostonkasittelija tika, Konsoli konsoli) {
+    public Komentotulkki(Tulostaja tulostaja, Tiedostonkasittelija tika, Konsoli konsoli, Kayttoliittyma kali) {
         this.tulostaja = tulostaja;
         this.ajantestaaja = new Ajantestaaja();
         this.tika = tika;
         this.konsoli = konsoli;
         this.komentologiikka = new KomentoLogiikka(this, this.tulostaja, this.ajantestaaja, this.tika, this.konsoli);
+        this.kali = kali;
 
         merkintaanPaiva = false;
         merkintaanAloitusAika = false;
@@ -68,12 +70,12 @@ public class Komentotulkki {
             if (ajantestaaja.onPaiva(komento)) {
                 muistettavaString = komento + dekoodausMerkki;
                 tulostaja.pyydaAloitusAikaa();
-                tulostaja.getKali().getKonsoli().kirjoitaKomentoriville("hh.mm");
+                konsoli.kirjoitaKomentoriville("hh.mm");
                 merkintaanAloitusAika = true;
             } else {
                 tulostaja.tulostaEiOlePaiva();
                 String paiva = tulostaja.getAjan().annaTamaPaiva();
-                tulostaja.getKali().getKonsoli().kirjoitaKomentoriville(paiva);
+                konsoli.kirjoitaKomentoriville(paiva);
                 return;
             }
             merkintaanPaiva = false;
@@ -84,12 +86,12 @@ public class Komentotulkki {
             if (ajantestaaja.onAika(komento)) {
                 muistettavaString += komento;
                 tulostaja.pyydaLopetusAikaa();
-                tulostaja.getKali().getKonsoli().kirjoitaKomentoriville(tulostaja.getAjan().annaTamaAika());
+                konsoli.kirjoitaKomentoriville(tulostaja.getAjan().annaTamaAika());
                 merkintaanLopetusAika = true;
 
             } else {
                 tulostaja.tulostaKonsoliin("Ei ole aika");
-                tulostaja.getKali().getKonsoli().kirjoitaKomentoriville("hh.mm");
+                konsoli.kirjoitaKomentoriville("hh.mm");
                 return;
             }
 
@@ -138,7 +140,7 @@ public class Komentotulkki {
         }
 
         if (komento.equals("exit")) {
-            this.tulostaja.getKali().tapa();
+            this.kali.tapa();
         }
 
         if (komento.equals("nyt")) {

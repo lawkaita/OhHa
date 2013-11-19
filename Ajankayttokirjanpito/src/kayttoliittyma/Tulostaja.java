@@ -8,32 +8,27 @@ import sovelluslogiikka.AjanAntaja;
 import tietokantasysteemi.Tiedostonkasittelija;
 import sovelluslogiikka.Dekooderi;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import kayttoliittyma.Kayttoliittyma;
+import konsoli.Konsoli;
 
 /**
- *
+ * Tulostajan vastuulla on tulostaa ohjelman vastauksia tai 
+ * tietokannan hakutuloksia käyttäjälle.
  * @author lawkaita
  */
 public class Tulostaja {
 
-    private Kayttoliittyma kali;
+    private Konsoli konsoli;
     private Tiedostonkasittelija tika;
     private AjanAntaja ajan;
     private Dekooderi dekooderi;
 
-    public Tulostaja(Kayttoliittyma kali, Tiedostonkasittelija tika, Dekooderi dekooderi) {
+    public Tulostaja(Konsoli konsoli, Tiedostonkasittelija tika, Dekooderi dekooderi) {
         //laitetaan ohjelmalle suoraan konsoli.
-        this.kali = kali;
+        this.konsoli = konsoli;
         this.tika = tika;
         this.ajan = new AjanAntaja();
         this.dekooderi = dekooderi;
-    }
-
-    public Kayttoliittyma getKali() {
-        return this.kali;
     }
 
     public void sanoMikaAikaNytOn() {
@@ -76,7 +71,7 @@ public class Tulostaja {
     }
 
     public void tulostaKonsoliin(String s) {
-        kali.getKonsoli().tulostaViesti(s);
+        konsoli.tulostaViesti(s);
     }
 
     public void pyydaPaivaa() {
@@ -99,7 +94,7 @@ public class Tulostaja {
         String[] tulostettava = dekooderi.dekoodaa(s, "!".charAt(0));
 
         for (String z : tulostettava) {
-            kali.getKonsoli().tulostaViesti(" " + z);
+            konsoli.tulostaViesti(" " + z);
         }
     }
 

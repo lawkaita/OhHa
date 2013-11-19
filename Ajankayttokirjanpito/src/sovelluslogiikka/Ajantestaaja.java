@@ -5,7 +5,7 @@
 package sovelluslogiikka;
 
 /**
- *
+ * Testaa onko annettu aika edes ohjelmassa käytettävän merkinnän muotoinen.
  * @author Envy 6-1010
  */
 public class Ajantestaaja {

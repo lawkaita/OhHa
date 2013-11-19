@@ -13,7 +13,9 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 /**
- *
+ * Ohjelman käyttöliittymä joka koostuu Konsoli-oliosta 
+ * ja Nappaimistokuuntelija-oliosta.
+ * Konsoli-olio on vain ohjelman tarkoitukseen koottu JPanel.
  * @author Envy 6-1010
  */
 public class Kayttoliittyma implements Runnable{

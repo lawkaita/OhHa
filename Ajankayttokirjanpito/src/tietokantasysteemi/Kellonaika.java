@@ -5,7 +5,7 @@
 package tietokantasysteemi;
 
 /**
- *
+ * Ohjelmassa käytettävä kellonajan muoto.
  * @author lawkaita
  */
 public class Kellonaika implements Comparable<Kellonaika> {

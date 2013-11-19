@@ -18,7 +18,14 @@ import kayttoliittyma.Komentotulkki;
 import kayttoliittyma.Paivitettava;
 
 /**
- *
+ * Ohjelman graafisen käyttöliittymän pääkomponentti.
+ * Koostuu monesta eri Swing-komponentista, joilla yritetään saada ohjelma 
+ * muistuttamaan tavallista terminaalia. Tulostealueella näkyy ohjelman viestit,
+ * Komentorivi on alue, jonka VarsinainenKomentoRivi-olioon komennot kirjoitetaan, ja TyhjaTila on vain
+ * kosmeettinen kokoaan muuttava alue, jotta Konsoli muistuttaisi oikeaa konsolia.
+ * Skrollausnäkymä sisältää Tulostealueen, jota voi selata ylös ja alas page-up ja -down näppäimillä. 
+ * DimensioLuku1 on luku, jolla säädetään kirjasinkokoa. Swing-komponenttien fontti vaihtelee eri 
+ * esimerkiksi ubuntun ja windowssin kanssa.
  * @author Envy 6-1010
  */
 public class Konsoli extends JPanel implements Paivitettava {
