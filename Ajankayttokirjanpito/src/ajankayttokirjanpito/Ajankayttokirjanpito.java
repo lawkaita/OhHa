@@ -24,7 +24,7 @@ public class Ajankayttokirjanpito {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        boolean ubuntulla = true;
+        boolean ubuntulla = false;
         
         Konsoli konsoli = new Konsoli(ubuntulla);        
         Kayttoliittyma kali = new Kayttoliittyma(konsoli, null);            
