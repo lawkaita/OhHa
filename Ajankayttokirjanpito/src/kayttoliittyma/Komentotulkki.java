@@ -31,6 +31,10 @@ public class Komentotulkki {
     public boolean merkintaanSelostus;
     public boolean hakuKaynnissa;
     public boolean poistetaanMerkintaa;
+    
+    /**
+     * merkki, joka annettaan dekooderille erottamaan Stringin osat toisistaan.
+     */
     private char dekoodausMerkki;
     public String muistettavaString;
 
@@ -58,6 +62,12 @@ public class Komentotulkki {
         haarauta(komento);
     }
 
+    /**
+     * Metodi kuljettaa komennon oikeaan kontekstiisna.
+     * @param komento käyttäjän antama komento
+     * 
+     * 
+     */
     public void haarauta(String komento) {
 
         if (hakuKaynnissa == true) {

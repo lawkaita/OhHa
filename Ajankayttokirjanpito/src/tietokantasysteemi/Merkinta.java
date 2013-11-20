@@ -28,7 +28,15 @@ public class Merkinta implements Comparable<Merkinta> {
         this.paivays = paivays;
         this.tapahtumat = tapahtumat;
     }
-
+    
+    /**
+     * Vertaa kahta eri paivaa keskenaan ja palauttaa arvon riippuen siitä, kumpi
+     * päivä on myöhäisempi.
+     * 
+     * @param m verrattava Merkinta
+     * 
+     * @return arvo, josta käy ilmi kumpi on myöhäisempi
+     */
     @Override
     public int compareTo(Merkinta m) {
         return this.paivays.compareTo(m.paivays);

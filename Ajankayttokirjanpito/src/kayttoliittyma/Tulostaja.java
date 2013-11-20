@@ -131,11 +131,11 @@ public class Tulostaja {
         return ajan;
     }
 
-    void tulostaMerkinnanPoistoOnnistui() {
+    public void tulostaMerkinnanPoistoOnnistui() {
         tulostaKonsoliin("Merkinnän poisto onnistui");
     }
 
-    void tulostaKeskeytettiin() {
+    public void tulostaKeskeytettiin() {
         tulostaKonsoliin("Keskeytettiin");
     }
 }

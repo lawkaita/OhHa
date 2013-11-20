@@ -19,6 +19,11 @@ public class Paivays implements Comparable<Paivays>{
         this.vuosi = vuosi;
     }
 
+    /**
+     * 
+     * @param p paivays jota verrataan kutsuvaan paivaykseen
+     * @return merkki, joka kertoo kumpi paivays on 'suurempi' eli tapahtuu myöhemmin.
+     */
     @Override
     public int compareTo(Paivays p) {
         int vuosiEro = this.vuosi - p.vuosi;

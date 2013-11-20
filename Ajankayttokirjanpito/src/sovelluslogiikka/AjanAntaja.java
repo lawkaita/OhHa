@@ -13,7 +13,12 @@ import java.util.Date;
  */
 public class AjanAntaja {
     //hoitaa operaatioita jotka ovat nyt sekasin komentotulkissa ja kayttoliittymassa
-
+    
+    
+    /**
+     * 
+     * @return tämä ajanhetki
+     */
     public String mikaAikaNytOn() {
         Date dNow = new Date();
         SimpleDateFormat ft =
