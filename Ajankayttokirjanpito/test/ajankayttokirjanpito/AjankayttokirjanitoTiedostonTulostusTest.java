@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.swing.SwingUtilities;
 import kayttoliittyma.Kayttoliittyma;
 import kayttoliittyma.Komentotulkki;
+import kayttoliittyma.KontekstinHaltija;
 import kayttoliittyma.Nappaimistonkuuntelija;
 import kayttoliittyma.Tulostaja;
 import konsoli.Konsoli;
@@ -19,6 +20,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import sovelluslogiikka.AjanAntaja;
 import sovelluslogiikka.Dekooderi;
+import sovelluslogiikka.KomentoLogiikka;
 import tietokantasysteemi.Tiedostonkasittelija;
 
 /**
@@ -32,6 +34,8 @@ public class AjankayttokirjanitoTiedostonTulostusTest {
     private Dekooderi dekooderi;
     private Tiedostonkasittelija tika;
     private Tulostaja tulostaja;
+    private KontekstinHaltija koha;
+    private KomentoLogiikka kolo;
     private Komentotulkki kotu;
 
     @Before
@@ -41,7 +45,9 @@ public class AjankayttokirjanitoTiedostonTulostusTest {
         dekooderi = new Dekooderi();
         tika = new Tiedostonkasittelija(dekooderi);
         tulostaja = new Tulostaja(konsoli, tika, dekooderi);
-        kotu = new Komentotulkki(tulostaja, tika, konsoli, kali);
+        koha = new KontekstinHaltija();
+        kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha);
+        kotu = new Komentotulkki(konsoli, koha, kolo);
 
         kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));
 

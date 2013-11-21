@@ -45,7 +45,11 @@ public class Tiedostonkasittelija {
     public File getTietokanta() {
         return tietokanta;
     }
-
+    
+    /**
+     * Luo tietokannasta ArrayListin käsittelyä varten.
+     * @return 
+     */
     public ArrayList<String> getTietokantaTekstiTauluna() {
         ArrayList<String> tekstitaulu = new ArrayList<String>();
 
@@ -74,8 +78,13 @@ public class Tiedostonkasittelija {
         kirjoittaja.close();
     }
 
-    //metodi ottaa kantaa siihen missa muodossa tieto on tallennettu
-    //eli tietoa on tallennettu avain sanan alle seuraavalle riville.
+    /**
+     * Hakee tietokannasta hakusanalla merkintää, jonka päiväys täsmää hakusanan kanssa.
+     * Palauttaa vain merkinnän sinänsä tauluna, eli ei sisällä merkintöjä tietokannassa 
+     * erottavaa rivinvaihtoa.
+     * @param hakusana String jolla haetaan kannasta merkinää.
+     * @return hakusanalla löydetty merkintä taulumuodossa tai muuten null.
+     */
     public String[] haeStringtaulunaTietoKannastaMerkintaPaivalla(String hakusana) {
         try {
             alustaTietokannanLukija();
@@ -135,6 +144,12 @@ public class Tiedostonkasittelija {
         return this.meka;
     }
 
+    /**
+     * metodi rakentaa sille annetusta Scannerista merkinnan taulumuodossa.
+     * @param lukija tiedostoa lukeva Scanner-olio
+     * @param osuma merkinnan rakentamiseen kaytetty String
+     * @return 
+     */
     private String[] rakennaMerkintaString(Scanner lukija, String osuma) {
         if (lukija.hasNextLine()) {
             String lukijanSeuraava = lukija.nextLine();
@@ -185,7 +200,10 @@ public class Tiedostonkasittelija {
             while (lukija.hasNextLine()) {
                 riviIndeksi++;
                 if (lukija.nextLine().equals(paiva)) {
-                    poistaKannastaRivit(riviIndeksi, haeStringtaulunaTietoKannastaMerkintaPaivalla(paiva).length);
+                    poistaKannastaRivit(riviIndeksi, 
+                            haeStringtaulunaTietoKannastaMerkintaPaivalla(paiva).length +1); 
+                                //huomioidaan se että haeStringtauluna...
+                                //ei laske mukaan merkinnät erottavaa rivinvaihtoa.
                     return riviIndeksi;
                 }
             }

@@ -8,11 +8,13 @@ import tietokantasysteemi.Tiedostonkasittelija;
 import javax.swing.SwingUtilities;
 import kayttoliittyma.Kayttoliittyma;
 import kayttoliittyma.Komentotulkki;
+import kayttoliittyma.KontekstinHaltija;
 import kayttoliittyma.Nappaimistonkuuntelija;
 import kayttoliittyma.Tulostaja;
 import konsoli.Konsoli;
 import sovelluslogiikka.Dekooderi;
 import sovelluslogiikka.AjanAntaja;
+import sovelluslogiikka.KomentoLogiikka;
 
 /**
  *
@@ -30,8 +32,10 @@ public class Ajankayttokirjanpito {
         Kayttoliittyma kali = new Kayttoliittyma(konsoli, null);            
         Dekooderi dekooderi = new  Dekooderi();
         Tiedostonkasittelija tika = new Tiedostonkasittelija(dekooderi);
+        KontekstinHaltija koha = new KontekstinHaltija();
         Tulostaja tulostaja = new Tulostaja(konsoli, tika, dekooderi);
-        Komentotulkki kotu = new Komentotulkki(tulostaja, tika, konsoli, kali);
+        KomentoLogiikka kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha);
+        Komentotulkki kotu = new Komentotulkki(konsoli, koha, kolo);
         
         kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));
         

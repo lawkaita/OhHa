@@ -1,4 +1,4 @@
-OhHa
+﻿OhHa
 ====
 
 Aihe: Ajankäyttökirjanpito.
@@ -18,8 +18,8 @@ Lisätoiminnot:
 
  -Tavoitteiden asettaminen ja niiden toteutumisen seuranta. 
 
-    * Esimerkiksi nukkumaanmenoajan keskiarvo ja hajonta
+    Esimerkiksi nukkumaanmenoajan keskiarvo ja hajonta
 
  -Ajankäyttön lisäksi muun tiedon liittäminen päiviin
 
-    *Esimerkiksi kuinka kiva kyseinen päivä oli
+    Esimerkiksi kuinka kiva kyseinen päivä oli

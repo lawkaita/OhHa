@@ -1,0 +1,52 @@
+title Merkinnän luominen
+
+Käyttäjä->+Käyttöliittymä: 'merk'
+
+Käyttöliittymä->+Komentologiikka: merkinnanAloitus()
+Komentologiikka->Käyttöliittymä: tulostaViesti('Päiväys:')
+Käyttöliittymä-->Käyttäjä: Käyttäjä näkee viestin 'Päiväys:'
+
+
+Komentologiikka->+Ajanantaja: paiva := annaTamaPaiva()
+note right of Ajanantaja
+  annaTamaPaiva palauttaa tämänhetkisen 
+  päiväyksen, esim. '11.11.2013'
+  end note
+
+Komentologiikka->Käyttöliittymä: kirjoitaKomentoriville(paiva)
+note left of Käyttöliittymä
+  ohjelma ehdottaa päivää paiva
+  end note
+
+Käyttöliittymä-->Käyttäjä: Käyttäjä näkee ehdotetun päivän
+
+Käyttäjä->Käyttöliittymä: '11.11.2013'
+Käyttöliittymä->Komentologiikka: otetaanPaiva('11.11.2013')
+
+Komentologiikka->Käyttöliittymä: tulostaKonsoliin('Aloitusaika:')
+
+Käyttäjä->Käyttöliittymä: '14.00'
+Käyttöliittymä->Komentologiikka: otetaanAloitusaika('14.00')
+
+Komentologiikka->Käyttöliittymä: tulostaKonsoliin('Lopetusaika:')
+
+Komentologiikka->Ajanantaja: lopetusaika := annaTamaAika()
+
+note right of Ajanantaja
+  palauttaa nykyisen kellonajan, esim '15.00'
+  end note
+
+Komentologiikka->Käyttöliittymä: kirjoitaKomentoriville(lopetusaika)
+
+Käyttäjä->Käyttöliittymä: '15.00'
+
+Käyttöliittymä->Komentologiikka: otetaanLopetusaika('15.00')
+
+Komentologiikka->Käyttöliittymä: tulostaKonsoliin('Seloste:')
+
+Käyttäjä->Käyttöliittymä: 'Söin näkkileipää'
+
+Käyttöliittymä->Komentologiikka: otetaanSeloste('Söin näkkileipää')
+
+Komentologiikka->+Komentologiikka: luodaanMerkinta
+Komentologiikka->Tiedostonkasittelija: kirjoitaTietokantaan(uusiMerkinta)
