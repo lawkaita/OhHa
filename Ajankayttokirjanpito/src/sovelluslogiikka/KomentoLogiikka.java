@@ -6,7 +6,6 @@ package sovelluslogiikka;
 
 import java.io.IOException;
 import kayttoliittyma.Kayttoliittyma;
-import kayttoliittyma.Komentotulkki;
 import kayttoliittyma.KontekstinHaltija;
 import kayttoliittyma.Tulostaja;
 import konsoli.Konsoli;
@@ -22,7 +21,7 @@ import tietokantasysteemi.Tiedostonkasittelija;
 public class KomentoLogiikka {
 
     private Tulostaja tulostaja;
-    private Ajantestaaja ajantestaaja;
+    private AjanTestaaja ajantestaaja;
     private AjanAntaja ajan;
     private Tiedostonkasittelija tika;
     private Konsoli konsoli;
@@ -35,13 +34,14 @@ public class KomentoLogiikka {
     private String muistettavaString;
 
     public KomentoLogiikka(Tulostaja tulostaja,
-            Tiedostonkasittelija tika, Konsoli konsoli, KontekstinHaltija koha) {
+            Tiedostonkasittelija tika, Konsoli konsoli, KontekstinHaltija koha, Kayttoliittyma kali) {
         this.tulostaja = tulostaja;
-        this.ajantestaaja = new Ajantestaaja();
-        this.ajan = new AjanAntaja();
+        this.ajantestaaja = new OmaAjanTestaaja();
+        this.ajan = new OmaAjanAntaja();
         this.tika = tika;
         this.konsoli = konsoli;
         this.koha = koha;
+        this.kali = kali;
 
         dekoodausMerkki = '!';
         muistettavaString = "";

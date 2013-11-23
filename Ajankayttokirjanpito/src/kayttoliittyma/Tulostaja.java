@@ -4,7 +4,7 @@
  */
 package kayttoliittyma;
 
-import sovelluslogiikka.AjanAntaja;
+import sovelluslogiikka.OmaAjanAntaja;
 import tietokantasysteemi.Tiedostonkasittelija;
 import sovelluslogiikka.Dekooderi;
 import java.io.FileNotFoundException;

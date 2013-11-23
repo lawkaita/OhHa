@@ -18,7 +18,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import sovelluslogiikka.AjanAntaja;
+import sovelluslogiikka.OmaAjanAntaja;
 import sovelluslogiikka.Dekooderi;
 import sovelluslogiikka.KomentoLogiikka;
 import tietokantasysteemi.Tiedostonkasittelija;
@@ -46,7 +46,7 @@ public class AjankayttokirjanitoTiedostonTulostusTest {
         tika = new Tiedostonkasittelija(dekooderi);
         tulostaja = new Tulostaja(konsoli, tika, dekooderi);
         koha = new KontekstinHaltija();
-        kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha);
+        kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali);
         kotu = new Komentotulkki(konsoli, koha, kolo);
 
         kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));
@@ -69,6 +69,7 @@ public class AjankayttokirjanitoTiedostonTulostusTest {
             System.out.println(aktuaali);
 
             assertEquals(true, tulosteOnSamaViestiKuinEimerkintoja);
+            
         } catch (IOException ex) {
             System.out.println("IOException");
         }
@@ -90,6 +91,7 @@ public class AjankayttokirjanitoTiedostonTulostusTest {
             System.out.println(aktuaali);
 
             assertEquals(true, tulosteOnEriViestiKuinEimerkintoja);
+            
         } catch (IOException ex) {
             System.out.println("IOException");
         }

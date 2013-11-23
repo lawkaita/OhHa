@@ -21,7 +21,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import sovelluslogiikka.AjanAntaja;
+import sovelluslogiikka.OmaAjanAntaja;
 import sovelluslogiikka.KomentoLogiikka;
 
 /**
@@ -47,7 +47,7 @@ public class AjankayttokirjanpitoTest {
         tika = new Tiedostonkasittelija(dekooderi);
         tulostaja = new Tulostaja(konsoli, tika, dekooderi);
         koha = new KontekstinHaltija();
-        kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha);
+        kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali);
         kotu = new Komentotulkki(konsoli, koha, kolo);
 
         kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));
@@ -63,6 +63,7 @@ public class AjankayttokirjanpitoTest {
         konsoli.kirjoitaKomentoriville("tulosta");
         kotu.otaKomento();
         
+        assertFalse(tika.getTietokannanLukija().hasNext());
     }
 
     @Test

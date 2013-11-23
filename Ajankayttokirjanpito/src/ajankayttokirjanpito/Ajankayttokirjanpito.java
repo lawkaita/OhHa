@@ -13,7 +13,7 @@ import kayttoliittyma.Nappaimistonkuuntelija;
 import kayttoliittyma.Tulostaja;
 import konsoli.Konsoli;
 import sovelluslogiikka.Dekooderi;
-import sovelluslogiikka.AjanAntaja;
+import sovelluslogiikka.OmaAjanAntaja;
 import sovelluslogiikka.KomentoLogiikka;
 
 /**
@@ -34,7 +34,7 @@ public class Ajankayttokirjanpito {
         Tiedostonkasittelija tika = new Tiedostonkasittelija(dekooderi);
         KontekstinHaltija koha = new KontekstinHaltija();
         Tulostaja tulostaja = new Tulostaja(konsoli, tika, dekooderi);
-        KomentoLogiikka kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha);
+        KomentoLogiikka kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali);
         Komentotulkki kotu = new Komentotulkki(konsoli, koha, kolo);
         
         kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));

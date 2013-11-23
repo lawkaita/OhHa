@@ -50,6 +50,11 @@ public class TiedostonkasittelijaTest {
     }
     
     @Test
+    public void tikanTiedostonKasittelijaEiOleNull() {
+        assertTrue(tika.getTietokannanLukija() != null);
+    }
+    
+    @Test
     public void alustaTietokannanLukijaEiAiheutaFileNotFoundExceptionia() {
         try {
             tika.alustaTietokannanLukija();

@@ -6,6 +6,7 @@ package sovelluslogiikka;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 /**
  *
@@ -13,21 +14,54 @@ import static org.junit.Assert.*;
  */
 public class DekooderiTest {
     
-    public DekooderiTest() {
+    private Dekooderi d;
+    
+    @Before
+    public void setUp() {
+        d = new Dekooderi();
     }
+    
        
     @Test
     public void dekooderiLajitteleeStringOlionOikein() {
         String s = "hei olen pekka";
 
-        Dekooderi d = new Dekooderi();
-
         String[] dekoodi = d.dekoodaa(s, null);
 
-        assertEquals(dekoodi[0], "hei");
-        assertEquals(dekoodi[1], "olen");
-        assertEquals(dekoodi[2], "pekka");
+        assertEquals("hei", dekoodi[0]);
+        assertEquals("olen", dekoodi[1]);
+        assertEquals("pekka", dekoodi[2]);    
     }
+    
+    @Test
+    public void dekooderiLajitteleeStringOlionOikeinKunKaytetaanValinnaistaErotusMerkkia() {
+        String s = "hei!olen!pekka!";
+        String[] dekoodi = d.dekoodaa(s, '!');
+        
+        assertEquals("hei", dekoodi[0]);
+        assertEquals("olen", dekoodi[1]);
+        assertEquals("pekka", dekoodi[2]);       
+        
+    }
+    
+    @Test
+    public void dekooderiPalauttaaYhdenAlkionTaulunKunLajiteltavassaStringissaEiOleDekoodausMerkkia() {
+        String s = "hei!olen!pekka!";
+        
+        String[] dekoodi = d.dekoodaa(s, null);
+        
+        assertEquals(1, dekoodi.length);  
+    }
+    
+    @Test
+    public void dekooderinPalauttamaYhdenAlkionTauluSisaltaaAnnetunStringin() {
+        String s = "hei!olen!pekka!";
+        
+        String[] dekoodi = d.dekoodaa(s, null);
+        
+        assertEquals("hei!olen!pekka!", dekoodi[0]);
+    }
+    
 
     
 }

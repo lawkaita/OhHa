@@ -36,7 +36,7 @@ public class TiedostonkasittelijaPoistoTest {
     }
     
     @Test
-    public void poistoMetodiJalkeenTietokantaTiedostossaOnYksiRiviVahemman() {
+    public void taulumuotoisestaTietokantaKopiostaPoistaminenVahentaaSenRivienMaaraa() {
         try {
             tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("eka!", true);
             tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("poistaminut", true);
@@ -58,7 +58,7 @@ public class TiedostonkasittelijaPoistoTest {
     }
     
     @Test
-    public void poistoMetodiPoistaaOikeanRivin() {
+    public void tauluMuotoisestaKantaKopiostaPoistaminenPoistaaOdotetunRivin() {
         try {
             tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("eka!", true);
             tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("poistaminut", true);
@@ -66,7 +66,8 @@ public class TiedostonkasittelijaPoistoTest {
             
             ArrayList<String> tietokantaTauluna = tika.getTietokantaTekstiTauluna();
             int tietokannanAlkuperainenKokoRiveina = tietokantaTauluna.size();            
-            int poistoIndeksi = tietokannanAlkuperainenKokoRiveina - 2; // -1 poistaisi viimeisen silla indeksointi alkaa nollasta.         
+            int poistoIndeksi = tietokannanAlkuperainenKokoRiveina - 2; 
+            // -1 poistaisi viimeisen alkon, sillä indeksointi alkaa nollasta.         
             
             tietokantaTauluna.remove(poistoIndeksi);
                         
@@ -78,9 +79,10 @@ public class TiedostonkasittelijaPoistoTest {
     }
     
     
-    //mahdollisesti kesken
     @Test
     public void poistoKomentoHahmottaaJaPoistaaKokonaisenMerkinnan() {
+        //Tämä testi on rikki
+        
         try {
             tika.nollaaTiedosto();
             tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("eka!", true);

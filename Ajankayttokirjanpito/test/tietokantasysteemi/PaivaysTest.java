@@ -18,12 +18,10 @@ import static org.junit.Assert.*;
  * @author lawkaita
  */
 public class PaivaysTest {
-
-    public PaivaysTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
+    
+    @Before
+    public void setUp() {
+        
     }
 
     @Test
@@ -77,10 +75,6 @@ public class PaivaysTest {
 
     @AfterClass
     public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
     }
 
     @After

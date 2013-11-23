@@ -8,9 +8,7 @@ package sovelluslogiikka;
  *
  * @author Envy 6-1010
  */
-public interface AjanAntaja {
-    String mikaAikaNytOn();
-    String annaTamaPaiva();
-    String annaTamaAika();
-   
+public interface AjanTestaaja {    
+    boolean onPaiva(String komento);
+    boolean onAika(String komento);
 }

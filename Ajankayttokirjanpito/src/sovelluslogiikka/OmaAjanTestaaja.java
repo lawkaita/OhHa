@@ -8,8 +8,9 @@ package sovelluslogiikka;
  * Testaa onko annettu aika edes ohjelmassa käytettävän merkinnän muotoinen.
  * @author Envy 6-1010
  */
-public class Ajantestaaja {
+public class OmaAjanTestaaja implements AjanTestaaja {
     
+    @Override
     public boolean onPaiva(String komento) {
         Dekooderi d = new Dekooderi();
         Character piste = ".".charAt(0);
@@ -41,6 +42,7 @@ public class Ajantestaaja {
 
     }
 
+    @Override
     public boolean onAika(String komento) {
         Dekooderi d = new Dekooderi();
         Character piste = ".".charAt(0);

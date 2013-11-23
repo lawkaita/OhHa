@@ -6,7 +6,7 @@ package kayttoliittyma;
 
 import tietokantasysteemi.Tiedostonkasittelija;
 import konsoli.Konsoli;
-import sovelluslogiikka.Ajantestaaja;
+import sovelluslogiikka.OmaAjanTestaaja;
 import sovelluslogiikka.KomentoLogiikka;
 
 /**
