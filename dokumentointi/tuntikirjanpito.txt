@@ -111,3 +111,9 @@ J‰sennetty koodia, luotu sekvenssikaavioita, luotu uusi UML-kaavio.
 
 22.11.13 13.30-15.41
 J‰sennetty koodia, kirjoitettu lis‰‰ testej‰.
+
+24.11.13 16.00-18.00
+Kirjoitettu javadokkeja, putsattu koodia.
+
+24.11.13 18.00-20.10
+Luotu lis‰‰ toiminnallisuutta.

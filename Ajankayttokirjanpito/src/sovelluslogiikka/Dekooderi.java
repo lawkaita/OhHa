@@ -42,9 +42,15 @@ public class Dekooderi {
         }
         return dekoodi;
     }
-
-    public int laskeKomentojenMaara(String komento, Character valimerkki) {
-        if (komento.isEmpty()) {
+    
+    /**
+     * Laskee eroteltavien osien määrän.
+     * @param lajiteltava lajiteltava String
+     * @param valimerkki lajittelussa käytettävä välimerkki.
+     * @return 
+     */
+    public int laskeOsienMaara(String lajiteltava, Character valimerkki) {
+        if (lajiteltava.isEmpty()) {
             return 0;
         }
 
@@ -55,11 +61,11 @@ public class Dekooderi {
         } else {
             vali = valimerkki;
         }
-        int komennonPituus = komento.length();
+        int komennonPituus = lajiteltava.length();
 
         int i = 0;
         while (i < komennonPituus) {
-            if (komento.charAt(i) == vali) {
+            if (lajiteltava.charAt(i) == vali) {
                 komentojenMaara++;
             }
             i++;
@@ -68,18 +74,30 @@ public class Dekooderi {
         return komentojenMaara + 1; //jos valeja on 2, komentoja on 3.
         //määrää kuinka pitkä integer-taulukko tulee luoda kun dekoodataan komento-stringiä komennoiksi.
     }
-
-    public String[] dekoodaa(String komento, Character valimerkki) {
-        int komentojenMaara = laskeKomentojenMaara(komento, valimerkki);
+    
+    /**
+     * Muuttaa laijteltavan Stringin tauluksi Stringejä erotellen lajiteltavan
+     * annetun valimerkin avulla.
+     * @param lajiteltava laijiteltava String
+     * @param valimerkki lajitteluun käytettävä välimerkki
+     * @return 
+     */
+    public String[] dekoodaa(String lajiteltava, Character valimerkki) {
+        int komentojenMaara = laskeOsienMaara(lajiteltava, valimerkki);
         String dekoodi[] = new String[komentojenMaara];
         
         if (dekoodi.length == 0) {
             return new String[0];
         }
 
-        return hahmota(komento, dekoodi, 0, valimerkki);
+        return hahmota(lajiteltava, dekoodi, 0, valimerkki);
     }
-
+    
+    /**
+     * Muuttaa dekoodauksessa saadun tulostaulun joukoksi rivejä.
+     * @param dekoodi dekoodauksessa saatu taulu
+     * @return taulu String-oliona eroteltavat osat omilla riveillään
+     */
     public String listaaSisalto(String[] dekoodi) {
         String tuloste = "";
 

@@ -50,6 +50,9 @@ public class TyhjaTila extends JPanel {
         return this.tyhja;
     }
     
+    /**
+     * muuttaa tyhjän tilan kokoa.
+     */
     public void madallaKorkeutta() {
         this.setPreferredSize(new Dimension (400,
                 Math.max(tyhja.getPreferredSize().height - dimensioLuku1, 17)));        

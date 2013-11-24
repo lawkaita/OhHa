@@ -28,10 +28,17 @@ public class Kayttoliittyma implements Runnable{
         this.naku = nappaimistonkuuntelija;        
     }
     
+    /**
+     * Asettaa kayttolittyman nappaimistonKuuntelijaksi annetun nappaimistonkuuntelijan.
+     * @param nappaimistonkuuntelija Annettava nappaimistonkuuntelija.
+     */    
     public void otaNappaimistonkuuntelija(Nappaimistonkuuntelija nappaimistonkuuntelija) {
         this.naku = nappaimistonkuuntelija;
     }
     
+    /**
+     * Käynnistää kayttoliittyman.
+     */
     @Override
     public void run() {        
         frame = new JFrame();
@@ -40,7 +47,7 @@ public class Kayttoliittyma implements Runnable{
         frame.setMaximumSize(d);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
-        luoKomponentit(frame.getContentPane(), d);
+        luoKomponentit(frame.getContentPane());
         
         frame.pack();
         frame.setVisible(true);
@@ -50,8 +57,12 @@ public class Kayttoliittyma implements Runnable{
         konsoli.getVarsinainenKomentoRivi().requestFocus();
         
     }
-
-    private void luoKomponentit(Container container, Dimension d) {        
+    
+    /**
+     * Luo kayttoliittyman komponentit.
+     * @param container kayttoliittyman framen container-olio.
+     */
+    private void luoKomponentit(Container container) {        
         container.setLayout(new BorderLayout());
                 
         container.add(this.konsoli, BorderLayout.CENTER);
@@ -60,15 +71,25 @@ public class Kayttoliittyma implements Runnable{
         
     }
     
+    /**
+     * Palauttaa ohjelman nappaimistonkuuntellijan.
+     * @return ohjelman nappaimistonkuuntelija.
+     */
     public Nappaimistonkuuntelija getNappaimistonkuuntelija() {
         return this.naku;
     }
     
-    
+    /**
+     * Palauttaa ohjelman konsoli-olion.
+     * @return ohjelman konsoli-olio.
+     */    
     public Konsoli getKonsoli() {
         return this.konsoli;
     }
     
+    /**
+     * Tappaa ohjelman kayttoliittyma-olion.
+     */
     public void tapa() {
         WindowEvent wev = new WindowEvent(frame, WindowEvent.WINDOW_CLOSING);
         frame.dispatchEvent(wev);

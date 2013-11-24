@@ -5,6 +5,7 @@
 package sovelluslogiikka;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import kayttoliittyma.Kayttoliittyma;
 import kayttoliittyma.KontekstinHaltija;
 import kayttoliittyma.Tulostaja;
@@ -47,6 +48,9 @@ public class KomentoLogiikka {
         muistettavaString = "";
     }
 
+    /**
+     * Aloittaa merkinnänteko-prosessin.
+     */
     public void merkinnanAloitus() {
         tulostaja.pyydaPaivaa();
         String paiva = ajan.annaTamaPaiva();
@@ -54,6 +58,9 @@ public class KomentoLogiikka {
         this.koha.setMerkintaanPaiva(true);
     }
 
+    /**
+     * Tyhjentää ohjelman tietokantatiedoston.
+     */
     public void nollaaTiedosto() {
         try {
             tika.nollaaTiedosto();
@@ -63,41 +70,38 @@ public class KomentoLogiikka {
         }
     }
 
-    public void haku(String komento) {
-        String[] osuma = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla(komento);
+    /**
+     * Suorittaa tietokannasa haun etsien päiväyksiä ja verraten niitä annettuun
+     * komentoon
+     *
+     * @param paivays annettu päivämäärä Stringinä.
+     */
+    public void haku(String paivays) {
+        String[] osuma = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla(paivays);
         //Merkinta merkinta = tika.getMerkinnanKasittelija().luoMerkintaHaunTuloksesta(osuma);
         tulostaja.tulostaHaunOsumat(osuma);
         //tulostaja.listaaKonsoliin(merkinta.toString());
         koha.setHakuKaynnissa(false);
     }
-
-    public void luodaanMerkinta(String komento) {
+    
+    /**
+     * Luodaan merkintä
+     * @param komento 
+     */
+    public void luoMerkinta(String komento) {
         tulostaja.kerroLisayksesta();
         tulostaja.listaaKonsoliin(komento);
 
         try {
-            Merkinta uusiMerkinta = tika.getMerkinnanKasittelija().muutaKayttajanAntamaMerkintaTietokannanMerkinnaksi(komento);
+            Merkinta uusiMerkinta = tika.getMerkinnanKasittelija()
+                    .muutaKayttajanAntamaMerkintaTietokannanMerkinnaksi(komento);
             String paivaysMuistettavaStringista = tika.getDekooderi().dekoodaa(komento, '!')[0];
 
             boolean kannassaOnMerkintaSamallaPaivalla =
                     tika.kannassaOnMerkintaPaivalla(paivaysMuistettavaStringista);
 
             if (kannassaOnMerkintaSamallaPaivalla) {
-                String[] vanhaMerkintaUudenPaivallaTauluna =
-                        tika.haeStringtaulunaTietoKannastaMerkintaPaivalla(paivaysMuistettavaStringista);
-
-                Merkinta samallaPaivallaValmisMerkinta = tika.getMerkinnanKasittelija()
-                        .luoMerkintaHaunTuloksesta(vanhaMerkintaUudenPaivallaTauluna);
-
-                //+2 sillä 1 päiväykselle ja 1 viimeiselle rivinvaihdolle.
-                int vanhanMerkinnanPituus = samallaPaivallaValmisMerkinta.getTapahtumienMaara() + 2;
-                int vanhanMerkinnanPaikkaIndeksi =
-                        tika.haeKannastaMerkinnanPaivayksenPaikkaPaivayksella(paivaysMuistettavaStringista);
-
-                tika.getMerkinnanKasittelija().yhdista(uusiMerkinta, samallaPaivallaValmisMerkinta);
-
-                tika.poistaVanhaMerkintaJaLisaaUusiYhdistettyMerkintaJaKirjaaMuutosTietokantaan(vanhanMerkinnanPaikkaIndeksi, vanhanMerkinnanPituus, uusiMerkinta);
-
+                yhdistaUusiMerkintaTietokannanVanhaan(uusiMerkinta, paivaysMuistettavaStringista);
             } else {
                 tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun(uusiMerkinta.toString(), true);
             }
@@ -107,6 +111,30 @@ public class KomentoLogiikka {
         }
     }
 
+    private void yhdistaUusiMerkintaTietokannanVanhaan(Merkinta uusiMerkinta, String paivaysMuistettavaStringista) {
+        String[] vanhaMerkintaUudenPaivallaTauluna =
+                tika.haeStringtaulunaTietoKannastaMerkintaPaivalla(paivaysMuistettavaStringista);
+
+        Merkinta samallaPaivallaValmisMerkinta = tika.getMerkinnanKasittelija()
+                .luoMerkintaAnnetustaTaulusta(vanhaMerkintaUudenPaivallaTauluna);
+
+        //+2 sillä 1 päiväykselle ja 1 viimeiselle rivinvaihdolle.
+        int vanhanMerkinnanPituus = samallaPaivallaValmisMerkinta.getTapahtumienMaara() + 2;
+        int vanhanMerkinnanPaikkaIndeksi =
+                tika.haeKannastaMerkinnanPaivayksenPaikkaPaivayksella(paivaysMuistettavaStringista);
+
+        tika.getMerkinnanKasittelija().yhdista(uusiMerkinta, samallaPaivallaValmisMerkinta);
+
+        tika.poistaVanhaMerkintaJaLisaaUusiYhdistettyMerkintaJaKirjaaMuutosTietokantaan(vanhanMerkinnanPaikkaIndeksi, vanhanMerkinnanPituus, uusiMerkinta);
+    }
+
+    /**
+     * Osa merkinnänluomisprosessia. Tässä kohdassa on annettu merkintään
+     * liittyvä päiväys ja metodi suorittaa ohjelmaa eteenpäin riippuen siitä,
+     * onko ohjelma tyytyväinen annetun päivän kanssa.
+     *
+     * @param komento annettu päiväys.
+     */
     public void otetaanPaiva(String komento) {
         if (ajantestaaja.onPaiva(komento)) {
             muistettavaString = komento + dekoodausMerkki;
@@ -148,7 +176,7 @@ public class KomentoLogiikka {
     public void otetaanSelostus(String komento) {
 
         muistettavaString += komento;
-        luodaanMerkinta(muistettavaString);
+        luoMerkinta(muistettavaString);
 
         koha.setMerkintaanSelostus(false);
         muistettavaString = "";
@@ -207,5 +235,26 @@ public class KomentoLogiikka {
 
     public void tulostetaanVirhe() {
         tulostaja.tulostaVirhe();
+    }
+
+    public void yhteenveto() {
+        tika.kirjoitaMerkinnatJarjestettynaKannanYli();
+        
+        String merkintoja = "Merkintöjä: " + tika.laskeMerkittyjenPaivienMaara();
+        tulostaja.tulostaKonsoliin(merkintoja);
+        
+        ArrayList<Merkinta> merkintaTaulu = tika.merkinnatTaulussa();
+        int kaytetytMinuutit = 0;
+        
+        for (Merkinta merkinta: merkintaTaulu) {
+            kaytetytMinuutit += merkinta.tapahtumiinKaytettyAikaMinuutteina();
+        }        
+        
+        int kaytetytTunnit = kaytetytMinuutit/60;
+        int kaytetytJaannosMinuutit = kaytetytMinuutit%60;
+        
+        String kaytettyAika = "Käytetty aika: " + kaytetytTunnit  + "h " + kaytetytJaannosMinuutit + "min";
+        tulostaja.tulostaKonsoliin(kaytettyAika);
+        
     }
 }

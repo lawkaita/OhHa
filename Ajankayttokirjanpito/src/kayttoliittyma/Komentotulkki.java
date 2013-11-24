@@ -30,12 +30,8 @@ public class Komentotulkki {
         this.komentologiikka = kolo;
     }
 
-    public void enter(String komento) {
-        haarauta(komento);
-    }
-
     /**
-     * Metodi kuljettaa komennon oikeaan kontekstiisna.
+     * Kuljettaa komennon oikeaan kontekstiisna.
      *
      * @param komento käyttäjän antama komento
      *
@@ -76,7 +72,12 @@ public class Komentotulkki {
 
         tulkitse(komento);
     }
-
+    
+    /**
+     * Tulkitsee käyttäjän antaman komennon, kun komentoa ei annettu missään kontekstissa.
+     * 
+     * @param komento käyttäjän antama komento
+     */
     public void tulkitse(String komento) {
 
         if (komento.equals("")) {
@@ -91,16 +92,6 @@ public class Komentotulkki {
             komentologiikka.sanoMikaAikaNytOn();
             return;
         }
-
-//        if (komento.equals("paiva")) {
-//            tulostaja.getAjan().annaTamaPaiva();
-//            return;
-//        }
-//
-//        if (komento.equals("aika")) {
-//            tulostaja.getAjan().annaTamaAika();
-//            return;
-//        }
 
         if (komento.equals("apua")) {
             komentologiikka.tulostetaanApua();
@@ -131,20 +122,36 @@ public class Komentotulkki {
             komentologiikka.aloitetaanPaivanPoisto();
             return;
         }
+        
+        if (komento.equals("yhteenveto")) {
+            this.komentologiikka.yhteenveto();
+            return;
+        }
 
         komentologiikka.tulostetaanVirhe();
+        
     }
 
+    /**
+     * Ottaa käyttäjän antaman komennon konsolin komentoriviltä ja käsittelee sen.
+     */
     public void otaKomento() {
         String komento = konsoli.getVarsinainenKomentoRivi().getText();
         konsoli.tulostaKomento();
-        enter(komento);
+        haarauta(komento);
     }
 
+    /**
+     * Kutsuu komentologiikkaa poistumaan kaikista konteksteista.
+     */
     public void keskeytaKaikki() {
         this.komentologiikka.keskeytaKaikki();
     }
-
+    
+    /**
+     * Palauttaa komentotulkin kontekstinHaltijan.
+     * @return komentotulkin kontekstinhaltija  
+     */
     public KontekstinHaltija getKontekstinHaltija() {
         return this.koha;
     }

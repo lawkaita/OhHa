@@ -55,6 +55,7 @@ public class Merkinta implements Comparable<Merkinta> {
         //palautettava = palautettava.substring(0, palautettava.length() -2);
         //otetaan ylimääräinen \r\n lopusta pois
         
+            //EIKUN        
         //viimeinen rivinvaihto tulee viimeisen tapahtuman lisäyksessä.
         //palautettava += "\r\n"; //viimeinen rivinvaihto
         return palautettava;
@@ -70,5 +71,15 @@ public class Merkinta implements Comparable<Merkinta> {
     
     public int getTapahtumienMaara() {
         return this.tapahtumat.size();
+    }
+    
+    public int tapahtumiinKaytettyAikaMinuutteina() {
+        int kaytetytMinuutit = 0;
+                
+        for (Tapahtuma t : this.tapahtumat) {
+            kaytetytMinuutit += t.kesto().minuutteina();
+        }
+        
+        return kaytetytMinuutit;
     }
 }

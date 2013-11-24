@@ -75,8 +75,7 @@ public class AjankayttokirjanpitoTest {
         String odotettu = tuloste.substring(5, tuloste.length());
         //jätetään alusta komentorivin tervehdys ja pyörivä kursori.
 
-        assertEquals("> Jeessys\n :Ei ole komento",
-                odotettu);
+        assertEquals("> Jeessys\n :Ei ole komento", odotettu);
     }
 
     @Test
@@ -90,8 +89,7 @@ public class AjankayttokirjanpitoTest {
         String odotettu = tuloste.substring(34, tuloste.length());
         //jätetään alusta komentorivin tervehdys, pyörivä kursori ja aluksi annettu komento.
 
-        assertEquals(" :Ei ole päivä",
-                odotettu);
+        assertEquals(" :Ei ole päivä", odotettu);
     }
 
     @Test
@@ -105,22 +103,21 @@ public class AjankayttokirjanpitoTest {
         String odotettu = tuloste.substring(30, tuloste.length());
         //jätetään alusta komentorivin tervehdys, pyörivä kursori ja aluksi annettu komento.
 
-        assertEquals(" :Ei ole päivä",
-                odotettu);
+        assertEquals(" :Ei ole päivä", odotettu);
     }
 
     @Test
     public void onkoPaivaTestiTunnistaaOikeanPaivanJaOhjlemaSiirtyyKysymaanAloitusAikaa() {
         kali.getKonsoli().kirjoitaKomentoriville("merk");
         kotu.otaKomento();
-        kotu.otaKomento();//tassa kohtaa komentoriville on hakeutunut oikea paiva
+        //tassa kohtaa komentoriville on hakeutunut oikea paiva
+        kotu.otaKomento();
 
         String tuloste = kali.getKonsoli().getTulosteAlue().getText();
         String odotettu = tuloste.substring(37, tuloste.length());
         //jätetään alusta komentorivin tervehdys, pyörivä kursori ja aluksi annettu komento.
 
-        assertEquals(" :Aloitusaika:",
-                odotettu);
+        assertEquals(" :Aloitusaika:", odotettu);
     }
 
     @Test
@@ -135,8 +132,7 @@ public class AjankayttokirjanpitoTest {
         String odotettu = " :Ei ole aika";
         String aktuaali = tuloste.substring(tuloste.length() - odotettu.length(), tuloste.length());
 
-        assertEquals(odotettu,
-                aktuaali);
+        assertEquals(odotettu, aktuaali);
     }
 
     @Test
@@ -151,8 +147,7 @@ public class AjankayttokirjanpitoTest {
         String odotettu = " :Lopetusaika:";
         String aktuaali = tuloste.substring(tuloste.length() - odotettu.length(), tuloste.length());
 
-        assertEquals(odotettu,
-                aktuaali);
+        assertEquals(odotettu, aktuaali);
     }
 
     @Test

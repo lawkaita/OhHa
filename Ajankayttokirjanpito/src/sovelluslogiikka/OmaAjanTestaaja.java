@@ -10,12 +10,17 @@ package sovelluslogiikka;
  */
 public class OmaAjanTestaaja implements AjanTestaaja {
     
+    /**
+     * Testaa, käykö annettu String päiväyksestä.
+     * @param komento annettu String
+     * @return oliko annettu String sopiva
+     */
     @Override
     public boolean onPaiva(String komento) {
         Dekooderi d = new Dekooderi();
         Character piste = ".".charAt(0);
 
-        if (d.laskeKomentojenMaara(komento, piste) != 3) {
+        if (d.laskeOsienMaara(komento, piste) != 3) {
             return false;
         }
 
@@ -41,13 +46,18 @@ public class OmaAjanTestaaja implements AjanTestaaja {
         return true;
 
     }
-
+    
+    /**
+     * Testaa käykö annettu String kellonajasta.
+     * @param komento annettu String
+     * @return oliko annettu String sopiva.
+     */
     @Override
     public boolean onAika(String komento) {
         Dekooderi d = new Dekooderi();
         Character piste = ".".charAt(0);
 
-        if (d.laskeKomentojenMaara(komento, piste) != 2) {
+        if (d.laskeOsienMaara(komento, piste) != 2) {
             return false;
         }
 

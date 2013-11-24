@@ -32,7 +32,11 @@ public class Kursori extends Timer implements ActionListener{
         addActionListener(this);
         setInitialDelay(500);
     }
-
+    
+    /**
+     * lukee kursorin seuraavan näytettävän merkin.
+     * @return 
+     */
     public String lueSpritea() {
         if (this.lukija.hasNext()) {
             return this.lukija.nextLine();
@@ -41,7 +45,12 @@ public class Kursori extends Timer implements ActionListener{
             return this.lukija.nextLine();
         }
     }
-
+    
+    /**
+     * Palauttaa spriten lukemisessa käytettävän scanner-olion.
+     * @return spriten lukemisessa käytettävä scanner, tai null jos luettavaa
+     * tiedostoa ei ole.
+     */
     public Scanner annaLukija() {
         try {
             return new Scanner(this.spritet);
@@ -50,11 +59,20 @@ public class Kursori extends Timer implements ActionListener{
             return null;
         }
     }
-    
+     
+    /**
+     * Antaa seuraavan kursorin merkin.
+     * @return kursorin seuraava merkki.
+     */
     public String annaMerkki() {
         return lueSpritea();
     }
-
+    
+    /**
+     * Päivittää kursorin esiintymiskohdassa kursorin vaihtamalla sen paikalle
+     * seuraavan luettavan merkin.
+     * @param ae tapahtuma joka käynnistää muutoksen.
+     */
     @Override
     public void actionPerformed(ActionEvent ae) {
         this.ilmentymisalue.setText(lueSpritea());

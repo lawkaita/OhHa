@@ -85,7 +85,7 @@ public class MerkinnanKasittelija {
     }
 
     //oletetaan, että osuma ei ole null
-    public Merkinta luoMerkintaHaunTuloksesta(String[] osuma) {
+    public Merkinta luoMerkintaAnnetustaTaulusta(String[] osuma) {
         Paivays paivays = luoPaivays(osuma[0]);
         ArrayList<Tapahtuma> tapahtumat = new ArrayList<>();
         

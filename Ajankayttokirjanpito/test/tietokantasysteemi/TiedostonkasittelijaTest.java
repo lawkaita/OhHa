@@ -143,6 +143,35 @@ public class TiedostonkasittelijaTest {
         
         assertEquals(false, onKannassa);        
     }
+    
+    @Test
+    public void tiedostonKasittelijaLaskeeMerkintojenMaaranNollaksiKunEiMerkintoja() {
+        try {
+            tika.nollaaTiedosto();
+            int merkintojenMaara = tika.laskeMerkittyjenPaivienMaara();
+            
+            assertEquals(0, merkintojenMaara);
+        } catch (IOException ex) {
+            System.out.println("IOException");
+        }
+    }
+    
+    @Test
+    public void merkintojenMaaraKasvaaKunLisataanMerkinta(){
+        try {
+            tika.nollaaTiedosto();
+            
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("1.1.2000", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("    00.00-01.00: testitekstientesti", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("\n", true);
+            
+            int merkintojenMaara = tika.laskeMerkittyjenPaivienMaara();
+            
+            assertEquals(1, merkintojenMaara);
+        } catch (IOException ex) {
+            System.out.println("IOException");
+        }
+    }
 
 
     @After

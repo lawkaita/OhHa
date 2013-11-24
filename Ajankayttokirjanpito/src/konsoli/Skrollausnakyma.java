@@ -23,12 +23,10 @@ import javax.swing.ScrollPaneConstants;
 public class Skrollausnakyma {
 
     private JScrollPane skrollausalue;
-    private int dimensioLuku1;
     private boolean paivitetaan;
 
     public Skrollausnakyma(JScrollPane skrollausalue, int dimensioLuku1) {
         this.skrollausalue = skrollausalue;
-        this.dimensioLuku1 = dimensioLuku1;
         this.paivitetaan = false;
 
         skrollausalue.setPreferredSize(new Dimension(400, dimensioLuku1));
@@ -52,7 +50,10 @@ public class Skrollausnakyma {
     public JScrollPane getSkrollausalue() {
         return this.skrollausalue;
     }
-
+    
+    /**
+     * Vie komponentin näkymän alas.
+     */
     public void skrollaaAlas() {
         JScrollBar vertical = skrollausalue.getVerticalScrollBar();
         vertical.setValue(vertical.getMaximum());

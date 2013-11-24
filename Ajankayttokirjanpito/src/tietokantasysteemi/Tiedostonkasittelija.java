@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +18,7 @@ import sovelluslogiikka.Dekooderi;
 
 /**
  * Huolehtii ohjelman tietokanta-tiedoston lukemisesta ja muusta käsittelystä.
+ *
  * @author Envy 6-1010
  */
 public class Tiedostonkasittelija {
@@ -45,10 +47,11 @@ public class Tiedostonkasittelija {
     public File getTietokanta() {
         return tietokanta;
     }
-    
+
     /**
      * Luo tietokannasta ArrayListin käsittelyä varten.
-     * @return 
+     *
+     * @return
      */
     public ArrayList<String> getTietokantaTekstiTauluna() {
         ArrayList<String> tekstitaulu = new ArrayList<String>();
@@ -67,7 +70,7 @@ public class Tiedostonkasittelija {
 
     public void kirjoitaTietokantaanLisatenRivinvaihtoLoppuun(String lisattava, boolean kirjoitetaanLisaten) throws IOException {
         FileWriter kirjoittaja = new FileWriter(tietokanta, kirjoitetaanLisaten);
-        
+
         //kirjoittaja.write(lisattava); //kirjoittaja ei enää huolehdi rivinvaihdosta
 
         if (kirjoitetaanLisaten == true) {
@@ -79,9 +82,10 @@ public class Tiedostonkasittelija {
     }
 
     /**
-     * Hakee tietokannasta hakusanalla merkintää, jonka päiväys täsmää hakusanan kanssa.
-     * Palauttaa vain merkinnän sinänsä tauluna, eli ei sisällä merkintöjä tietokannassa 
-     * erottavaa rivinvaihtoa.
+     * Hakee tietokannasta hakusanalla merkintää, jonka päiväys täsmää hakusanan
+     * kanssa. Palauttaa vain merkinnän sinänsä tauluna, eli ei sisällä
+     * merkintöjä tietokannassa erottavaa rivinvaihtoa.
+     *
      * @param hakusana String jolla haetaan kannasta merkinää.
      * @return hakusanalla löydetty merkintä taulumuodossa tai muuten null.
      */
@@ -122,7 +126,6 @@ public class Tiedostonkasittelija {
         if (lukija == null) {
             return false;
         }
-
         return lukija.hasNextLine();
     }
 
@@ -146,9 +149,10 @@ public class Tiedostonkasittelija {
 
     /**
      * metodi rakentaa sille annetusta Scannerista merkinnan taulumuodossa.
+     *
      * @param lukija tiedostoa lukeva Scanner-olio
      * @param osuma merkinnan rakentamiseen kaytetty String
-     * @return 
+     * @return
      */
     private String[] rakennaMerkintaString(Scanner lukija, String osuma) {
         if (lukija.hasNextLine()) {
@@ -200,10 +204,10 @@ public class Tiedostonkasittelija {
             while (lukija.hasNextLine()) {
                 riviIndeksi++;
                 if (lukija.nextLine().equals(paiva)) {
-                    poistaKannastaRivit(riviIndeksi, 
-                            haeStringtaulunaTietoKannastaMerkintaPaivalla(paiva).length +1); 
-                                //huomioidaan se että haeStringtauluna...
-                                //ei laske mukaan merkinnät erottavaa rivinvaihtoa.
+                    poistaKannastaRivit(riviIndeksi,
+                            haeStringtaulunaTietoKannastaMerkintaPaivalla(paiva).length + 1);
+                    //huomioidaan se että haeStringtauluna...
+                    //ei laske mukaan merkinnät erottavaa rivinvaihtoa.
                     return riviIndeksi;
                 }
             }
@@ -277,6 +281,51 @@ public class Tiedostonkasittelija {
         kirjoitaTauluunAnnetustaRiviNumerostaEteenpäin(uusiMerkinta.toString(), indeksi, tietokantaTauluna);
 
         kirjoitaKannanYli(tietokantaTauluna);
+    }
+
+    public int laskeMerkittyjenPaivienMaara() {
+        int merkintojenMaara = 0;
+        ArrayList<String> tietokantaTauluna = getTietokantaTekstiTauluna();
+        for (String rivi : tietokantaTauluna) {
+            if (!rivi.isEmpty()) {
+                if ((rivi.charAt(0) != ' ')) {
+                    merkintojenMaara++;
+                }
+            }
+        }
+
+        return merkintojenMaara;
+    }
+
+    public ArrayList<Merkinta> merkinnatTaulussa() {
+        ArrayList<Merkinta> merkinnat = new ArrayList<Merkinta>();
+        ArrayList<String> tietokantaTauluna = getTietokantaTekstiTauluna();
+
+        for (String rivi : tietokantaTauluna) {
+            if (!rivi.isEmpty()) {
+                if ((rivi.charAt(0) != ' ')) {
+                    String[] merkintaTauluna = haeStringtaulunaTietoKannastaMerkintaPaivalla(rivi);
+                    Merkinta lisattava = meka.luoMerkintaAnnetustaTaulusta(merkintaTauluna);
+                    merkinnat.add(lisattava);
+                }
+            }
+        }
+
+        Collections.sort(merkinnat);
+        return merkinnat;
+    }
+
+    public void kirjoitaMerkinnatJarjestettynaKannanYli() {
+        ArrayList<Merkinta> merkinnat = merkinnatTaulussa();
+        try {
+            nollaaTiedosto();
+            for (Merkinta merkinta : merkinnat) {
+                kirjoitaTietokantaanLisatenRivinvaihtoLoppuun(merkinta.toString(), true);
+            }
+        } catch (IOException ex) {
+            //
+        }
+
     }
 }
 //Tiedostonkasittelijalla on yksi tiedosto johon se tallettaa ja kirjoittaa tietoja.

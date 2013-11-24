@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.text.BadLocationException;
 import kayttoliittyma.Kayttoliittyma;
 import kayttoliittyma.Komentotulkki;
-import kayttoliittyma.Paivitettava;
+import kayttoliittyma.Terminaali;
 
 /**
  * Ohjelman graafisen käyttöliittymän pääkomponentti.
@@ -28,7 +28,7 @@ import kayttoliittyma.Paivitettava;
  * esimerkiksi ubuntun ja windowssin kanssa.
  * @author Envy 6-1010
  */
-public class Konsoli extends JPanel implements Paivitettava {
+public class Konsoli extends JPanel implements Terminaali {
 
     private Tulostealue tulosteAlue;
     private VarsinainenKomentoRivi rivi;
@@ -48,8 +48,7 @@ public class Konsoli extends JPanel implements Paivitettava {
         if(ubuntulla) {
             dimensioLuku1 = 15;
         }
-
-
+        
         int dimensioLuku2 = 21; //kotikoneella toistaiseksi 15, koulun ubuntulla 21
 
         tulosteAlue = new Tulostealue(f, dimensioLuku1);
@@ -68,7 +67,15 @@ public class Konsoli extends JPanel implements Paivitettava {
         add(skrollausalue, BorderLayout.CENTER);
         
     }
-
+    
+    /**
+     * Päivittää konsolin kun siihen lisätään tekstiä.
+     * KirjoittajaOnKayttaja määrää mikä etumerkki tulostetaan. 
+     * Näin ohjelman ja käyttäjän viestit erottuvat konsolissa.
+     * 
+     * @param teksti lisättävä teksti
+     * @param kirjoittajaOnKayttaja kertoo onko kirjoittaja käyttäjä vai ei
+     */
     @Override
     public void paivita(String teksti, boolean kirjoittajaOnKayttaja) {;
         skrollausnakyma.setPaivitetaan(true);    
@@ -84,11 +91,12 @@ public class Konsoli extends JPanel implements Paivitettava {
 
         tulosteAlue.setText(dialogi + "\n" + etumerkki + teksti);
         tyhjaTila.madallaKorkeutta();
-        //tyhjaTila.kasvataKorkeutta();
     }
-    //kirjoittajaOnKauttaja asettaa sen, mika etumerkki tulostetaan,
-    //kun paivitetaan tulostuskenttaa.
 
+    /**
+     * Tulostaa ohjelman viestin konsoliin.
+     * @param viesti ohjelman viesti.
+     */
     public void tulostaViesti(String viesti) {
         paivita(viesti, false);
     }
@@ -131,16 +139,16 @@ public class Konsoli extends JPanel implements Paivitettava {
         return this.tyhjaTila.getTyhja();
     }
     
-    public VarsinainenKomentoRivi getKomentoRivi() {
-        return this.rivi;
-    }
-    
     public Tulostealue getTulosteAlue() {
         return this.tulosteAlue;
     }
     
-    public void kirjoitaKomentoriville(String S) {
-        this.rivi.setText(S);
+    /**
+     * Kirjoittaa komentoriville annetun tekstin.
+     * @param kirjoitettava kirjoitettava teksti.
+     */
+    public void kirjoitaKomentoriville(String kirjoitettava) {
+        this.rivi.setText(kirjoitettava);
     }
 
 }

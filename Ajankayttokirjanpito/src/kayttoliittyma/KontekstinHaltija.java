@@ -76,6 +76,9 @@ public class KontekstinHaltija {
         poistetaanMerkintaa = b;
     }
     
+    /**
+     * Asettaa kaikki kontekstinHaltijan kontekstia vastaavat boolean-muuttujat epätosiksi.
+     */
     public void poistuKaikistaKonteksteista() {
         merkintaanPaiva = false;
         merkintaanAloitusAika = false;
@@ -84,7 +87,11 @@ public class KontekstinHaltija {
         hakuKaynnissa = false;
         poistetaanMerkintaa = false;
     }
-        
+       
+    /**
+     * Selvittää, onko ohjelmassa jokin konteksti päällä.
+     * @return true, jos jokin konteksti on käynnissä, muuten false.
+     */
     public boolean onKontekstissa() {
         boolean[] kontekstit = kaikkiKontekstit();
         
@@ -97,6 +104,10 @@ public class KontekstinHaltija {
         return false;        
     }
     
+    /**
+     * Luo kaikista konteksteista taulun tarkastelua varten.
+     * @return kaikki kontekstiHaltijan boolean-muuttujat taulussa.
+     */    
     public boolean[] kaikkiKontekstit() {
         boolean[] kaikkiKontekstit = new boolean[6];
         kaikkiKontekstit[0] = merkintaanPaiva;
