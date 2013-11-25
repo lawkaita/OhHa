@@ -121,3 +121,6 @@ Luotu lis‰‰ toiminnallisuutta.
 25.11.13 13.00-17.34
 J‰sennelty koodia ja testej‰.
 
+25.11.13 17.50-18.43
+Hienos‰‰detty testej‰.
+

@@ -312,7 +312,9 @@ public class Tiedostonkasittelija {
     }
 
     /**
-     * Kirjoittaa annetun tekstitaulun yhdeksi String-olioksi, joka sisältää rivinvaihdot.
+     * Kirjoittaa annetun tekstitaulun yhdeksi String-olioksi, joka sisältää
+     * rivinvaihdot, paitsi viimeisen rivinvaihdon.
+     * 
      * @param tekstitaulu annettu tekstitaulu
      * @return tekstitaulu kirjoitettuna String-olioksi.
      */
@@ -323,8 +325,9 @@ public class Tiedostonkasittelija {
             tekstitauluStringina += rivi + "\r\n";
         }
         
-        //poistetaan viimeinen ylimääräinen rivinvaihto
-        tekstitauluStringina = tekstitauluStringina.substring(0, tekstitauluStringina.length()-1);
+        //poistetaan viimeinen ylimääräinen \r\n
+        tekstitauluStringina = tekstitauluStringina.substring(0, tekstitauluStringina.length()-2);
+        //poistaa molemmat \r\n
 
         return tekstitauluStringina;
     }
