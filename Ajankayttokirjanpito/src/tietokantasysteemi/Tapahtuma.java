@@ -21,6 +21,13 @@ public class Tapahtuma implements Comparable<Tapahtuma>{
         this.seloste = seloste;
     }
 
+    /**
+     * Vertailee kahden eri tapahtuman suhdetta toisiinsa.
+     * Se tapahtuma lasketaan toista suuremmaksi, jonka aloitusaika on suurempi.
+     * Jos aloitusajat ovat yhtäsuuret, verrataan lopetusaikoja.
+     * @param t verrattava tapahtuma.
+     * @return luku, joka ilmaisee tapahtumien suuruusjärjestyksen.
+     */
     @Override
     public int compareTo(Tapahtuma t) {
         if (this.aloitusaika.compareTo(t.aloitusaika) != 0) {
@@ -35,6 +42,10 @@ public class Tapahtuma implements Comparable<Tapahtuma>{
         return "    " + aloitusaika + "-" + lopetusaika + ": " + seloste;
     }
     
+    /**
+     * Laskee tapahtuman keston.
+     * @return tapahtuman kesto kellonaikana.
+     */
     public Kellonaika kesto() {
         return lopetusaika.aikaEro(aloitusaika);
     }   

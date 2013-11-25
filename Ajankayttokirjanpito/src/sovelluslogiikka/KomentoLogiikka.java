@@ -86,13 +86,11 @@ public class KomentoLogiikka {
     }
 
     /**
-     * Luodaan merkintä
+     * Luo merkintä-olion annetusta String-oliosta.
      *
-     * @param komento
+     * @param komento annettu String
      */
-    public void luoMerkinta(String komento) {
-        tulostaja.kerroLisayksesta();
-        tulostaja.listaaKonsoliin(komento);
+    public void luoMerkinta(String komento) {       
 
         try {
             Merkinta uusiMerkinta = tika.getMerkinnanKasittelija()
@@ -112,8 +110,16 @@ public class KomentoLogiikka {
         } catch (IOException ex) {
             //mitä tähän tulisi lisätä?
         }
+        
+        tulostaja.kerroLisayksesta();
+        tulostaja.listaaKonsoliin(komento);
     }
-
+    
+    /**
+     * Yhdistää uuden merkinnän tietokannan vanhan samman päivän merkinnän kanssa, kirjoittaen muutoksen tietokantaan.
+     * @param uusiMerkinta juuri luotu merkintä
+     * @param paivaysMuistettavaStringista päivä, jonka merkintää tämä muutos tietokannassa koskee
+     */
     private void yhdistaUusiMerkintaTietokannanVanhaan(Merkinta uusiMerkinta, String paivaysMuistettavaStringista) {
         String[] vanhaMerkintaUudenPaivallaTauluna =
                 tika.haeStringtaulunaTietoKannastaMerkintaPaivalla(paivaysMuistettavaStringista);
@@ -152,7 +158,13 @@ public class KomentoLogiikka {
         }
         koha.setMerkintaanPaiva(false);
     }
-
+    
+    /**
+     * Osa merkinnänluomis prosessia. Tässä kohdassa otetaan vastaan ja testataan
+     * käyttäjän antama tapahtuman aloitusaika. Jos aika ei käy, kontekstia ei muuteta
+     * ja virheestä ilmoitetaan käytäjälle.
+     * @param komento käyttäjän antama aloitusaika
+     */
     public void otetaanAloitusAika(String komento) {
         if (ajantestaaja.onAika(komento)) {
             muistettavaString += komento;
@@ -169,6 +181,13 @@ public class KomentoLogiikka {
         koha.setMerkintaanAloitusAika(false);
     }
 
+    /**
+     * Osa merkinnänluomis prosessia. Tässä kohdassa otetaan vastaan ja testataan
+     * käyttäjän antama tapahtuman lopetusaika. Jos aika on pienempi kuin aloitusaika,
+     * eli merkinnästä tulisi epämielekäs, konteksti ei muutu ja käyttäjälle ilmoitetaan jälleen
+     * virheestä. Sama tapahtuu myös jos annettu komento ei käy ajasta.
+     * @param komento 
+     */
     public void otetaanLopetusAika(String komento) {
         if (ajantestaaja.onAika(komento)) {
             if (onAloitusaikaaSuurempiKellonaika(komento)) {
@@ -185,7 +204,12 @@ public class KomentoLogiikka {
             konsoli.kirjoitaKomentoriville("hh.mm");
         }
     }
-
+    
+    /**
+     * Osa merkinnänluomisprosessia. Tässä kohdassa otetaan vastaan tapahtumaa
+     * koskeva selostus, ja nollataan kyselyissä käytettävä muisti.
+     * @param komento 
+     */
     public void otetaanSelostus(String komento) {
 
         muistettavaString += komento;
@@ -194,7 +218,14 @@ public class KomentoLogiikka {
         koha.setMerkintaanSelostus(false);
         muistettavaString = "";
     }
-
+    
+    /**
+     * Ohjaa merkinnän päivän perusteella poistamista. Testaa, onko annettu 
+     * komento päivä, ja jos tällä päivällä on tietokannassa merkintä, tuo merkintä poistetaan.
+     * Muuten ilmoitetaan komennon virheellisestä muodosta tai siitä, että annetulla päivällä
+     * ei löydy merkintää tietokannasta.
+     * @param komento 
+     */
     public void PoistetaanMerkinta(String komento) {
         if (ajantestaaja.onPaiva(komento)) {
             if (tika.kannassaOnMerkintaPaivalla(komento)) {
@@ -209,10 +240,16 @@ public class KomentoLogiikka {
         }
     }
 
+    /**
+     * Hoitaa tämän hetken tarkan merkinnän tulostuksen.
+     */
     public void sanoMikaAikaNytOn() {
         tulostaja.tulostaKonsoliin(ajan.mikaAikaNytOn());
     }
-
+    
+    /**
+     * Ohjaa ohjelman poistumaan kaikista konteksteista.
+     */
     public void keskeytaKaikki() {
 
         if (this.koha.onKontekstissa()) {
@@ -224,32 +261,53 @@ public class KomentoLogiikka {
         this.konsoli.kirjoitaKomentoriville("");
     }
 
+    /**
+     * Ohjaa ohjelman haun aloituksen.
+     */
     public void haunAloitus() {
         tulostaja.pyydaHakusana();
         this.koha.setHakuKaynnissa(true);
     }
-
+    
+    /**
+     * Kutsuu kayttoliittyman sulkemismetodia.
+     */
     public void tapaKali() {
         this.kali.tapa();
     }
 
+    /**
+     * Kutsuu tulostajaa tulostamaan ohjeita ohjelman käyttöä varten.
+     */
     public void tulostetaanApua() {
         tulostaja.apua();
     }
 
+    /**
+     * Kutsuu tulostajaa tulostamaan koko tietokantatiedoston.
+     */
     public void tulostetaanTietokantatiedosto() {
         tulostaja.tulostaTiedosto();
     }
 
+    /**
+     * Ohjaa merkinnän päivän perusteella poistoa.
+     */
     public void aloitetaanPaivanPoisto() {
         tulostaja.pyydaPaivaa();
         this.koha.setPoistetaanMerkintaa(true);
     }
 
+    /**
+     * Kutsuu tulostajaa tulostamaan virheilmoituksen.
+     */
     public void tulostetaanVirhe() {
         tulostaja.tulostaVirhe();
     }
 
+    /**
+     * Ohjaa ohjelman käytössä kerätyn datan analysoinnin ja tulosten tulostamisen.
+     */
     public void yhteenveto() {
 
         String merkintoja = "Merkintöjä: " + tika.laskeMerkittyjenPaivienMaara();
@@ -270,6 +328,11 @@ public class KomentoLogiikka {
 
     }
 
+    /**
+     * Vertaa merkinnänluomisessa annettua lopetuskellonaikaa aloituskellonaikaan
+     * @param komento annettu lopetuskellonaika
+     * @return true jos kellonaika on aloitusaikaa suurempi tai yhtäsuuri, muuten false.
+     */
     private boolean onAloitusaikaaSuurempiKellonaika(String komento) {
         String[] tahanAstiKeratytVastaukset = tika.getDekooderi().dekoodaa(muistettavaString, dekoodausMerkki);
         String annettuAloitusaika = tahanAstiKeratytVastaukset[tahanAstiKeratytVastaukset.length - 1];

@@ -9,7 +9,16 @@ package sovelluslogiikka;
  * @author Envy 6-1010
  */
 public class Dekooderi {
-
+    
+    
+    /**
+     * Dekoodauksen rekursiivinen metodi, joka askel kerrallaan määrittää palautettavan dekoodaustaulun
+     * @param komento jäljellä oleva dekoodattava osa
+     * @param dekoodi Tähän asti suoritettu dekoodaus
+     * @param i vaiheindeksi
+     * @param valimerkki dekoodaukseen valittu osat toisistaan erottava merkki
+     * @return palauttaa luodun dekoodaus taulun
+     */
     private String[] hahmota(String komento, String[] dekoodi, int i, Character valimerkki) {
         Character vali;
 

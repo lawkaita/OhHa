@@ -65,14 +65,26 @@ public class Merkinta implements Comparable<Merkinta> {
         return tapahtumat;
     }
 
+    /**
+     * Lisää tapahtuman merkinnän tapahtumat-luetteloon.
+     * @param tapahtuma 
+     */
     public void lisaaTapahtuma(Tapahtuma tapahtuma) {
         this.tapahtumat.add(tapahtuma);
     }
     
+    /**
+     * Merkinnän tapahtumien määrä.
+     * @return tapahtumien määrä
+     */
     public int getTapahtumienMaara() {
         return this.tapahtumat.size();
     }
     
+    /**
+     * Laskee merkinnan kaikkien tapahtumien yhteenlasketun ajan minuutteina.
+     * @return yhteenlaskettu aika minuutteina
+     */
     public int tapahtumiinKaytettyAikaMinuutteina() {
         int kaytetytMinuutit = 0;
                 

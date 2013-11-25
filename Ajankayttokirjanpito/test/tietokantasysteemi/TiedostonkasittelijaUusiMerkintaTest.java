@@ -34,7 +34,7 @@ public class TiedostonkasittelijaUusiMerkintaTest {
         
         Merkinta vanhaMerkinta = new Merkinta(new Paivays(1, 1, 1990), new Tapahtuma(new Kellonaika(0, 1), new Kellonaika(1, 3), "vanhaMerkinta"));
         Merkinta merkinta = new Merkinta(new Paivays(1, 1, 1990), new Tapahtuma(new Kellonaika(2, 2), new Kellonaika(4, 8), "lisattyMerkinta"));
-        Merkinta uudempiMerkinta = new Merkinta(new Paivays(1, 1, 1990), new Tapahtuma(new Kellonaika(3, 3), new Kellonaika(15, 15), "JuuriSeMerkintä"));
+        //Merkinta uudempiMerkinta = new Merkinta(new Paivays(1, 1, 1990), new Tapahtuma(new Kellonaika(3, 3), new Kellonaika(15, 15), "JuuriSeMerkintä"));
 
         try {
             tika.nollaaTiedosto();
@@ -42,14 +42,25 @@ public class TiedostonkasittelijaUusiMerkintaTest {
             tika.getMerkinnanKasittelija().yhdista(merkinta, vanhaMerkinta);
             //tika.getMerkinnanKasittelija().yhdista(uudempiMerkinta, merkinta);
             int paikkaindeksi = tika.haeKannastaMerkinnanPaivayksenPaikkaPaivayksella("01.01.1990"); //TEE JOTAIN NOLLILLE!
-            System.out.println(paikkaindeksi);
-            tika.poistaVanhaMerkintaJaLisaaUusiYhdistettyMerkintaJaKirjaaMuutosTietokantaan(paikkaindeksi, 2, merkinta);
+            int vanhanMerkinnanPituus = vanhaMerkinta.getTapahtumienMaara() + 2; //+1 päiväyksestä ja + 1 viimeisestä rivinvaihdosta.
+
+            tika.poistaVanhaMerkintaJaLisaaUusiYhdistettyMerkintaJaKirjaaMuutosTietokantaan(paikkaindeksi, vanhanMerkinnanPituus, merkinta);
             
-            ArrayList<String> tekstitaulu = tika.getTietokantaTekstiTauluna();
+            String odotettu =
+                    "01.01.1990\r\n"
+                    + "    00.01-01.03: vanhaMerkinta\r\n"
+                    + "    02.02-04.08: lisattyMerkinta\r\n"
+                    + "\r\n";
             
-            for(String s : tekstitaulu) {
-                System.out.println(s + tekstitaulu.size());
-            }
+            String aktuaali = tika.kirjoitaKantaTekstitauluStringiksiRivittaen(tika.getTietokantaTekstiTauluna());
+            //kirjoitKantaTekstitauluStringiksiRivittaenLisaaYlimaaraisenRivinvaihdon koska haetussa tekstitaulussa on jo yksi rivinvaihto
+            
+            System.out.println(odotettu);
+            System.out.println("---");
+            System.out.println(aktuaali.substring(0, aktuaali.length())); 
+            System.out.println("---");
+            
+            assertEquals(odotettu, aktuaali);
             
         } catch (IOException ex) {
             assertEquals(true, false);

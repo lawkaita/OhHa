@@ -5,6 +5,8 @@
 package ajankayttokirjanpito;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import kayttoliittyma.Kayttoliittyma;
 import kayttoliittyma.Komentotulkki;
@@ -53,48 +55,89 @@ public class AjankayttokirjanitoTiedostonTulostusTest {
 
         SwingUtilities.invokeLater(kali);
     }
-    
+
     @Test
     public void tulostaKomentoTulostaaEimerkintojaViestinKunTietokantaOnTyhja() {
         try {
             tika.nollaaTiedosto();
-            kali.getKonsoli().kirjoitaKomentoriville("tulosta");
+            konsoli.kirjoitaKomentoriville("tulosta");
             kotu.otaKomento();
 
             String odotettu = " :Ei merkintöjä\n :::::"; //tulostus loppuu aina rivinvaihtoon ja neljään: ':'
-            String tuloste = kali.getKonsoli().getTulosteAlue().getText();
+            String tuloste = konsoli.getTulosteAlue().getText();
             String aktuaali = tuloste.substring(tuloste.length() - odotettu.length(), tuloste.length());
             boolean tulosteOnSamaViestiKuinEimerkintoja = (aktuaali.equals(odotettu));
 
             System.out.println(aktuaali);
 
             assertEquals(true, tulosteOnSamaViestiKuinEimerkintoja);
-            
+
         } catch (IOException ex) {
             System.out.println("IOException");
         }
     }
-    
 
     @Test
     public void tulostaKomentoEiTulostaEimerkintojaViestiaKunTietokantaEiOleTyhja() {
         try {
             tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("lisataanMeluaMuistiin", true);
-            kali.getKonsoli().kirjoitaKomentoriville("tulosta");
+            konsoli.kirjoitaKomentoriville("tulosta");
             kotu.otaKomento();
 
             String eiOotettu = " :Ei merkintöjä\n :::::";
-            String tuloste = kali.getKonsoli().getTulosteAlue().getText();
+            String tuloste = konsoli.getTulosteAlue().getText();
             String aktuaali = tuloste.substring(tuloste.length() - eiOotettu.length(), tuloste.length());
             boolean tulosteOnEriViestiKuinEimerkintoja = (!aktuaali.equals(eiOotettu));
 
             System.out.println(aktuaali);
 
             assertEquals(true, tulosteOnEriViestiKuinEimerkintoja);
+
+        } catch (IOException ex) {
+            System.out.println("IOException");
+        }
+    }
+
+    @Test
+    public void tulostaKomentoTulostaaTiedostonOikeinKunTiedostossaOnMerkintoja() {
+        try {
+            tika.nollaaTiedosto();
+            
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("11.11.2013", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("    12.12-13.45: testiteksti", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("", true);
+
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("11.12.2013", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("    13.12-13.45: testiteksti2", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("", true);
+            
+            konsoli.kirjoitaKomentoriville("tulosta");
+            kotu.otaKomento();
+            
+            String odotettu 
+                    = " :11.11.2013\n"
+                    + " :    12.12-13.45: testiteksti\n"
+                    + " :\n"
+                    + " :11.12.2013\n"
+                    + " :    13.12-13.45: testiteksti2\n"
+                    + " :\n"
+                    + " :::::";
+            
+            String tuloste = konsoli.getTulosteAlue().getText();
+            String aktuaali = tuloste.substring(tuloste.length() - odotettu.length(), tuloste.length());
+            
+            System.out.println("---");
+            System.out.println(odotettu);
+            System.out.println("---");
+            System.out.println(aktuaali);
+            System.out.println("---");
+            
+            assertEquals(odotettu, aktuaali);
             
         } catch (IOException ex) {
             System.out.println("IOException");
         }
+
     }
 
     @After

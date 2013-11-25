@@ -45,6 +45,11 @@ public class Paivays implements Comparable<Paivays>{
         }
     }
     
+    /**
+     * Testaa onko kaksi annettua päiväysoliota samat.
+     * @param p verrattava Paivays-olio
+     * @return true jos päiväysten vuosi, kuukausi ja päivä ovat samat, muuten false
+     */
     public boolean equals(Paivays p) {
         if(this.compareTo(p) == 0){
             return true;
@@ -52,6 +57,11 @@ public class Paivays implements Comparable<Paivays>{
         return false;
     }
     
+    /**
+     * Lisää paivaykselle tarvittaessa etunollan.
+     * @param i päiväyksen kuukausi- tai päiväosa
+     * @return muokattu päiväyksen osa.
+     */
     private String muutaIntStringiksiJaLisaaNollaJosTarvitsee(int i){
         String palautettava = "" + i;
         

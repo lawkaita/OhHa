@@ -117,3 +117,7 @@ Kirjoitettu javadokkeja, putsattu koodia.
 
 24.11.13 18.00-20.10
 Luotu lisää toiminnallisuutta.
+
+25.11.13 13.00-17.34
+Jäsennelty koodia ja testejä.
+

@@ -83,7 +83,7 @@ public class Konsoli extends JPanel implements Terminaali {
         String etumerkki = komentorivi.getKursori().annaMerkki() + "> ";
 
         if (!kirjoittajaOnKayttaja) {
-            etumerkki = " :";
+            etumerkki = " :";//huomioi tama tulostetesteissa
         }
 
         tulosteAlue.setPreferredSize(new Dimension(400,
@@ -115,7 +115,10 @@ public class Konsoli extends JPanel implements Terminaali {
         tyhjaTila.getTyhja().setFocusable(true);
         tyhjaTila.getTyhja().requestFocus();
     }
-
+    
+    /**
+     * Estää liian pitkän komennon kirjoittamisen poistamalla komennon viimeisen merkin.
+     */
     public void estaLiianPitkaKomento() {
         try {
             rivi.setText(rivi.getText(0, rivi.getText().length() - 1));
@@ -151,6 +154,9 @@ public class Konsoli extends JPanel implements Terminaali {
         this.rivi.setText(kirjoitettava);
     }
 
+    /**
+     * Tyhjentaa komentorivin.
+     */
     public void tyhjennaKomentorivi() {
         kirjoitaKomentoriville("");
     }

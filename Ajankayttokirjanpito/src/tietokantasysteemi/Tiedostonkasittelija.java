@@ -71,8 +71,6 @@ public class Tiedostonkasittelija {
     public void kirjoitaTietokantaanLisatenRivinvaihtoLoppuun(String lisattava, boolean kirjoitetaanLisaten) throws IOException {
         FileWriter kirjoittaja = new FileWriter(tietokanta, kirjoitetaanLisaten);
 
-        //kirjoittaja.write(lisattava); //kirjoittaja ei enää huolehdi rivinvaihdosta
-
         if (kirjoitetaanLisaten == true) {
             kirjoittaja.write(lisattava + "\r\n"); //tämä voi aiheuttaa ylimääräisiä rivinvaihtoja kun käsitellään merkintöjä
         } else {
@@ -116,12 +114,20 @@ public class Tiedostonkasittelija {
         return this.dekooderi;
     }
 
+    /**
+     * Alustaa tietokannan lukemiseen käytettävän Scanner-olion.
+     * @throws FileNotFoundException jos tietokantatiedostoa ei löydy.
+     */
     public void alustaTietokannanLukija() throws FileNotFoundException {
         this.lukija.close();
         this.lukija = new Scanner(tietokanta);
         this.lukija.reset();
     }
 
+    /**
+     * Kertoo, onko tietokantatiedostoa lukevalla Scanner-oliolla seuraavaa riviä.
+     * @return true jos lukijalla on seuraava rivi, muuten false.
+     */
     public boolean lukijallaSeuraavaRivi() {
         if (lukija == null) {
             return false;
@@ -129,14 +135,27 @@ public class Tiedostonkasittelija {
         return lukija.hasNextLine();
     }
 
+    /**
+     * Hakee tietokantatiedostoa lukevan Scanner-olion seuraavan rivin.
+     * @return tietokantatiedostoa lukevan Scannerin seuraava rivi
+     */
     public String lukijanSeuraavaRivi() {
         return this.lukija.nextLine();
     }
 
+    /**
+     * Sulkee tietokantatiedostoa lukevan Scanner-olion.
+     */
     public void suljeLukija() {
         this.lukija.close();
     }
 
+    /**
+     * Nollaa ohjelman tietokantatiedoston.
+     * Sulkee ensin tiedostoa lukevan Scanner-olion, ja luo nollauksen jälkeen uuden
+     * Scanner-olion.
+     * @throws IOException 
+     */
     public void nollaaTiedosto() throws IOException {
         this.suljeLukija();
         kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("", false);
@@ -165,6 +184,11 @@ public class Tiedostonkasittelija {
         return dekooderi.dekoodaa(osuma, "!".charAt(0));
     }
 
+    /**
+     * Tutkii, onko tietokantatiedostossa päiväystä annetulla päivällä.
+     * @param paiva annettu päivä
+     * @return true, jos kannasta löytyy merkintä annetulla päivällä, muuten false
+     */
     public boolean kannassaOnMerkintaPaivalla(String paiva) {
         boolean onMerkinta = false;
         try {
@@ -180,6 +204,13 @@ public class Tiedostonkasittelija {
         }
     }
 
+    /**
+     * Hakee annetun päiväyksen rivi-indeksin. Tämä indeksi kertoo, millä rivillä
+     * tietokantatiedostossa annettu päiväys on.
+     * @param paiva haettava päiväys
+     * @return päiväyksen sijainti tietokantatiedostossa. Jos tiedostoa ei ole, palauttaa
+     * -2, jos päiväystä ei löydy, palauttaa -3.
+     */
     public int haeKannastaMerkinnanPaivayksenPaikkaPaivayksella(String paiva) {
         int riviIndeksi = -1;
         try {
@@ -197,6 +228,11 @@ public class Tiedostonkasittelija {
         }
     }
 
+    /**
+     * Poistaa kannasta merkintä-olion annetun päiväyksen perusteella.
+     * @param paiva annettu päiväys.
+     * @return rivi, jolta päiväys poistettiin.
+     */
     public int poistaMerkintaPaivanPerusteella(String paiva) {
         int riviIndeksi = -1;
         try {
@@ -218,22 +254,38 @@ public class Tiedostonkasittelija {
         }
     }
 
-    private void poistaKannastaRivit(int riviIndexi, int length) {
+    /**
+     * Poistaa tietokantatiedostosta annetulta paikalta ja pituudelta rivit.
+     * @param riviIndeksi poistamisen aloitusrivi
+     * @param length kuinka monta riviä positetaan
+     */
+    private void poistaKannastaRivit(int riviIndeksi, int length) {
         ArrayList<String> tietokantaTauluna = getTietokantaTekstiTauluna();
 
-        poistaTaulustaRivit(riviIndexi, length, tietokantaTauluna);
+        poistaTaulustaRivit(riviIndeksi, length, tietokantaTauluna);
 
         kirjoitaKannanYli(tietokantaTauluna);
     }
 
-    private void poistaTaulustaRivit(int riviIndexi, int length, ArrayList<String> tietokantaTauluna) {
+    /**
+     * Poistaa tietokannasta väliaikaista käsittelyä varten luodusta taulu-kuvasta
+     * annetulta paikalta annetun määrän rivejä.
+     * @param riviIndeksi poistamisen aloitusrivi
+     * @param length poistettavien rivien määrä
+     * @param tietokantaTauluna väliaikainen kannan taulu-kuva
+     */
+    private void poistaTaulustaRivit(int riviIndeksi, int length, ArrayList<String> tietokantaTauluna) {
         //otetaan nolla mukaann niin poistuuylimääräinen rivinvaihto.
         while (length > 0) {
-            tietokantaTauluna.remove(riviIndexi);
+            tietokantaTauluna.remove(riviIndeksi);
             length--;
         }
     }
 
+    /**
+     * kirjoittaa kannan yli annetun tekstitaulun sisällön.
+     * @param tekstitaulu annettu tekstitaulu
+     */
     public void kirjoitaKannanYli(ArrayList<String> tekstitaulu) {
         try {
             kirjoitaTietokantaanLisatenRivinvaihtoLoppuun(kirjoitaKantaTekstitauluStringiksiRivittaen(tekstitaulu), false);
@@ -242,9 +294,14 @@ public class Tiedostonkasittelija {
         }
     }
 
-    private void poistaKannastaRivi(int riviIndexi) {
+    /**
+     * Poistaa kannasta annetun rivin ja kirjoittaa kannan sitten uudelleen,
+     * jotta muutos tulee voimaan
+     * @param riviIndeksi poistettavan rivin indeksi
+     */
+    private void poistaKannastaRivi(int riviIndeksi) {
         ArrayList<String> tekstitaulu = getTietokantaTekstiTauluna();
-        tekstitaulu.remove(riviIndexi);
+        tekstitaulu.remove(riviIndeksi);
         String tekstitauluStringina = kirjoitaKantaTekstitauluStringiksiRivittaen(tekstitaulu);
 
         try {
@@ -254,7 +311,12 @@ public class Tiedostonkasittelija {
         }
     }
 
-    private String kirjoitaKantaTekstitauluStringiksiRivittaen(ArrayList<String> tekstitaulu) {
+    /**
+     * Kirjoittaa annetun tekstitaulun yhdeksi String-olioksi, joka sisältää rivinvaihdot.
+     * @param tekstitaulu annettu tekstitaulu
+     * @return tekstitaulu kirjoitettuna String-olioksi.
+     */
+    public String kirjoitaKantaTekstitauluStringiksiRivittaen(ArrayList<String> tekstitaulu) {
         String tekstitauluStringina = "";
 
         for (String rivi : tekstitaulu) {
@@ -264,6 +326,17 @@ public class Tiedostonkasittelija {
         return tekstitauluStringina;
     }
 
+    /**
+     * Kirjoittaa väliaikaiseen tietokantatiedoston taulu-kuvaan kirjoitettavan tekstin
+     * annetusta rivi-indeksistä eteenpäin.
+     * Metodi poistaVanhaMerkintaJaLisaaUUsiYhdistettyMerkintaJaKirjaaMuutosTietokantaan
+     * käyttää tätä metodia
+     * @param kirjoitettava tauluun kirjoitettava teksti
+     * @param indeksi kirjoituksen aloitusrivin indeksi
+     * @param tekstitaulu muokattava tekstitaulu
+     * 
+     * @see poistaVanhaMerkintaJaLisaaUusiYhdistettyMerkintaJaKirjaaMuutosTietokantaan(int indeksi, int vanhanMerkinnanPituus, Merkinta uusiMerkinta)
+     */
     private void kirjoitaTauluunAnnetustaRiviNumerostaEteenpäin(String kirjoitettava, int indeksi, ArrayList<String> tekstitaulu) {
 
         if (indeksi < tekstitaulu.size()) {
@@ -273,16 +346,28 @@ public class Tiedostonkasittelija {
         }
     }
 
+    /**
+     * Poistaa tietokantatiedostosta vanhan merkinnän annetusta indeksistä
+     * ja kirjoittaa sen kohdalle uuden annetun Merkinta-olion. 
+     * @param indeksi vanhan merkinnän paikka
+     * @param vanhanMerkinnanPituus poistettavien rivien määrä
+     * @param uusiMerkinta kantaan kirjoitettava uusi merkintä
+     */
     public void poistaVanhaMerkintaJaLisaaUusiYhdistettyMerkintaJaKirjaaMuutosTietokantaan(int indeksi, int vanhanMerkinnanPituus, Merkinta uusiMerkinta) {
         ArrayList<String> tietokantaTauluna = getTietokantaTekstiTauluna();
 
         poistaTaulustaRivit(indeksi, vanhanMerkinnanPituus, tietokantaTauluna);
-
+        
         kirjoitaTauluunAnnetustaRiviNumerostaEteenpäin(uusiMerkinta.toString(), indeksi, tietokantaTauluna);
+        //uusiMerkinta.toString tuo ylimääräisen rivinvaihdon kantaan.
 
         kirjoitaKannanYli(tietokantaTauluna);
     }
 
+    /**
+     * Laskee kuinka monta päivää tietokantaan on merkitty.
+     * @return merkittyjen päivien määrä.
+     */
     public int laskeMerkittyjenPaivienMaara() {
         int merkintojenMaara = 0;
         ArrayList<String> tietokantaTauluna = getTietokantaTekstiTauluna();
@@ -297,6 +382,10 @@ public class Tiedostonkasittelija {
         return merkintojenMaara;
     }
 
+    /**
+     * Luo taulukuvan tietokantatiedostosta jonka alkioina on kaikki kannan merkinnät.
+     * @return merkintätaulu-kuva tietokantatiedostosta.
+     */
     public ArrayList<Merkinta> merkinnatTaulussa() {
         ArrayList<Merkinta> merkinnat = new ArrayList<Merkinta>();
         ArrayList<String> tietokantaTauluna = getTietokantaTekstiTauluna();
@@ -315,6 +404,10 @@ public class Tiedostonkasittelija {
         return merkinnat;
     }
 
+    /**
+     * Kirjoittaa kannan uudelleen järjestäen merkinnät uudelleen päiväyksen perusteella.
+     * Järjestys tapahtuu merkinnatTaulussa-metodissa.
+     */
     public void kirjoitaMerkinnatJarjestettynaKannanYli() {
         ArrayList<Merkinta> merkinnat = merkinnatTaulussa();
         try {

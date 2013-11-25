@@ -27,7 +27,11 @@ public class OmaAjanAntaja implements AjanAntaja {
 
         return ft.format(dNow);
     }
-
+    
+    /**
+     * 
+     * @return tämän ajanhetken päivämäärä
+     */
     @Override
     public String annaTamaPaiva() {
         Date dNow = new Date();
@@ -36,7 +40,11 @@ public class OmaAjanAntaja implements AjanAntaja {
 
         return ft.format(dNow);
     }
-
+    
+    /**
+     * 
+     * @return tämän hetken kellonaika
+     */
     @Override
     public String annaTamaAika() {
         Date dNow = new Date();

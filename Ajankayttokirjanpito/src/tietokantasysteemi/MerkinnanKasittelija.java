@@ -26,6 +26,12 @@ public class MerkinnanKasittelija {
         this.dekooderi = dekooderi;
     }
 
+    /**
+     * Muuntaa merkinnänluomistapahtumassa luodun yksitapahtumaisen merkinnän 
+     * Stringistä merkinnäksi.
+     * @param merkinta annettu merkintä String-muodossa
+     * @return String-muodosta muutettu uusi Merkinta
+     */
     //tällä muunnetaan kolmirivinen käyttöliittymän antama merkintä
     public Merkinta muutaKayttajanAntamaMerkintaTietokannanMerkinnaksi(String merkinta) {
         Character rivinvaihto = "!".charAt(0);
@@ -44,6 +50,11 @@ public class MerkinnanKasittelija {
         return valmisMerkinta;
     }
 
+    /**
+     * Hoitaa kahden merkinnän yhdistämisen
+     * @param eka ensimmäinen merkintä, johon liitetään toisen merkinnän tapahtumat
+     * @param toka toinen merkintä
+     */
     public void yhdista(Merkinta eka, Merkinta toka) {
         for (Tapahtuma t : toka.getTapahtumat()) {
             eka.lisaaTapahtuma(t);
@@ -52,6 +63,11 @@ public class MerkinnanKasittelija {
         Collections.sort(eka.getTapahtumat());
     }
 
+    /**
+     * Luo paivays-olion annetusta Stringista.
+     * @param paivamaara annettu string
+     * @return paivays-olio
+     */
     public Paivays luoPaivays(String paivamaara) {
         String[] paivamaaraOsina = dekooderi.dekoodaa(paivamaara, ".".charAt(0));
         int paiva = Integer.parseInt(paivamaaraOsina[0]);
@@ -61,6 +77,11 @@ public class MerkinnanKasittelija {
         return paivays;
     }
     
+    /**
+     * Luo kaksi kellonaikaa annetusta Stringistä ja palauttaa ne kaksipaikkaisessa taulussa.
+     * @param kellonajat
+     * @return kaksipaikkainen taulu joka sisältää annetut kellonajat.
+     */
     public Kellonaika[] luoAloitusaikajaLopetusaika(String kellonajat) {
         String[] kellonajatOsina = dekooderi.dekoodaa(kellonajat, "-".charAt(0));
         String[] aloitusaikaOsina = dekooderi.dekoodaa(kellonajatOsina[0], ".".charAt(0));
@@ -75,6 +96,11 @@ public class MerkinnanKasittelija {
         return palautettava;
     }
 
+    /**
+     * luo kellonajan annetusta String-taulusta
+     * @param aikaOsina aika lajiteltuna tauluun minuutteina ja tunteina.
+     * @return Kellonaika luotuna annetusta String-taulusta.
+     */
     public Kellonaika luoKellonaika(String[] aikaOsina) {
         String tuntiString = aikaOsina[0].trim();
         String minuuttiString = aikaOsina[1].trim();
@@ -84,7 +110,15 @@ public class MerkinnanKasittelija {
         return aika;
     }
 
+    
+    
     //oletetaan, että osuma ei ole null
+    
+    /**
+     * Rakentaa merkinnan annetusta String-taulusta.
+     * @param osuma annettu string-taulu
+     * @return rakennettu merkinta.
+     */
     public Merkinta luoMerkintaAnnetustaTaulusta(String[] osuma) {
         Paivays paivays = luoPaivays(osuma[0]);
         ArrayList<Tapahtuma> tapahtumat = new ArrayList<>();
@@ -98,6 +132,11 @@ public class MerkinnanKasittelija {
         return merkinta;
     }
 
+    /**
+     * Luo tapahtuma-olion annetusta Stringistä.
+     * @param tapahtumaString annettu Tapahtuma-olio String-muodossa
+     * @return luotu Tapahtuma
+     */
     private Tapahtuma luoTapahtuma(String tapahtumaString) {
         String[] tapahtumaAlkiot = dekooderi.dekoodaa(tapahtumaString, ':');
         Kellonaika[] kellonajat = luoAloitusaikajaLopetusaika(tapahtumaAlkiot[0]);
