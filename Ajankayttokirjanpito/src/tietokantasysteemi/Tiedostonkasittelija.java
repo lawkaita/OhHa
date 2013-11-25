@@ -322,6 +322,9 @@ public class Tiedostonkasittelija {
         for (String rivi : tekstitaulu) {
             tekstitauluStringina += rivi + "\r\n";
         }
+        
+        //poistetaan viimeinen ylimääräinen rivinvaihto
+        tekstitauluStringina = tekstitauluStringina.substring(0, tekstitauluStringina.length()-1);
 
         return tekstitauluStringina;
     }

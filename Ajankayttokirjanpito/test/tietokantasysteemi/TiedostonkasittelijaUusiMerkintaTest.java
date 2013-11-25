@@ -49,8 +49,7 @@ public class TiedostonkasittelijaUusiMerkintaTest {
             String odotettu =
                     "01.01.1990\r\n"
                     + "    00.01-01.03: vanhaMerkinta\r\n"
-                    + "    02.02-04.08: lisattyMerkinta\r\n"
-                    + "\r\n";
+                    + "    02.02-04.08: lisattyMerkinta";
             
             String aktuaali = tika.kirjoitaKantaTekstitauluStringiksiRivittaen(tika.getTietokantaTekstiTauluna());
             //kirjoitKantaTekstitauluStringiksiRivittaenLisaaYlimaaraisenRivinvaihdon koska haetussa tekstitaulussa on jo yksi rivinvaihto
