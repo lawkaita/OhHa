@@ -151,4 +151,8 @@ public class Konsoli extends JPanel implements Terminaali {
         this.rivi.setText(kirjoitettava);
     }
 
+    public void tyhjennaKomentorivi() {
+        kirjoitaKomentoriville("");
+    }
+
 }

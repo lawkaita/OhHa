@@ -10,6 +10,7 @@ import kayttoliittyma.Kayttoliittyma;
 import kayttoliittyma.KontekstinHaltija;
 import kayttoliittyma.Tulostaja;
 import konsoli.Konsoli;
+import tietokantasysteemi.Kellonaika;
 import tietokantasysteemi.Merkinta;
 import tietokantasysteemi.Tiedostonkasittelija;
 
@@ -83,10 +84,11 @@ public class KomentoLogiikka {
         //tulostaja.listaaKonsoliin(merkinta.toString());
         koha.setHakuKaynnissa(false);
     }
-    
+
     /**
      * Luodaan merkintä
-     * @param komento 
+     *
+     * @param komento
      */
     public void luoMerkinta(String komento) {
         tulostaja.kerroLisayksesta();
@@ -106,6 +108,7 @@ public class KomentoLogiikka {
                 tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun(uusiMerkinta.toString(), true);
             }
 
+            tika.kirjoitaMerkinnatJarjestettynaKannanYli();
         } catch (IOException ex) {
             //mitä tähän tulisi lisätä?
         }
@@ -167,10 +170,20 @@ public class KomentoLogiikka {
     }
 
     public void otetaanLopetusAika(String komento) {
-        muistettavaString += "-" + komento + dekoodausMerkki;
-        tulostaja.pyydaSelostus();
-        koha.setMerkintaanSelostus(true);
-        koha.setMerkintaanLopetusaika(false);
+        if (ajantestaaja.onAika(komento)) {
+            if (onAloitusaikaaSuurempiKellonaika(komento)) {
+                muistettavaString += "-" + komento + dekoodausMerkki;
+                tulostaja.pyydaSelostus();
+                koha.setMerkintaanSelostus(true);
+                koha.setMerkintaanLopetusaika(false);
+            } else {
+                tulostaja.tulostaLiianSuuriAika();
+                konsoli.kirjoitaKomentoriville("hh.mm");
+            }
+        } else {
+            tulostaja.tulostaEiOleAika();
+            konsoli.kirjoitaKomentoriville("hh.mm");
+        }
     }
 
     public void otetaanSelostus(String komento) {
@@ -238,23 +251,39 @@ public class KomentoLogiikka {
     }
 
     public void yhteenveto() {
-        tika.kirjoitaMerkinnatJarjestettynaKannanYli();
-        
+
         String merkintoja = "Merkintöjä: " + tika.laskeMerkittyjenPaivienMaara();
         tulostaja.tulostaKonsoliin(merkintoja);
-        
+
         ArrayList<Merkinta> merkintaTaulu = tika.merkinnatTaulussa();
         int kaytetytMinuutit = 0;
-        
-        for (Merkinta merkinta: merkintaTaulu) {
+
+        for (Merkinta merkinta : merkintaTaulu) {
             kaytetytMinuutit += merkinta.tapahtumiinKaytettyAikaMinuutteina();
-        }        
-        
-        int kaytetytTunnit = kaytetytMinuutit/60;
-        int kaytetytJaannosMinuutit = kaytetytMinuutit%60;
-        
-        String kaytettyAika = "Käytetty aika: " + kaytetytTunnit  + "h " + kaytetytJaannosMinuutit + "min";
+        }
+
+        int kaytetytTunnit = kaytetytMinuutit / 60;
+        int kaytetytJaannosMinuutit = kaytetytMinuutit % 60;
+
+        String kaytettyAika = "Käytetty aika: " + kaytetytTunnit + "h " + kaytetytJaannosMinuutit + "min";
         tulostaja.tulostaKonsoliin(kaytettyAika);
+
+    }
+
+    private boolean onAloitusaikaaSuurempiKellonaika(String komento) {
+        String[] tahanAstiKeratytVastaukset = tika.getDekooderi().dekoodaa(muistettavaString, dekoodausMerkki);
+        String annettuAloitusaika = tahanAstiKeratytVastaukset[tahanAstiKeratytVastaukset.length - 1];
+        String[] annettuAloitusaikaOsina = tika.getDekooderi().dekoodaa(annettuAloitusaika, '.');
+        Kellonaika aloitusaika = new Kellonaika(Integer.parseInt(annettuAloitusaikaOsina[0]), Integer.parseInt(annettuAloitusaikaOsina[1]));
+        
+        String[] annettuLopetusaikaOsina = tika.getDekooderi().dekoodaa(komento, '.');
+        Kellonaika lopetusaika = new Kellonaika(Integer.parseInt(annettuLopetusaikaOsina[0]), Integer.parseInt(annettuLopetusaikaOsina[1]));
+        
+        if (aloitusaika.compareTo(lopetusaika) > 0) {
+            return false;
+        } else {
+            return true;
+        }
         
     }
 }

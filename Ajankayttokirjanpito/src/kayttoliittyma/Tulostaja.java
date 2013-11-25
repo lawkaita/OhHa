@@ -167,5 +167,9 @@ public class Tulostaja {
     private void tulostaEiMerkintoja() {
         tulostaKonsoliin("Ei merkintöjä");
     }
+
+    public void tulostaLiianSuuriAika() {
+        tulostaKonsoliin("Aloitusaika suurempi kuin lopetusaika");
+    }
     
 }

@@ -84,6 +84,13 @@ public class KellonaikaTest {
         assertEquals(1117, summa);
     }
     
+    @Test public void aikaVertailuToimiiOikein() {
+        a = new Kellonaika(12, 12);
+        b = new Kellonaika(15, 0);
+        
+        assertEquals(-1, a.compareTo(b));
+    }
+    
     
     @After
     public void tearDown() {
