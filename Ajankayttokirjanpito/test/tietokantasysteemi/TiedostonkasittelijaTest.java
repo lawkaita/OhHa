@@ -22,11 +22,11 @@ import sovelluslogiikka.Dekooderi;
  */
 public class TiedostonkasittelijaTest {
 
-    private Tiedostonkasittelija tika;
+    private OmaTiedostonkasittelija tika;
 
     @Before
     public void setUp() {
-        this.tika = new Tiedostonkasittelija(new Dekooderi());
+        this.tika = new OmaTiedostonkasittelija(new Dekooderi());
         try {
             tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("\nTestimerkintöjä\n", true);
         } catch (IOException ex) {
@@ -109,7 +109,7 @@ public class TiedostonkasittelijaTest {
     public void tiedostonKasittelijaOsaaNollataTiedoston() {
         this.tika.suljeLukija();
         try {
-            this.tika.nollaaTiedosto();
+            this.tika.nollaaTietokantaTiedosto();
         } catch (IOException ex) {
             System.out.println("Tiedoston nollaustestissä nollaaminen ei onnistu");
         }
@@ -147,7 +147,7 @@ public class TiedostonkasittelijaTest {
     @Test
     public void tiedostonKasittelijaLaskeeMerkintojenMaaranNollaksiKunEiMerkintoja() {
         try {
-            tika.nollaaTiedosto();
+            tika.nollaaTietokantaTiedosto();
             int merkintojenMaara = tika.laskeMerkittyjenPaivienMaara();
             
             assertEquals(0, merkintojenMaara);
@@ -159,7 +159,7 @@ public class TiedostonkasittelijaTest {
     @Test
     public void merkintojenMaaraKasvaaKunLisataanMerkinta(){
         try {
-            tika.nollaaTiedosto();
+            tika.nollaaTietokantaTiedosto();
             
             tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("1.1.2000", true);
             tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("    00.00-01.00: testitekstientesti", true);

@@ -8,6 +8,6 @@ package kayttoliittyma;
  *
  * @author Envy 6-1010
  */
-public interface Terminaali {
+public interface Konsoli {
     void paivita(String s, boolean b);
 }

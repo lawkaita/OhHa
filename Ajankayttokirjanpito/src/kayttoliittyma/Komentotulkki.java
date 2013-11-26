@@ -4,8 +4,8 @@
  */
 package kayttoliittyma;
 
-import tietokantasysteemi.Tiedostonkasittelija;
-import konsoli.Konsoli;
+import tietokantasysteemi.OmaTiedostonkasittelija;
+import konsoli.OmaKonsoli;
 import sovelluslogiikka.OmaAjanTestaaja;
 import sovelluslogiikka.KomentoLogiikka;
 
@@ -20,11 +20,11 @@ import sovelluslogiikka.KomentoLogiikka;
  */
 public class Komentotulkki {
 
-    private Konsoli konsoli;
+    private OmaKonsoli konsoli;
     private KontekstinHaltija koha;
     private KomentoLogiikka komentologiikka;
 
-    public Komentotulkki(Konsoli konsoli, KontekstinHaltija koha, KomentoLogiikka kolo) {
+    public Komentotulkki(OmaKonsoli konsoli, KontekstinHaltija koha, KomentoLogiikka kolo) {
         this.konsoli = konsoli;
         this.koha = koha;
         this.komentologiikka = kolo;
@@ -40,7 +40,7 @@ public class Komentotulkki {
     public void haarauta(String komento) {
 
         if (koha.getHakuKaynnissa() == true) {
-            komentologiikka.haku(komento);
+            komentologiikka.merkintaHaku(komento);
             return;
         }
 
@@ -99,7 +99,7 @@ public class Komentotulkki {
         }
 
         if (komento.equals("tulosta")) {
-            komentologiikka.tulostetaanTietokantatiedosto();
+            komentologiikka.tulostetaanValimuisti();
             return;
         }
 
@@ -114,12 +114,17 @@ public class Komentotulkki {
         }
 
         if (komento.equals("nollaa")) {
-            this.komentologiikka.nollaaTiedosto();
+            this.komentologiikka.nollaaValimuisti();
             return;
         }
 
         if (komento.equals("poista")) {
             komentologiikka.aloitetaanPaivanPoisto();
+            return;
+        }
+        
+        if (komento.equals("tallenna")) {
+            komentologiikka.tallenna();
             return;
         }
         

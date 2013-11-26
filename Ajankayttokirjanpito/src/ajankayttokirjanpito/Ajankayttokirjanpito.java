@@ -4,14 +4,14 @@
  */
 package ajankayttokirjanpito;
 
-import tietokantasysteemi.Tiedostonkasittelija;
+import tietokantasysteemi.OmaTiedostonkasittelija;
 import javax.swing.SwingUtilities;
 import kayttoliittyma.Kayttoliittyma;
 import kayttoliittyma.Komentotulkki;
 import kayttoliittyma.KontekstinHaltija;
 import kayttoliittyma.Nappaimistonkuuntelija;
 import kayttoliittyma.Tulostaja;
-import konsoli.Konsoli;
+import konsoli.OmaKonsoli;
 import sovelluslogiikka.Dekooderi;
 import sovelluslogiikka.OmaAjanAntaja;
 import sovelluslogiikka.KomentoLogiikka;
@@ -26,12 +26,12 @@ public class Ajankayttokirjanpito {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        boolean ubuntulla = true;
+        boolean ubuntulla = false;
         
-        Konsoli konsoli = new Konsoli(ubuntulla);        
+        OmaKonsoli konsoli = new OmaKonsoli(ubuntulla);        
         Kayttoliittyma kali = new Kayttoliittyma(konsoli, null);            
         Dekooderi dekooderi = new  Dekooderi();
-        Tiedostonkasittelija tika = new Tiedostonkasittelija(dekooderi);
+        OmaTiedostonkasittelija tika = new OmaTiedostonkasittelija(dekooderi);
         KontekstinHaltija koha = new KontekstinHaltija();
         Tulostaja tulostaja = new Tulostaja(konsoli, tika, dekooderi);
         KomentoLogiikka kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali);

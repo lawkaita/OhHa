@@ -81,6 +81,10 @@ public class Merkinta implements Comparable<Merkinta> {
         return this.tapahtumat.size();
     }
     
+    public Paivays getPaivays() {
+        return this.paivays;
+    }
+    
     /**
      * Laskee merkinnan kaikkien tapahtumien yhteenlasketun ajan minuutteina.
      * @return yhteenlaskettu aika minuutteina

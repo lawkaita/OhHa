@@ -4,7 +4,7 @@ package ajankayttokirjanpito;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-import tietokantasysteemi.Tiedostonkasittelija;
+import tietokantasysteemi.OmaTiedostonkasittelija;
 import sovelluslogiikka.Dekooderi;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -16,13 +16,17 @@ import kayttoliittyma.Komentotulkki;
 import kayttoliittyma.KontekstinHaltija;
 import kayttoliittyma.Nappaimistonkuuntelija;
 import kayttoliittyma.Tulostaja;
-import konsoli.Konsoli;
+import konsoli.OmaKonsoli;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import sovelluslogiikka.OmaAjanAntaja;
 import sovelluslogiikka.KomentoLogiikka;
+import tietokantasysteemi.Kellonaika;
+import tietokantasysteemi.Merkinta;
+import tietokantasysteemi.Paivays;
+import tietokantasysteemi.Tapahtuma;
 
 /**
  *
@@ -30,10 +34,10 @@ import sovelluslogiikka.KomentoLogiikka;
  */
 public class AjankayttokirjanpitoTest {
 
-    private Konsoli konsoli;
+    private OmaKonsoli konsoli;
     private Kayttoliittyma kali;
     private Dekooderi dekooderi;
-    private Tiedostonkasittelija tika;
+    private OmaTiedostonkasittelija tika;
     private Tulostaja tulostaja;
     private KontekstinHaltija koha;
     private KomentoLogiikka kolo;
@@ -41,10 +45,10 @@ public class AjankayttokirjanpitoTest {
 
     @Before
     public void setUp() {
-        konsoli = new Konsoli(true);
+        konsoli = new OmaKonsoli(true);
         kali = new Kayttoliittyma(konsoli, null);
         dekooderi = new Dekooderi();
-        tika = new Tiedostonkasittelija(dekooderi);
+        tika = new OmaTiedostonkasittelija(dekooderi);
         tulostaja = new Tulostaja(konsoli, tika, dekooderi);
         koha = new KontekstinHaltija();
         kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali);
@@ -54,15 +58,15 @@ public class AjankayttokirjanpitoTest {
 
         SwingUtilities.invokeLater(kali);
     }
-    
-    @Test
+
+    @Test //vanhentunut: nollaa komento ei nollaa enää mitään.
     public void nollaaKomentoTyhjentaaTiedoston() {
         konsoli.kirjoitaKomentoriville("nollaa");
         kotu.otaKomento();
-        
+
         konsoli.kirjoitaKomentoriville("tulosta");
         kotu.otaKomento();
-        
+
         assertFalse(tika.getTietokannanLukija().hasNext());
     }
 
@@ -152,24 +156,25 @@ public class AjankayttokirjanpitoTest {
 
     @Test
     public void haeKomentoTulostaaEiOsumiaViestinKunTietokantaEiOleTyhjaMuttaHakusanallaEiLoydyMitaan() {
-        try {
-            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("lisataanMeluaMuistiin", true);
-            kali.getKonsoli().kirjoitaKomentoriville("hae");
-            kotu.otaKomento();
-            kali.getKonsoli().kirjoitaKomentoriville("mutaxoxoxo");
-            kotu.otaKomento();
+        Merkinta lisattava = new Merkinta(new Paivays(1, 1, 1000),
+                new Tapahtuma(new Kellonaika(0, 0), new Kellonaika(0, 1), "Kaiken alku"));
 
-            String odotettu = " :Ei osumia";
-            String tuloste = kali.getKonsoli().getTulosteAlue().getText();
-            String aktuaali = tuloste.substring(tuloste.length() - odotettu.length(), tuloste.length());
-            boolean tulosteOnSamaViestiKuinEiOsumia = (aktuaali.equals(odotettu));
+        this.kolo.getTietokantaValimuisti().lisaaMerkinta(lisattava);
+        kali.getKonsoli().kirjoitaKomentoriville("tallenna");
+        kotu.otaKomento();
+        kali.getKonsoli().kirjoitaKomentoriville("hae");
+        kotu.otaKomento();
+        kali.getKonsoli().kirjoitaKomentoriville("mutaxoxoxo");
+        kotu.otaKomento();
 
-            System.out.println(aktuaali);
+        String odotettu = " :Ei osumia";
+        String tuloste = kali.getKonsoli().getTulosteAlue().getText();
+        String aktuaali = tuloste.substring(tuloste.length() - odotettu.length(), tuloste.length());
+        boolean tulosteOnSamaViestiKuinEiOsumia = (aktuaali.equals(odotettu));
 
-            assertEquals(true, tulosteOnSamaViestiKuinEiOsumia);
-        } catch (IOException ex) {
-            System.out.println("IOException");
-        }
+        System.out.println(aktuaali);
+
+        assertEquals(true, tulosteOnSamaViestiKuinEiOsumia);
     }
 
     @After

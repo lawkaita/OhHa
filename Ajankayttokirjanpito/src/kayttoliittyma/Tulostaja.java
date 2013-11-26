@@ -5,11 +5,13 @@
 package kayttoliittyma;
 
 import sovelluslogiikka.OmaAjanAntaja;
-import tietokantasysteemi.Tiedostonkasittelija;
+import tietokantasysteemi.OmaTiedostonkasittelija;
 import sovelluslogiikka.Dekooderi;
 import java.io.FileNotFoundException;
+import java.util.Scanner;
 import kayttoliittyma.Kayttoliittyma;
-import konsoli.Konsoli;
+import konsoli.OmaKonsoli;
+import tietokantasysteemi.Merkinta;
 
 /**
  * Tulostajan vastuulla on tulostaa ohjelman vastauksia tai tietokannan
@@ -19,11 +21,11 @@ import konsoli.Konsoli;
  */
 public class Tulostaja {
 
-    private Konsoli konsoli;
-    private Tiedostonkasittelija tika;
+    private OmaKonsoli konsoli;
+    private OmaTiedostonkasittelija tika;
     private Dekooderi dekooderi;
 
-    public Tulostaja(Konsoli konsoli, Tiedostonkasittelija tika, Dekooderi dekooderi) {
+    public Tulostaja(OmaKonsoli konsoli, OmaTiedostonkasittelija tika, Dekooderi dekooderi) {
         this.konsoli = konsoli;
         this.tika = tika;
         this.dekooderi = dekooderi;
@@ -52,7 +54,7 @@ public class Tulostaja {
     /**
      * Tulostaa koko ohjelman tietokantana käytettävän tiedoston sisällön.
      */
-    public void tulostaTiedosto() {
+    public void tulostaTietokantaTiedosto() {
         try {
             tika.alustaTietokannanLukija();
 
@@ -69,6 +71,18 @@ public class Tulostaja {
         } catch (FileNotFoundException ex) {
             tulostaKonsoliin("Tiedostoa ei löydy");
         }
+    }
+    
+    public void tulostaValimuisti(String muistiString) {
+        tulostaRivitettyString(muistiString);
+    }
+    
+    private void tulostaRivitettyString(String rivitettyString) {
+        Scanner lukija = new Scanner(rivitettyString);
+        while (lukija.hasNextLine()) {
+            tulostaKonsoliin(lukija.nextLine());
+        }
+        lukija.close();
     }
 
     public void tulostaVirhe() {
@@ -106,7 +120,7 @@ public class Tulostaja {
      * @param s jäsennelty String.
      */
     public void listaaKonsoliin(String s) {
-        String[] tulostettava = dekooderi.dekoodaa(s, "!".charAt(0));
+        String[] tulostettava = dekooderi.dekoodaa(s, '!');
 
         for (String z : tulostettava) {
             konsoli.tulostaViesti(" " + z);
@@ -144,8 +158,8 @@ public class Tulostaja {
         tulostaKonsoliin("Ei ole päivä");
     }
 
-    public void ilmoitaNollaamisesta() {
-        tulostaKonsoliin("Muisti nollattu");
+    public void ilmoitaValimuistinNollaamisesta() {
+        tulostaKonsoliin("Välimuisti nollattu");
     }
 
     public void tulostaMerkinnanPoistoOnnistui() {
@@ -164,12 +178,24 @@ public class Tulostaja {
         tulostaKonsoliin("Ei osumia");
     }
 
-    private void tulostaEiMerkintoja() {
+    public void tulostaEiMerkintoja() {
         tulostaKonsoliin("Ei merkintöjä");
     }
 
     public void tulostaLiianSuuriAika() {
         tulostaKonsoliin("Aloitusaika suurempi kuin lopetusaika");
+    }
+
+    public void tulostaIOException() {
+        System.out.println("IOException");
+    }
+
+    public void tulostaHaunOsuma(Merkinta osuma) {
+        tulostaRivitettyString(osuma.toString());
+    }
+
+    public void ilmoitaTallennuksenOnnistumisesta() {
+        tulostaKonsoliin("Tallennus onnistui");
     }
     
 }

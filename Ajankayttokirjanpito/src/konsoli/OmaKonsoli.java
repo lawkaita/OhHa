@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.text.BadLocationException;
 import kayttoliittyma.Kayttoliittyma;
 import kayttoliittyma.Komentotulkki;
-import kayttoliittyma.Terminaali;
+import kayttoliittyma.Konsoli;
 
 /**
  * Ohjelman graafisen käyttöliittymän pääkomponentti.
@@ -28,7 +28,7 @@ import kayttoliittyma.Terminaali;
  * esimerkiksi ubuntun ja windowssin kanssa.
  * @author Envy 6-1010
  */
-public class Konsoli extends JPanel implements Terminaali {
+public class OmaKonsoli extends JPanel implements Konsoli {
 
     private Tulostealue tulosteAlue;
     private VarsinainenKomentoRivi rivi;
@@ -38,7 +38,7 @@ public class Konsoli extends JPanel implements Terminaali {
     
     private int dimensioLuku1;
     
-    public Konsoli(boolean ubuntulla) {
+    public OmaKonsoli(boolean ubuntulla) {
         Font f = new Font("Monospaced", Font.PLAIN, 12);
 
         setPreferredSize(new Dimension(400, 400));

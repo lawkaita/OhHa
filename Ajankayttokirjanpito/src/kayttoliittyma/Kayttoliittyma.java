@@ -4,7 +4,7 @@
  */
 package kayttoliittyma;
 
-import konsoli.Konsoli;
+import konsoli.OmaKonsoli;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -20,10 +20,10 @@ import javax.swing.WindowConstants;
  */
 public class Kayttoliittyma implements Runnable{
     private JFrame frame;
-    private Konsoli konsoli;
+    private OmaKonsoli konsoli;
     private Nappaimistonkuuntelija naku;
     
-    public Kayttoliittyma(Konsoli konsoli, Nappaimistonkuuntelija nappaimistonkuuntelija){
+    public Kayttoliittyma(OmaKonsoli konsoli, Nappaimistonkuuntelija nappaimistonkuuntelija){
         this.konsoli = konsoli;
         this.naku = nappaimistonkuuntelija;        
     }
@@ -83,7 +83,7 @@ public class Kayttoliittyma implements Runnable{
      * Palauttaa ohjelman konsoli-olion.
      * @return ohjelman konsoli-olio.
      */    
-    public Konsoli getKonsoli() {
+    public OmaKonsoli getKonsoli() {
         return this.konsoli;
     }
     

@@ -9,10 +9,13 @@ import java.util.ArrayList;
 import kayttoliittyma.Kayttoliittyma;
 import kayttoliittyma.KontekstinHaltija;
 import kayttoliittyma.Tulostaja;
-import konsoli.Konsoli;
+import konsoli.OmaKonsoli;
 import tietokantasysteemi.Kellonaika;
 import tietokantasysteemi.Merkinta;
+import tietokantasysteemi.OmaTiedostonkasittelija;
+import tietokantasysteemi.OmaTietokantaValimuisti;
 import tietokantasysteemi.Tiedostonkasittelija;
+import tietokantasysteemi.TietokantaValimuisti;
 
 /**
  * Sisältää metodeinaan komentokokonaisuuksia, joita komentotulkki kutsuu
@@ -26,9 +29,10 @@ public class KomentoLogiikka {
     private AjanTestaaja ajantestaaja;
     private AjanAntaja ajan;
     private Tiedostonkasittelija tika;
-    private Konsoli konsoli;
+    private OmaKonsoli konsoli;
     private KontekstinHaltija koha;
     private Kayttoliittyma kali;
+    private TietokantaValimuisti timu;
     /**
      * merkki, joka annettaan dekooderille erottamaan Stringin osat toisistaan.
      */
@@ -36,7 +40,7 @@ public class KomentoLogiikka {
     private String muistettavaString;
 
     public KomentoLogiikka(Tulostaja tulostaja,
-            Tiedostonkasittelija tika, Konsoli konsoli, KontekstinHaltija koha, Kayttoliittyma kali) {
+            Tiedostonkasittelija tika, OmaKonsoli konsoli, KontekstinHaltija koha, Kayttoliittyma kali) {
         this.tulostaja = tulostaja;
         this.ajantestaaja = new OmaAjanTestaaja();
         this.ajan = new OmaAjanAntaja();
@@ -44,6 +48,7 @@ public class KomentoLogiikka {
         this.konsoli = konsoli;
         this.koha = koha;
         this.kali = kali;
+        this.timu = new OmaTietokantaValimuisti(this.tika);
 
         dekoodausMerkki = '!';
         muistettavaString = "";
@@ -64,10 +69,10 @@ public class KomentoLogiikka {
      */
     public void nollaaTiedosto() {
         try {
-            tika.nollaaTiedosto();
-            tulostaja.ilmoitaNollaamisesta();
+            tika.nollaaTietokantaTiedosto();
+            tulostaja.ilmoitaValimuistinNollaamisesta();
         } catch (IOException ex) {
-            //
+            tulostaja.tulostaIOException();
         }
     }
 
@@ -77,12 +82,16 @@ public class KomentoLogiikka {
      *
      * @param paivays annettu päivämäärä Stringinä.
      */
-    public void haku(String paivays) {
-        String[] osuma = tika.haeStringtaulunaTietoKannastaMerkintaPaivalla(paivays);
-        //Merkinta merkinta = tika.getMerkinnanKasittelija().luoMerkintaHaunTuloksesta(osuma);
-        tulostaja.tulostaHaunOsumat(osuma);
-        //tulostaja.listaaKonsoliin(merkinta.toString());
-        koha.setHakuKaynnissa(false);
+    public void merkintaHaku(String paivays) {
+        Merkinta osuma = timu.haeMuististaMerkintaPaivayksella(paivays);
+        if (osuma != null) {
+            tulostaja.tulostaHaunOsuma(osuma);
+            koha.setHakuKaynnissa(false);
+        } else {
+            tulostaja.tulostaEiOsumia();
+            koha.setHakuKaynnissa(false);
+        }
+
     }
 
     /**
@@ -90,53 +99,48 @@ public class KomentoLogiikka {
      *
      * @param komento annettu String
      */
-    public void luoMerkinta(String komento) {       
+    public void luoMerkinta(String komento) {
+        Merkinta uusiMerkinta = tika.getMerkinnanKasittelija()
+                .muutaKayttajanAntamaMerkintaTietokannanMerkinnaksi(komento);
+        String paivaysMuistettavaStringista = tika.getDekooderi().dekoodaa(komento, '!')[0];
 
-        try {
-            Merkinta uusiMerkinta = tika.getMerkinnanKasittelija()
-                    .muutaKayttajanAntamaMerkintaTietokannanMerkinnaksi(komento);
-            String paivaysMuistettavaStringista = tika.getDekooderi().dekoodaa(komento, '!')[0];
+        boolean kannassaOnMerkintaSamallaPaivalla =
+                timu.kannassaOnMerkintaPaivalla(paivaysMuistettavaStringista);
 
-            boolean kannassaOnMerkintaSamallaPaivalla =
-                    tika.kannassaOnMerkintaPaivalla(paivaysMuistettavaStringista);
-
-            if (kannassaOnMerkintaSamallaPaivalla) {
-                yhdistaUusiMerkintaTietokannanVanhaan(uusiMerkinta, paivaysMuistettavaStringista);
-            } else {
-                tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun(uusiMerkinta.toString(), true);
-            }
-
-            tika.kirjoitaMerkinnatJarjestettynaKannanYli();
-        } catch (IOException ex) {
-            //mitä tähän tulisi lisätä?
+        if (kannassaOnMerkintaSamallaPaivalla) {
+            timu.lisaaMerkintaYhdistaen(uusiMerkinta);
+        } else {
+            timu.lisaaMerkinta(uusiMerkinta);
         }
-        
+
         tulostaja.kerroLisayksesta();
         tulostaja.listaaKonsoliin(komento);
     }
-    
+
     /**
-     * Yhdistää uuden merkinnän tietokannan vanhan samman päivän merkinnän kanssa, kirjoittaen muutoksen tietokantaan.
+     * Yhdistää uuden merkinnän tietokannan vanhan samman päivän merkinnän
+     * kanssa, kirjoittaen muutoksen tietokantaan.
+     *
      * @param uusiMerkinta juuri luotu merkintä
-     * @param paivaysMuistettavaStringista päivä, jonka merkintää tämä muutos tietokannassa koskee
+     * @param paivaysMuistettavaStringista päivä, jonka merkintää tämä muutos
+     * tietokannassa koskee
      */
-    private void yhdistaUusiMerkintaTietokannanVanhaan(Merkinta uusiMerkinta, String paivaysMuistettavaStringista) {
-        String[] vanhaMerkintaUudenPaivallaTauluna =
-                tika.haeStringtaulunaTietoKannastaMerkintaPaivalla(paivaysMuistettavaStringista);
-
-        Merkinta samallaPaivallaValmisMerkinta = tika.getMerkinnanKasittelija()
-                .luoMerkintaAnnetustaTaulusta(vanhaMerkintaUudenPaivallaTauluna);
-
-        //+2 sillä 1 päiväykselle ja 1 viimeiselle rivinvaihdolle.
-        int vanhanMerkinnanPituus = samallaPaivallaValmisMerkinta.getTapahtumienMaara() + 2;
-        int vanhanMerkinnanPaikkaIndeksi =
-                tika.haeKannastaMerkinnanPaivayksenPaikkaPaivayksella(paivaysMuistettavaStringista);
-
-        tika.getMerkinnanKasittelija().yhdista(uusiMerkinta, samallaPaivallaValmisMerkinta);
-
-        tika.poistaVanhaMerkintaJaLisaaUusiYhdistettyMerkintaJaKirjaaMuutosTietokantaan(vanhanMerkinnanPaikkaIndeksi, vanhanMerkinnanPituus, uusiMerkinta);
-    }
-
+//    private void yhdistaUusiMerkintaTietokannanVanhaan(Merkinta uusiMerkinta, String paivaysMuistettavaStringista) {
+//        String[] vanhaMerkintaUudenPaivallaTauluna =
+//                tika.haeStringtaulunaTietoKannastaMerkintaPaivalla(paivaysMuistettavaStringista);
+//        
+//        Merkinta samallaPaivallaValmisMerkinta = tika.getMerkinnanKasittelija()
+//                .luoMerkintaAnnetustaTaulusta(vanhaMerkintaUudenPaivallaTauluna);
+//
+//        //+2 sillä 1 päiväykselle ja 1 viimeiselle rivinvaihdolle.
+//        int vanhanMerkinnanPituus = samallaPaivallaValmisMerkinta.getTapahtumienMaara() + 2;
+//        int vanhanMerkinnanPaikkaIndeksi =
+//                tika.haeKannastaMerkinnanPaivayksenPaikkaPaivayksella(paivaysMuistettavaStringista);
+//        
+//        tika.getMerkinnanKasittelija().yhdista(uusiMerkinta, samallaPaivallaValmisMerkinta);
+//        
+//        tika.poistaVanhaMerkintaJaLisaaUusiYhdistettyMerkintaJaKirjaaMuutosTietokantaan(vanhanMerkinnanPaikkaIndeksi, vanhanMerkinnanPituus, uusiMerkinta);
+//    }
     /**
      * Osa merkinnänluomisprosessia. Tässä kohdassa on annettu merkintään
      * liittyvä päiväys ja metodi suorittaa ohjelmaa eteenpäin riippuen siitä,
@@ -158,11 +162,12 @@ public class KomentoLogiikka {
         }
         koha.setMerkintaanPaiva(false);
     }
-    
+
     /**
-     * Osa merkinnänluomis prosessia. Tässä kohdassa otetaan vastaan ja testataan
-     * käyttäjän antama tapahtuman aloitusaika. Jos aika ei käy, kontekstia ei muuteta
-     * ja virheestä ilmoitetaan käytäjälle.
+     * Osa merkinnänluomis prosessia. Tässä kohdassa otetaan vastaan ja
+     * testataan käyttäjän antama tapahtuman aloitusaika. Jos aika ei käy,
+     * kontekstia ei muuteta ja virheestä ilmoitetaan käytäjälle.
+     *
      * @param komento käyttäjän antama aloitusaika
      */
     public void otetaanAloitusAika(String komento) {
@@ -182,11 +187,13 @@ public class KomentoLogiikka {
     }
 
     /**
-     * Osa merkinnänluomis prosessia. Tässä kohdassa otetaan vastaan ja testataan
-     * käyttäjän antama tapahtuman lopetusaika. Jos aika on pienempi kuin aloitusaika,
-     * eli merkinnästä tulisi epämielekäs, konteksti ei muutu ja käyttäjälle ilmoitetaan jälleen
-     * virheestä. Sama tapahtuu myös jos annettu komento ei käy ajasta.
-     * @param komento 
+     * Osa merkinnänluomis prosessia. Tässä kohdassa otetaan vastaan ja
+     * testataan käyttäjän antama tapahtuman lopetusaika. Jos aika on pienempi
+     * kuin aloitusaika, eli merkinnästä tulisi epämielekäs, konteksti ei muutu
+     * ja käyttäjälle ilmoitetaan jälleen virheestä. Sama tapahtuu myös jos
+     * annettu komento ei käy ajasta.
+     *
+     * @param komento
      */
     public void otetaanLopetusAika(String komento) {
         if (ajantestaaja.onAika(komento)) {
@@ -204,11 +211,12 @@ public class KomentoLogiikka {
             konsoli.kirjoitaKomentoriville("hh.mm");
         }
     }
-    
+
     /**
      * Osa merkinnänluomisprosessia. Tässä kohdassa otetaan vastaan tapahtumaa
      * koskeva selostus, ja nollataan kyselyissä käytettävä muisti.
-     * @param komento 
+     *
+     * @param komento
      */
     public void otetaanSelostus(String komento) {
 
@@ -218,18 +226,19 @@ public class KomentoLogiikka {
         koha.setMerkintaanSelostus(false);
         muistettavaString = "";
     }
-    
+
     /**
-     * Ohjaa merkinnän päivän perusteella poistamista. Testaa, onko annettu 
-     * komento päivä, ja jos tällä päivällä on tietokannassa merkintä, tuo merkintä poistetaan.
-     * Muuten ilmoitetaan komennon virheellisestä muodosta tai siitä, että annetulla päivällä
-     * ei löydy merkintää tietokannasta.
-     * @param komento 
+     * Ohjaa merkinnän päivän perusteella poistamista. Testaa, onko annettu
+     * komento päivä, ja jos tällä päivällä on tietokannassa merkintä, tuo
+     * merkintä poistetaan. Muuten ilmoitetaan komennon virheellisestä muodosta
+     * tai siitä, että annetulla päivällä ei löydy merkintää tietokannasta.
+     *
+     * @param komento
      */
     public void PoistetaanMerkinta(String komento) {
         if (ajantestaaja.onPaiva(komento)) {
-            if (tika.kannassaOnMerkintaPaivalla(komento)) {
-                tika.poistaMerkintaPaivanPerusteella(komento);
+            boolean merkintaLoytyiJaSePoistettiin = timu.poistaMerkintaPaivanPerusteella(komento);
+            if (merkintaLoytyiJaSePoistettiin) {
                 tulostaja.tulostaMerkinnanPoistoOnnistui();
                 koha.setPoistetaanMerkintaa(false);
             } else {
@@ -246,7 +255,7 @@ public class KomentoLogiikka {
     public void sanoMikaAikaNytOn() {
         tulostaja.tulostaKonsoliin(ajan.mikaAikaNytOn());
     }
-    
+
     /**
      * Ohjaa ohjelman poistumaan kaikista konteksteista.
      */
@@ -268,7 +277,7 @@ public class KomentoLogiikka {
         tulostaja.pyydaHakusana();
         this.koha.setHakuKaynnissa(true);
     }
-    
+
     /**
      * Kutsuu kayttoliittyman sulkemismetodia.
      */
@@ -286,8 +295,14 @@ public class KomentoLogiikka {
     /**
      * Kutsuu tulostajaa tulostamaan koko tietokantatiedoston.
      */
-    public void tulostetaanTietokantatiedosto() {
-        tulostaja.tulostaTiedosto();
+    public void tulostetaanValimuisti() {
+        String tuloste = timu.toString();
+        if (tuloste.isEmpty()) {
+            tulostaja.tulostaEiMerkintoja();
+        }
+
+        tulostaja.tulostaValimuisti(tuloste);
+
     }
 
     /**
@@ -306,14 +321,15 @@ public class KomentoLogiikka {
     }
 
     /**
-     * Ohjaa ohjelman käytössä kerätyn datan analysoinnin ja tulosten tulostamisen.
+     * Ohjaa ohjelman käytössä kerätyn datan analysoinnin ja tulosten
+     * tulostamisen.
      */
     public void yhteenveto() {
 
-        String merkintoja = "Merkintöjä: " + tika.laskeMerkittyjenPaivienMaara();
+        String merkintoja = "Merkintöjä: " + timu.laskeMerkintojenMaara();
         tulostaja.tulostaKonsoliin(merkintoja);
 
-        ArrayList<Merkinta> merkintaTaulu = tika.merkinnatTaulussa();
+        ArrayList<Merkinta> merkintaTaulu = timu.annaMuisti();
         int kaytetytMinuutit = 0;
 
         for (Merkinta merkinta : merkintaTaulu) {
@@ -329,24 +345,41 @@ public class KomentoLogiikka {
     }
 
     /**
-     * Vertaa merkinnänluomisessa annettua lopetuskellonaikaa aloituskellonaikaan
+     * Vertaa merkinnänluomisessa annettua lopetuskellonaikaa
+     * aloituskellonaikaan
+     *
      * @param komento annettu lopetuskellonaika
-     * @return true jos kellonaika on aloitusaikaa suurempi tai yhtäsuuri, muuten false.
+     * @return true jos kellonaika on aloitusaikaa suurempi tai yhtäsuuri,
+     * muuten false.
      */
     private boolean onAloitusaikaaSuurempiKellonaika(String komento) {
         String[] tahanAstiKeratytVastaukset = tika.getDekooderi().dekoodaa(muistettavaString, dekoodausMerkki);
         String annettuAloitusaika = tahanAstiKeratytVastaukset[tahanAstiKeratytVastaukset.length - 1];
         String[] annettuAloitusaikaOsina = tika.getDekooderi().dekoodaa(annettuAloitusaika, '.');
         Kellonaika aloitusaika = new Kellonaika(Integer.parseInt(annettuAloitusaikaOsina[0]), Integer.parseInt(annettuAloitusaikaOsina[1]));
-        
+
         String[] annettuLopetusaikaOsina = tika.getDekooderi().dekoodaa(komento, '.');
         Kellonaika lopetusaika = new Kellonaika(Integer.parseInt(annettuLopetusaikaOsina[0]), Integer.parseInt(annettuLopetusaikaOsina[1]));
-        
+
         if (aloitusaika.compareTo(lopetusaika) > 0) {
             return false;
         } else {
             return true;
         }
-        
+
+    }
+
+    public void tallenna() {
+        this.tika.yliKirjoitaTietokantatiedosto(this.timu.annaMuisti());
+        tulostaja.ilmoitaTallennuksenOnnistumisesta();
+    }
+
+    public void nollaaValimuisti() {
+        this.timu.nollaaMuisti();
+        tulostaja.ilmoitaValimuistinNollaamisesta();
+    }
+
+    public TietokantaValimuisti getTietokantaValimuisti() {
+        return this.timu;
     }
 }

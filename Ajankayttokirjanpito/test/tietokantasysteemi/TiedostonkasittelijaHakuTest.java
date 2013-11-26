@@ -21,11 +21,11 @@ import sovelluslogiikka.Dekooderi;
  */
 public class TiedostonkasittelijaHakuTest {
 
-    private Tiedostonkasittelija tika;
+    private OmaTiedostonkasittelija tika;
 
     @Before
     public void setUp() {
-        this.tika = new Tiedostonkasittelija(new Dekooderi());
+        this.tika = new OmaTiedostonkasittelija(new Dekooderi());
         try {
             tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("\nTiedostonkasittelijaHakuTesti\n", true);
         } catch (IOException ex) {

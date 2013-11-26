@@ -22,11 +22,11 @@ import sovelluslogiikka.Dekooderi;
  */
 public class TiedostonkasittelijaPoistoTest {
 
-    private Tiedostonkasittelija tika;
+    private OmaTiedostonkasittelija tika;
 
     @Before
     public void setUp() {
-        this.tika = new Tiedostonkasittelija(new Dekooderi());
+        this.tika = new OmaTiedostonkasittelija(new Dekooderi());
         try {
             tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("\nTiedostonkasittelijaPoistoTesti\n", true);
         } catch (IOException ex) {
@@ -83,7 +83,7 @@ public class TiedostonkasittelijaPoistoTest {
         //Tämä testi on rikki
 
         try {
-            tika.nollaaTiedosto();
+            tika.nollaaTietokantaTiedosto();
             tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("eka!", true);
 
             tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("7.7.1777", true);
