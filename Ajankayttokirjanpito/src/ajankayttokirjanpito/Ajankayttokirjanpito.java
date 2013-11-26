@@ -27,6 +27,7 @@ public class Ajankayttokirjanpito {
      */
     public static void main(String[] args) {
         boolean ubuntulla = false;
+        //kommittikommentti
         
         OmaKonsoli konsoli = new OmaKonsoli(ubuntulla);        
         Kayttoliittyma kali = new Kayttoliittyma(konsoli, null);            
