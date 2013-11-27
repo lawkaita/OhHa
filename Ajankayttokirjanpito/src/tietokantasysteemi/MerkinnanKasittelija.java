@@ -101,7 +101,7 @@ public class MerkinnanKasittelija {
      * @param aikaOsina aika lajiteltuna tauluun minuutteina ja tunteina.
      * @return Kellonaika luotuna annetusta String-taulusta.
      */
-    public Kellonaika luoKellonaika(String[] aikaOsina) {
+    private Kellonaika luoKellonaika(String[] aikaOsina) {
         String tuntiString = aikaOsina[0].trim();
         String minuuttiString = aikaOsina[1].trim();
         int aikaTunti = Integer.parseInt(tuntiString);

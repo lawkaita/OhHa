@@ -235,7 +235,7 @@ public class KomentoLogiikka {
      *
      * @param komento
      */
-    public void PoistetaanMerkinta(String komento) {
+    public void poistetaanMerkinta(String komento) {
         if (ajantestaaja.onPaiva(komento)) {
             boolean merkintaLoytyiJaSePoistettiin = timu.poistaMerkintaPaivanPerusteella(komento);
             if (merkintaLoytyiJaSePoistettiin) {

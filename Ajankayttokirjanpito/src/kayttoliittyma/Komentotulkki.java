@@ -66,7 +66,7 @@ public class Komentotulkki {
         }
 
         if (koha.getPoistetaanMerkintaa() == true) {
-            komentologiikka.PoistetaanMerkinta(komento);
+            komentologiikka.poistetaanMerkinta(komento);
             return;
         }
 

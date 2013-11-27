@@ -126,3 +126,9 @@ Hienos‰‰detty testej‰.
 
 26.11.13 17.00-21.17
 J‰sennetty koodia: luotu rajapintoja eri luokille.
+
+27.11.13 18.30-20.38
+Kirjoitettu testej‰.
+
+27.11.13 20.38-21.18
+P‰ivitetty ja luotu sekvenssikaavioita.

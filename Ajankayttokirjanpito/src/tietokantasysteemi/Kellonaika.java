@@ -9,7 +9,7 @@ package tietokantasysteemi;
  *
  * @author lawkaita
  */
-public class Kellonaika implements Comparable<Kellonaika>  {
+public class Kellonaika implements Comparable<Kellonaika> {
 
     private int tunnit;
     private int minuutit;
@@ -21,8 +21,10 @@ public class Kellonaika implements Comparable<Kellonaika>  {
 
     /**
      * Vertaa tätä kellonaikaa annetuun kellonaikaan myöhemmyyden perusteella.
+     *
      * @param k verrattava kellonaika
-     * @return luku, jonka merkki kertoo kumpi aika on suurempi, tai ovatko ne yhtäsuuret.
+     * @return luku, jonka merkki kertoo kumpi aika on suurempi, tai ovatko ne
+     * yhtäsuuret.
      */
     @Override
     public int compareTo(Kellonaika k) {
@@ -37,9 +39,10 @@ public class Kellonaika implements Comparable<Kellonaika>  {
             return minuuttiero;
         }
     }
-    
+
     /**
      * Tutkii onko annettu olio sama kuin tämä kellonaika.
+     *
      * @param olio annettu olio
      * @return true jos kellonajat ovat yhtä myöhäiset, muuten false
      */
@@ -48,22 +51,23 @@ public class Kellonaika implements Comparable<Kellonaika>  {
         if (olio == null) {
             return false;
         }
-        
+
         if (this.getClass() != olio.getClass()) {
             return false;
         }
-        
+
         Kellonaika verrattavaa = (Kellonaika) olio;
-        
-        if(this.compareTo(verrattavaa) != 0) {
+
+        if (this.compareTo(verrattavaa) != 0) {
             return false;
         }
-        
+
         return true;
     }
 
     /**
      * Muokkaa kellonajan osan etunollamuotoon tarvittaessa.
+     *
      * @param i kellonajan tunti- tai minuuttiosa
      * @return oikean muotoinen kellonajan tunti- tai minuuttiosa Stringinä
      */
@@ -85,6 +89,7 @@ public class Kellonaika implements Comparable<Kellonaika>  {
 
     /**
      * Luo kellonajan, joka ilmaisee kahden kellonajan eron.
+     *
      * @param aikaisempi Kellonaika, jonka suhteen ero lasketaan
      * @return Kellonaika, joka ilmaisee eron suuruuden
      */
@@ -92,37 +97,44 @@ public class Kellonaika implements Comparable<Kellonaika>  {
         if (this.compareTo(aikaisempi) > 0) {
             int tuntiEro = this.tunnit - aikaisempi.tunnit;
             int minuuttiEro = this.minuutit - aikaisempi.minuutit;
-            
+
             if (minuuttiEro < 0) {
                 tuntiEro--;
                 minuuttiEro = 60 + minuuttiEro;
             }
             return new Kellonaika(tuntiEro, minuuttiEro);
+            
+        } else if (this.compareTo(aikaisempi) == 0) {
+            return new Kellonaika(0, 0);
+            
+        } else {
+            return aikaisempi.aikaEro(this);
         }
-        
-        return aikaisempi.aikaEro(this);        
     }
-    
+
     /**
      * Laskee kahden kellonaika-olion summan.
+     *
      * @param toinenAika summassa käytettävä toinen kellonaika.
      * @return kellonaikojen suuruudet suhteessa aikaan 00.00 summattuina.
      */
     public int aikaSummaMinuutteina(Kellonaika toinenAika) {
         return this.minuutteina() + toinenAika.minuutteina();
     }
-    
+
     /**
      * Muuntaa kellonajan minuuttiesityksen tunneiksi ja minuuteiksi
+     *
      * @param aikaSumma annetun kellonajan minuuttiesitys
      * @return kellonaika minuutteina ja tunteina suhteessa aikaan 00.00
      */
     public String minuuttiSummaTunneiksiJaMinuuteiksi(int aikaSumma) {
-        return "" + aikaSumma%60;
+        return "" + aikaSumma % 60;
     }
-    
+
     /**
      * Muuntaa kellonajan minuuteiksi suhteessa aikaan 00.00.
+     *
      * @return Kellonajan minuuttiesitys suhteessa aikaan 00.00
      */
     public int minuutteina() {

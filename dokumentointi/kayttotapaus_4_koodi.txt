@@ -1,0 +1,21 @@
+title Merkinnän poistaminen
+
+käyttäjä->käyttöliittymä: 'poista'
+käyttöliittymä->+komentologiikka: aloitetaanPaivanPoisto()
+komentologiikka->käyttöliittymä: pyydaPaivaa()
+käyttäjä->käyttöliittymä: '27.11.2013'
+käyttöliittymä->komentologiikka: poistetaanMerkinta('27.11.2013')
+komentologiikka->ajantestaaja: onPaiva := onPaiva('27.11.2013')
+
+alt onPaiva = true 
+
+komentologiikka->tietokantavälimuisti: onnistuiko := poistaMerkintaPaivanPerusteella('27.11.2013')
+alt onnistuiko = true
+    komentologiikka->käyttöliittymä: tulostaMerkinnanPoistoOnnistui()
+else onnistuiko = false
+    komentologiikka->käyttöliittymä: tulostaEiOsumia()
+end
+
+else onPaiva = false
+    komentologiikka->käyttöliittymä: tulostaEiOlePaiva()
+end

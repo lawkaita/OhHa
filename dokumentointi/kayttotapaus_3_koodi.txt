@@ -1,0 +1,6 @@
+title Välimuistin tallentaminen
+
+käyttäjä->käyttöliittymä: tallenna
+käyttöliittymä->+komentologiikka: tallenna()
+komentologiikka->TietokantaValimuisti: muisti:= annaMuisti()
+komentologiikka->Tiedostonkasittelija: yliKirjoitaTietokantatiedost(muisti)

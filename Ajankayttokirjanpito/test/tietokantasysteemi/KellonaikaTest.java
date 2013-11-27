@@ -19,19 +19,14 @@ public class KellonaikaTest {
     private Kellonaika a;
     private Kellonaika b;
     
-    public KellonaikaTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
     @Before
     public void setUp() {
+    }
+    
+    @Test
+    public void toStringToimiiOikein() {
+        a = new Kellonaika(1, 03);
+        assertEquals("01.03", a.toString());
     }
     
     @Test
@@ -75,6 +70,15 @@ public class KellonaikaTest {
     }
     
     @Test
+    public void aikaEroMetodiEiHajoaSamanSuuruistenAikojenErottamisessa() {
+        a = new Kellonaika(13, 00);
+        
+        Kellonaika ero = a.aikaEro(a);
+        
+        assertEquals(new Kellonaika(0, 0), ero);
+    }
+    
+    @Test
     public void aikaSummaMetodiLaskeeKaksiAikaaYhteenOikein() {
         a = new Kellonaika(13, 45);
         b = new Kellonaika(4, 52);
@@ -89,6 +93,30 @@ public class KellonaikaTest {
         b = new Kellonaika(15, 0);
         
         assertEquals(-1, a.compareTo(b));
+    }
+    
+    @Test
+    public void equalsMetodiTunnistaaSamatKellonajat() {
+        a = new Kellonaika(00, 00);
+        b = new Kellonaika(00, 00);
+        
+        assertEquals(a, b);
+    }
+    
+    @Test
+    public void equalsMetodiTunnistaaEriKellonajat() {
+        a = new Kellonaika(10,00);
+        b = new Kellonaika(00,10);
+        
+        assertFalse(a.equals(b));
+    }
+    
+    @Test
+    public void equalsMetodiTunnistaaKellonajanToisestaOliosta() {
+        a = new Kellonaika(23, 59);
+        Paivays p = new Paivays(12, 12, 2012);
+        
+        assertFalse(a.equals(p));
     }
     
     

@@ -47,14 +47,26 @@ public class Paivays implements Comparable<Paivays>{
     
     /**
      * Testaa onko kaksi annettua päiväysoliota samat.
-     * @param p verrattava Paivays-olio
+     * 
+     * @param olio verrattava Paivays-olio
      * @return true jos päiväysten vuosi, kuukausi ja päivä ovat samat, muuten false
      */
-    public boolean equals(Paivays p) {
-        if(this.compareTo(p) == 0){
-            return true;
+    @Override
+    public boolean equals(Object olio) {
+        if (olio == null) {
+            return false;
         }
-        return false;
+        
+        if (this.getClass() != olio.getClass()) {
+            return false;
+        }
+        
+        Paivays verrattava = (Paivays) olio;
+        
+        if(this.compareTo(verrattava) != 0){
+            return false;
+        }
+        return true;
     }
     
     /**

@@ -1,4 +1,0 @@
-miten tieto kannattaisi tallettaa?
--miten haen tekstitiedostosta yhden merkinnän 
-ja muokkaan tekstiä siinä kohdassa?
--miten 
