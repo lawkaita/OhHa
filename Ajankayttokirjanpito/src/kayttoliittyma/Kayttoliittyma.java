@@ -6,6 +6,7 @@ package kayttoliittyma;
 
 import konsoli.OmaKonsoli;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.WindowEvent;
@@ -19,13 +20,30 @@ import javax.swing.WindowConstants;
  * @author Envy 6-1010
  */
 public class Kayttoliittyma implements Runnable{
+    
+    /**
+     * Ohjelman pääraamit
+     */
     private JFrame frame;
-    private OmaKonsoli konsoli;
+    
+    /**
+     * Käyttöliittymä
+     */
+    private Konsoli konsoli;
+    
+    /**
+     * Näppäimistön tapahtumia ja niistä käskyjä tekevä olio.
+     */
     private Nappaimistonkuuntelija naku;
     
-    public Kayttoliittyma(OmaKonsoli konsoli, Nappaimistonkuuntelija nappaimistonkuuntelija){
+    public Kayttoliittyma(Konsoli konsoli, Nappaimistonkuuntelija nappaimistonkuuntelija){
         this.konsoli = konsoli;
         this.naku = nappaimistonkuuntelija;        
+    }
+
+    public Kayttoliittyma(Konsoli konsoli) {
+        this.konsoli = konsoli;
+        this.naku = null;
     }
     
     /**
@@ -65,7 +83,7 @@ public class Kayttoliittyma implements Runnable{
     private void luoKomponentit(Container container) {        
         container.setLayout(new BorderLayout());
                 
-        container.add(this.konsoli, BorderLayout.CENTER);
+        container.add((OmaKonsoli)this.konsoli, BorderLayout.CENTER);
         konsoli.getVarsinainenKomentoRivi().addKeyListener(naku);
         konsoli.getTyhjanTilanTyhja().addKeyListener(naku);
         
@@ -83,7 +101,7 @@ public class Kayttoliittyma implements Runnable{
      * Palauttaa ohjelman konsoli-olion.
      * @return ohjelman konsoli-olio.
      */    
-    public OmaKonsoli getKonsoli() {
+    public Konsoli getKonsoli() {
         return this.konsoli;
     }
     

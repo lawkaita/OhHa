@@ -7,6 +7,7 @@ package sovelluslogiikka;
 import java.io.IOException;
 import java.util.ArrayList;
 import kayttoliittyma.Kayttoliittyma;
+import kayttoliittyma.Konsoli;
 import kayttoliittyma.KontekstinHaltija;
 import kayttoliittyma.Tulostaja;
 import konsoli.OmaKonsoli;
@@ -14,6 +15,7 @@ import tietokantasysteemi.Kellonaika;
 import tietokantasysteemi.Merkinta;
 import tietokantasysteemi.OmaTiedostonkasittelija;
 import tietokantasysteemi.OmaTietokantaValimuisti;
+import tietokantasysteemi.Paivays;
 import tietokantasysteemi.Tiedostonkasittelija;
 import tietokantasysteemi.TietokantaValimuisti;
 
@@ -29,21 +31,28 @@ public class KomentoLogiikka {
     private AjanTestaaja ajantestaaja;
     private AjanAntaja ajan;
     private Tiedostonkasittelija tika;
-    private OmaKonsoli konsoli;
+    private Konsoli konsoli;
     private KontekstinHaltija koha;
     private Kayttoliittyma kali;
     private TietokantaValimuisti timu;
+    private MerkinnanKasittelija meka;
+    
     /**
      * merkki, joka annettaan dekooderille erottamaan Stringin osat toisistaan.
      */
     private char dekoodausMerkki;
+    
+    /**
+     * Muistipaikka, johon säilötään tietoa useista eri konteksteista tullutta tietoa.
+     */
     private String muistettavaString;
 
     public KomentoLogiikka(Tulostaja tulostaja,
-            Tiedostonkasittelija tika, OmaKonsoli konsoli, KontekstinHaltija koha, Kayttoliittyma kali) {
+            Tiedostonkasittelija tika, Konsoli konsoli, KontekstinHaltija koha, Kayttoliittyma kali, MerkinnanKasittelija meka) {
         this.tulostaja = tulostaja;
         this.ajantestaaja = new OmaAjanTestaaja();
         this.ajan = new OmaAjanAntaja();
+        this.meka = meka;
         this.tika = tika;
         this.konsoli = konsoli;
         this.koha = koha;
@@ -100,7 +109,7 @@ public class KomentoLogiikka {
      * @param komento annettu String
      */
     public void luoMerkinta(String komento) {
-        Merkinta uusiMerkinta = tika.getMerkinnanKasittelija()
+        Merkinta uusiMerkinta = meka
                 .muutaKayttajanAntamaMerkintaTietokannanMerkinnaksi(komento);
         String paivaysMuistettavaStringista = tika.getDekooderi().dekoodaa(komento, '!')[0];
 
@@ -150,7 +159,8 @@ public class KomentoLogiikka {
      */
     public void otetaanPaiva(String komento) {
         if (ajantestaaja.onPaiva(komento)) {
-            muistettavaString = komento + dekoodausMerkki;
+            String paiva = meka.luoPaivays(komento).toString();            
+            muistettavaString = paiva + dekoodausMerkki;
             tulostaja.pyydaAloitusAikaa();
             konsoli.kirjoitaKomentoriville("hh.mm");
             koha.setMerkintaanAloitusAika(true);
@@ -172,7 +182,8 @@ public class KomentoLogiikka {
      */
     public void otetaanAloitusAika(String komento) {
         if (ajantestaaja.onAika(komento)) {
-            muistettavaString += komento;
+            String aika = meka.luoKellonaika(komento);            
+            muistettavaString += aika;
             tulostaja.pyydaLopetusAikaa();
             konsoli.kirjoitaKomentoriville(ajan.annaTamaAika());
             koha.setMerkintaanLopetusaika(true);
@@ -198,7 +209,8 @@ public class KomentoLogiikka {
     public void otetaanLopetusAika(String komento) {
         if (ajantestaaja.onAika(komento)) {
             if (onAloitusaikaaSuurempiKellonaika(komento)) {
-                muistettavaString += "-" + komento + dekoodausMerkki;
+                String aika = meka.luoKellonaika(komento);
+                muistettavaString += "-" + aika + dekoodausMerkki;
                 tulostaja.pyydaSelostus();
                 koha.setMerkintaanSelostus(true);
                 koha.setMerkintaanLopetusaika(false);
@@ -382,4 +394,5 @@ public class KomentoLogiikka {
     public TietokantaValimuisti getTietokantaValimuisti() {
         return this.timu;
     }
+
 }

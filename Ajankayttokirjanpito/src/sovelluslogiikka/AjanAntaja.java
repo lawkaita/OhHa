@@ -12,5 +12,4 @@ public interface AjanAntaja {
     String mikaAikaNytOn();
     String annaTamaPaiva();
     String annaTamaAika();
-   
 }

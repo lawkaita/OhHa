@@ -4,6 +4,7 @@
  */
 package tietokantasysteemi;
 
+import sovelluslogiikka.MerkinnanKasittelija;
 import java.awt.List;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,7 +29,7 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
     private Dekooderi dekooderi;
     private MerkinnanKasittelija meka;
 
-    public OmaTiedostonkasittelija(Dekooderi dekooderi) {
+    public OmaTiedostonkasittelija(Dekooderi dekooderi, MerkinnanKasittelija meka) {
         tietokanta = new File("kirjaukset.txt");
         try {
             tietokanta.createNewFile();
@@ -41,7 +42,23 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
             System.out.println("TiedostonkastittelijaFileNotFoundException");
         }
         this.dekooderi = dekooderi;
-        this.meka = new MerkinnanKasittelija(this.dekooderi);
+        this.meka = meka;
+    }
+    
+     public OmaTiedostonkasittelija(Dekooderi dekooderi) {
+        tietokanta = new File("kirjaukset.txt");
+        try {
+            tietokanta.createNewFile();
+        } catch (IOException ex) {
+            System.out.println("TiedostonkasittelijaIOException");
+        }
+        try {
+            lukija = new Scanner(tietokanta);
+        } catch (FileNotFoundException ex) {
+            System.out.println("TiedostonkastittelijaFileNotFoundException");
+        }
+        this.dekooderi = dekooderi;
+        this.meka = new MerkinnanKasittelija(dekooderi);
     }
 
     public File getTietokanta() {

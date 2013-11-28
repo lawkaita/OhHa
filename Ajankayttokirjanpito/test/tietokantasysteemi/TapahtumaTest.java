@@ -4,6 +4,7 @@
  */
 package tietokantasysteemi;
 
+import sovelluslogiikka.MerkinnanKasittelija;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

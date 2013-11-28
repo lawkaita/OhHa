@@ -4,6 +4,8 @@
  */
 package tietokantasysteemi;
 
+import sovelluslogiikka.NollanLisaaja;
+
 /**
  * Ohjelmassa käytettävä kellonajan muoto.
  *
@@ -72,13 +74,8 @@ public class Kellonaika implements Comparable<Kellonaika> {
      * @return oikean muotoinen kellonajan tunti- tai minuuttiosa Stringinä
      */
     private String muutaIntStringiksiJaLisaaNollaJosTarvitsee(int i) {
-        String palautettava = "" + i;
-
-        if (i < 10) {
-            palautettava = "0" + palautettava;
-        }
-
-        return palautettava;
+        NollanLisaaja nollanLisaaja = new NollanLisaaja();
+        return nollanLisaaja.lisaaNollaJosTarvitsee(i);
     }
 
     @Override

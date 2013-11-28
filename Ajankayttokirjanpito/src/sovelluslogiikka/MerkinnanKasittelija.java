@@ -2,17 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package tietokantasysteemi;
+package sovelluslogiikka;
 
-import java.text.DateFormat;
-import java.text.FieldPosition;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import sovelluslogiikka.Dekooderi;
+import tietokantasysteemi.Kellonaika;
+import tietokantasysteemi.Merkinta;
+import tietokantasysteemi.Paivays;
+import tietokantasysteemi.Tapahtuma;
 
 /**
  * Huolehtii Merkintä-olioiden tarkemmasta käsittelystä.
@@ -146,5 +144,10 @@ public class MerkinnanKasittelija {
         
         Tapahtuma tapahtuma = new Tapahtuma(aloitusaika, lopetusaika, seloste);
         return tapahtuma;
+    }
+
+    public String luoKellonaika(String komento) {
+        String[] dekoodi = dekooderi.dekoodaa(komento, '.');
+        return luoKellonaika(dekoodi).toString();
     }
 }

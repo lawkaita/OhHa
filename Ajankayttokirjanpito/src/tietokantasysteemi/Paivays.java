@@ -4,6 +4,8 @@
  */
 package tietokantasysteemi;
 
+import sovelluslogiikka.NollanLisaaja;
+
 /**
  * Ohjelmassa käytettävä päiväyksen formaatti.
  * @author lawkaita
@@ -75,14 +77,11 @@ public class Paivays implements Comparable<Paivays>{
      * @return muokattu päiväyksen osa.
      */
     private String muutaIntStringiksiJaLisaaNollaJosTarvitsee(int i){
-        String palautettava = "" + i;
-        
-        if (i < 10) {
-            palautettava = "0" + palautettava;
-        }
-        
-        return palautettava;
+        NollanLisaaja nollanLisaaja = new NollanLisaaja();
+        return nollanLisaaja.lisaaNollaJosTarvitsee(i);
     }
+    
+    
     
     @Override
     public String toString() {

@@ -4,6 +4,7 @@
  */
 package tietokantasysteemi;
 
+import sovelluslogiikka.MerkinnanKasittelija;
 import java.io.IOException;
 import java.util.ArrayList;
 import sovelluslogiikka.Dekooderi;

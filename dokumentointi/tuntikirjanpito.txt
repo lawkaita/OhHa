@@ -135,3 +135,6 @@ Päivitetty ja luotu sekvenssikaavioita.
 
 28.11.13 16.30-18.38
 Päivitetty UML-kaaviota ja jäsennetty ja luotu testejä.
+
+28.11.13 18.38-20.36
+Luotu testejä, putsattu ja jäsennelty koodeja.

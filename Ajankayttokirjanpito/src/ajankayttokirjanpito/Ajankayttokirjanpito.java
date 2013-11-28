@@ -8,6 +8,7 @@ import tietokantasysteemi.OmaTiedostonkasittelija;
 import javax.swing.SwingUtilities;
 import kayttoliittyma.Kayttoliittyma;
 import kayttoliittyma.Komentotulkki;
+import kayttoliittyma.Konsoli;
 import kayttoliittyma.KontekstinHaltija;
 import kayttoliittyma.Nappaimistonkuuntelija;
 import kayttoliittyma.Tulostaja;
@@ -15,6 +16,7 @@ import konsoli.OmaKonsoli;
 import sovelluslogiikka.Dekooderi;
 import sovelluslogiikka.OmaAjanAntaja;
 import sovelluslogiikka.KomentoLogiikka;
+import sovelluslogiikka.MerkinnanKasittelija;
 
 /**
  *
@@ -29,13 +31,14 @@ public class Ajankayttokirjanpito {
         boolean ubuntulla = false;
         //tämän pitää näkyä huomenna tässä
         
-        OmaKonsoli konsoli = new OmaKonsoli(ubuntulla);        
-        Kayttoliittyma kali = new Kayttoliittyma(konsoli, null);            
+        Konsoli konsoli = new OmaKonsoli(ubuntulla);        
+        Kayttoliittyma kali = new Kayttoliittyma(konsoli);            
         Dekooderi dekooderi = new  Dekooderi();
-        OmaTiedostonkasittelija tika = new OmaTiedostonkasittelija(dekooderi);
+        MerkinnanKasittelija meka = new MerkinnanKasittelija(dekooderi);
+        OmaTiedostonkasittelija tika = new OmaTiedostonkasittelija(dekooderi, meka);
         KontekstinHaltija koha = new KontekstinHaltija();
-        Tulostaja tulostaja = new Tulostaja(konsoli, tika, dekooderi);
-        KomentoLogiikka kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali);
+        Tulostaja tulostaja = new Tulostaja(konsoli, dekooderi);        
+        KomentoLogiikka kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali, meka);
         Komentotulkki kotu = new Komentotulkki(konsoli, koha, kolo, dekooderi);
         
         kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));

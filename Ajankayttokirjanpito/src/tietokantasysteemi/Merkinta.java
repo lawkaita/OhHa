@@ -24,7 +24,7 @@ public class Merkinta implements Comparable<Merkinta> {
         this.tapahtumat.add(tapahtuma);
     }
 
-    Merkinta(Paivays paivays, ArrayList<Tapahtuma> tapahtumat) {
+    public Merkinta(Paivays paivays, ArrayList<Tapahtuma> tapahtumat) {
         this.paivays = paivays;
         this.tapahtumat = tapahtumat;
     }

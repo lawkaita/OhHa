@@ -22,6 +22,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import sovelluslogiikka.Dekooderi;
 import sovelluslogiikka.KomentoLogiikka;
+import sovelluslogiikka.MerkinnanKasittelija;
 import tietokantasysteemi.Kellonaika;
 import tietokantasysteemi.Merkinta;
 import tietokantasysteemi.OmaTiedostonkasittelija;
@@ -37,6 +38,7 @@ public class AjankayttokirjanpitoTyhjaTiedostoTulostusTest {
     private OmaKonsoli konsoli;
     private Kayttoliittyma kali;
     private Dekooderi dekooderi;
+    private MerkinnanKasittelija meka;
     private OmaTiedostonkasittelija tika;
     private Tulostaja tulostaja;
     private KontekstinHaltija koha;
@@ -50,10 +52,11 @@ public class AjankayttokirjanpitoTyhjaTiedostoTulostusTest {
         konsoli = new OmaKonsoli(true);
         kali = new Kayttoliittyma(konsoli, null);
         dekooderi = new Dekooderi();
-        tika = new OmaTiedostonkasittelija(dekooderi);
-        tulostaja = new Tulostaja(konsoli, tika, dekooderi);
+        meka = new MerkinnanKasittelija(dekooderi);
+        tika = new OmaTiedostonkasittelija(dekooderi, meka);
+        tulostaja = new Tulostaja(konsoli, dekooderi);
         koha = new KontekstinHaltija();
-        kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali);
+        kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali, meka);
         kotu = new Komentotulkki(konsoli, koha, kolo, dekooderi);
 
         kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));

@@ -13,9 +13,9 @@ import javax.swing.JTextField;
  * Alue, johon käyttäjä varsinaisesti kirjoittaa komennot.
  * @author Envy 6-1010
  */
-public class VarsinainenKomentoRivi extends JTextField{
+public class EkaVarsinainenKomentoRivi extends JTextField{
     
-    public VarsinainenKomentoRivi(Font f, int dimensioLuku1, int dimensioLuku2) {
+    public EkaVarsinainenKomentoRivi(Font f, int dimensioLuku1, int dimensioLuku2) {
         setFont(f);
         setBackground(Color.black);
         setForeground(Color.white);

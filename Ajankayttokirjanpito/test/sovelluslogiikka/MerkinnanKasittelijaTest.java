@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package tietokantasysteemi;
+package sovelluslogiikka;
 
+import sovelluslogiikka.MerkinnanKasittelija;
 import java.awt.Paint;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -12,6 +13,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import sovelluslogiikka.Dekooderi;
+import tietokantasysteemi.Kellonaika;
+import tietokantasysteemi.Merkinta;
+import tietokantasysteemi.Paivays;
+import tietokantasysteemi.Tapahtuma;
 
 /**
  *

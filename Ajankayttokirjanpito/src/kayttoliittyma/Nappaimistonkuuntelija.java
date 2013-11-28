@@ -17,10 +17,10 @@ import java.awt.event.KeyListener;
  * @author Envy 6-1010
  */
 public class Nappaimistonkuuntelija implements KeyListener{
-    private OmaKonsoli konsoli;
+    private Konsoli konsoli;
     private Komentotulkki komentotulkki;
     
-    public Nappaimistonkuuntelija(OmaKonsoli konsoli, Komentotulkki komentotulkki) {
+    public Nappaimistonkuuntelija(Konsoli konsoli, Komentotulkki komentotulkki) {
         this.konsoli = konsoli;
         this.komentotulkki = komentotulkki;
     }
@@ -39,7 +39,7 @@ public class Nappaimistonkuuntelija implements KeyListener{
             painettiinEsc();            
         }
         
-        estaLiianPitkaKomentoKonsolissa();
+        //estaLiianPitkaKomentoKonsolissa();
                 
     }
 

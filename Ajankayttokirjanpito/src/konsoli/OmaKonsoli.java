@@ -4,7 +4,6 @@
  */
 package konsoli;
 
-import kayttoliittyma.Tulostaja;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -13,8 +12,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.BadLocationException;
-import kayttoliittyma.Kayttoliittyma;
-import kayttoliittyma.Komentotulkki;
 import kayttoliittyma.Konsoli;
 
 /**
@@ -31,7 +28,7 @@ import kayttoliittyma.Konsoli;
 public class OmaKonsoli extends JPanel implements Konsoli {
 
     private Tulostealue tulosteAlue;
-    private VarsinainenKomentoRivi rivi;
+    private EkaVarsinainenKomentoRivi rivi;
     private Komentorivi komentorivi;
     private TyhjaTila tyhjaTila;
     private Skrollausnakyma skrollausnakyma;
@@ -52,7 +49,7 @@ public class OmaKonsoli extends JPanel implements Konsoli {
         int dimensioLuku2 = 21; //kotikoneella toistaiseksi 15, koulun ubuntulla 21
 
         tulosteAlue = new Tulostealue(f, dimensioLuku1);
-        rivi = new VarsinainenKomentoRivi(f, dimensioLuku1, dimensioLuku2);
+        rivi = new EkaVarsinainenKomentoRivi(f, dimensioLuku1, dimensioLuku2);
         komentorivi = new Komentorivi(f, rivi, dimensioLuku1, dimensioLuku2);
         tyhjaTila = new TyhjaTila(f, dimensioLuku1);
 
@@ -83,7 +80,7 @@ public class OmaKonsoli extends JPanel implements Konsoli {
         String etumerkki = komentorivi.getKursori().annaMerkki() + "> ";
 
         if (!kirjoittajaOnKayttaja) {
-            etumerkki = " :";//huomioi tama tulostetesteissa
+            etumerkki = " :";
         }
 
         tulosteAlue.setPreferredSize(new Dimension(400,
@@ -97,11 +94,12 @@ public class OmaKonsoli extends JPanel implements Konsoli {
      * Tulostaa ohjelman viestin konsoliin.
      * @param viesti ohjelman viesti.
      */
+    @Override
     public void tulostaViesti(String viesti) {
         paivita(viesti, false);
     }
     
-    //tämä jonnekin muualle? -tämä ei ole käytössä
+    @Override
     public void tulostaKomento() {
         String komento = rivi.getText() + tyhjaTila.getTyhja().getText();
         paivita(komento, true);
@@ -119,6 +117,7 @@ public class OmaKonsoli extends JPanel implements Konsoli {
     /**
      * Estää liian pitkän komennon kirjoittamisen poistamalla komennon viimeisen merkin.
      */
+    @Override
     public void estaLiianPitkaKomento() {
         try {
             rivi.setText(rivi.getText(0, rivi.getText().length() - 1));
@@ -134,14 +133,17 @@ public class OmaKonsoli extends JPanel implements Konsoli {
         tyhjaTila.getTyhja().setText("");
     }
 
+    @Override
     public JTextField getVarsinainenKomentoRivi() {
         return this.rivi;
     }
 
+    @Override
     public JTextArea getTyhjanTilanTyhja() {
         return this.tyhjaTila.getTyhja();
     }
     
+    @Override
     public Tulostealue getTulosteAlue() {
         return this.tulosteAlue;
     }
@@ -150,6 +152,7 @@ public class OmaKonsoli extends JPanel implements Konsoli {
      * Kirjoittaa komentoriville annetun tekstin.
      * @param kirjoitettava kirjoitettava teksti.
      */
+    @Override
     public void kirjoitaKomentoriville(String kirjoitettava) {
         this.rivi.setText(kirjoitettava);
     }

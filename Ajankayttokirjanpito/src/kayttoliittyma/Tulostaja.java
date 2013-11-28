@@ -12,6 +12,7 @@ import java.util.Scanner;
 import kayttoliittyma.Kayttoliittyma;
 import konsoli.OmaKonsoli;
 import tietokantasysteemi.Merkinta;
+import tietokantasysteemi.Tiedostonkasittelija;
 
 /**
  * Tulostajan vastuulla on tulostaa ohjelman vastauksia tai tietokannan
@@ -20,14 +21,15 @@ import tietokantasysteemi.Merkinta;
  * @author lawkaita
  */
 public class Tulostaja {
-
-    private OmaKonsoli konsoli;
-    private OmaTiedostonkasittelija tika;
+    
+    /**
+     * Ohjelman käyttöliittymän pääkomponentti. Tulostaja tulostaa tekstiä tähän komponenttiin.
+     */
+    private Konsoli konsoli;    
     private Dekooderi dekooderi;
 
-    public Tulostaja(OmaKonsoli konsoli, OmaTiedostonkasittelija tika, Dekooderi dekooderi) {
+    public Tulostaja(Konsoli konsoli, Dekooderi dekooderi) {
         this.konsoli = konsoli;
-        this.tika = tika;
         this.dekooderi = dekooderi;
     }
 
@@ -39,7 +41,7 @@ public class Tulostaja {
             "nyt - tämänhetkinen aika",
             "apua - tämä tuloste",
             "tulosta - tulostaa koko tietokannan",
-            "hae - hakutoiminnon",
+            "hae - hakutoiminnon aloitus",
             "merk - aloittaa merkinnän luomisen",
             "nollaa - nollaa koko tietokannan",
             "poista - aloittaa yksittäisen merkinnän",
@@ -51,27 +53,6 @@ public class Tulostaja {
 
     }
 
-    /**
-     * Tulostaa koko ohjelman tietokantana käytettävän tiedoston sisällön.
-     */
-    public void tulostaTietokantaTiedosto() {
-        try {
-            tika.alustaTietokannanLukija();
-
-            if (!tika.lukijallaSeuraavaRivi()) {
-                tulostaEiMerkintoja();
-            }
-
-            while (tika.lukijallaSeuraavaRivi()) {
-                tulostaKonsoliin(tika.lukijanSeuraavaRivi());
-            }
-
-            tulostaKonsoliin("::::");
-
-        } catch (FileNotFoundException ex) {
-            tulostaKonsoliin("Tiedostoa ei löydy");
-        }
-    }
     
     public void tulostaValimuisti(String muistiString) {
         tulostaRivitettyString(muistiString);

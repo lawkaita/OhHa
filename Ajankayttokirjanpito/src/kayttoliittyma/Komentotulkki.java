@@ -21,12 +21,24 @@ import sovelluslogiikka.KomentoLogiikka;
  */
 public class Komentotulkki {
 
-    private OmaKonsoli konsoli;
+    /**
+     * Ohjelman käyttöliittymä.
+     */
+    private Konsoli konsoli;
+    /**
+     * Olio, joka pitää kirjaa siitä, missä asiayhteydessä konsolia käytetään.
+     */
     private KontekstinHaltija koha;
+    /**
+     * Ohjelman komentokokonaisuuksia suorittava olio.
+     */
     private KomentoLogiikka komentologiikka;
+    /**
+     * Komentosarjoja osiin lajitteleva olio.
+     */
     private Dekooderi dekooderi;
 
-    public Komentotulkki(OmaKonsoli konsoli, KontekstinHaltija koha, KomentoLogiikka kolo, Dekooderi dekooderi) {
+    public Komentotulkki(Konsoli konsoli, KontekstinHaltija koha, KomentoLogiikka kolo, Dekooderi dekooderi) {
         this.konsoli = konsoli;
         this.koha = koha;
         this.komentologiikka = kolo;

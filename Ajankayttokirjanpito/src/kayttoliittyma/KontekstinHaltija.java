@@ -18,7 +18,6 @@ public class KontekstinHaltija {
     public boolean hakuKaynnissa;
     public boolean poistetaanMerkintaa;
     
-
     public KontekstinHaltija() {
         merkintaanPaiva = false;
         merkintaanAloitusAika = false;

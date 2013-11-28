@@ -18,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import sovelluslogiikka.KomentoLogiikka;
+import sovelluslogiikka.MerkinnanKasittelija;
 import tietokantasysteemi.Kellonaika;
 import tietokantasysteemi.Merkinta;
 import tietokantasysteemi.Paivays;
@@ -32,6 +33,7 @@ public class AjankayttokirjanpitoTest {
     private OmaKonsoli konsoli;
     private Kayttoliittyma kali;
     private Dekooderi dekooderi;
+    private MerkinnanKasittelija meka;
     private OmaTiedostonkasittelija tika;
     private Tulostaja tulostaja;
     private KontekstinHaltija koha;
@@ -46,10 +48,11 @@ public class AjankayttokirjanpitoTest {
         konsoli = new OmaKonsoli(true);
         kali = new Kayttoliittyma(konsoli, null);
         dekooderi = new Dekooderi();
-        tika = new OmaTiedostonkasittelija(dekooderi);
-        tulostaja = new Tulostaja(konsoli, tika, dekooderi);
+        meka = new MerkinnanKasittelija(dekooderi);
+        tika = new OmaTiedostonkasittelija(dekooderi, meka);
+        tulostaja = new Tulostaja(konsoli, dekooderi);
         koha = new KontekstinHaltija();
-        kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali);
+        kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali, meka);
         kotu = new Komentotulkki(konsoli, koha, kolo, dekooderi);
 
         kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));
@@ -106,14 +109,47 @@ public class AjankayttokirjanpitoTest {
     }
 
     @Test
-    public void onkoPaivaTestiTunnistaaVirheellisenPaivanKunPaivassaLiikaaPisteellaEroteltujaNumeroSekvensseja() {
+    public void onkoPaivaTestiTunnistaaVirheellisenPaivanKunPaivassaLiianVahanPisteellaEroteltujaNumeroSekvensseja() {
+        String rikkinainenPaivays = ".13";
         kali.getKonsoli().kirjoitaKomentoriville("merk");
         kotu.otaKomento();
-        kali.getKonsoli().kirjoitaKomentoriville(".13");
+        kali.getKonsoli().kirjoitaKomentoriville(rikkinainenPaivays);
         kotu.otaKomento();
 
         String tuloste = kali.getKonsoli().getTulosteAlue().getText();
-        String alkuosa = alkuteksti + "\n-> merk" + "\n :Päiväys:" + "\n-> .13" + "\n";
+        String alkuosa = alkuteksti + "\n-> merk" + "\n :Päiväys:" + "\n-> " + rikkinainenPaivays + "\n";
+        String saatu = tuloste.substring(alkuosa.length(), tuloste.length());
+        //jätetään alusta komentorivin tervehdys, pyörivä kursori ja aluksi annettu komento.
+
+        assertEquals(" :Ei ole päivä", saatu);
+    }
+    
+    @Test
+    public void onkoPaivaTestiTunnistaaVirheellisenPaivanKunPaivassaLiikaaPisteellaEroteltujaNumeroSekvensseja() {
+        String rikkinainenPaivays = "13.13.1313.13";
+        kali.getKonsoli().kirjoitaKomentoriville("merk");
+        kotu.otaKomento();
+        kali.getKonsoli().kirjoitaKomentoriville(rikkinainenPaivays);
+        kotu.otaKomento();
+
+        String tuloste = kali.getKonsoli().getTulosteAlue().getText();
+        String alkuosa = alkuteksti + "\n-> merk" + "\n :Päiväys:" + "\n-> " + rikkinainenPaivays + "\n";
+        String saatu = tuloste.substring(alkuosa.length(), tuloste.length());
+        //jätetään alusta komentorivin tervehdys, pyörivä kursori ja aluksi annettu komento.
+
+        assertEquals(" :Ei ole päivä", saatu);
+    }
+    
+    @Test
+    public void onkoPaivaTestiTunnistaaVirheellisenPaivanKunAnnetaanTyhjaSyote() {
+        String rikkinainenPaivays = "";
+        kali.getKonsoli().kirjoitaKomentoriville("merk");
+        kotu.otaKomento();
+        kali.getKonsoli().kirjoitaKomentoriville(rikkinainenPaivays);
+        kotu.otaKomento();
+
+        String tuloste = kali.getKonsoli().getTulosteAlue().getText();
+        String alkuosa = alkuteksti + "\n-> merk" + "\n :Päiväys:" + "\n-> " + rikkinainenPaivays + "\n";
         String saatu = tuloste.substring(alkuosa.length(), tuloste.length());
         //jätetään alusta komentorivin tervehdys, pyörivä kursori ja aluksi annettu komento.
 
@@ -141,6 +177,21 @@ public class AjankayttokirjanpitoTest {
         kotu.otaKomento();
         kotu.otaKomento();//tassa kohtaa komentoriville on hakeutunut oikea paiva
         kali.getKonsoli().kirjoitaKomentoriville("jeessys");
+        kotu.otaKomento();
+
+        String tuloste = kali.getKonsoli().getTulosteAlue().getText();
+        String odotettu = " :Ei ole aika";
+        String aktuaali = tuloste.substring(tuloste.length() - odotettu.length(), tuloste.length());
+
+        assertEquals(odotettu, aktuaali);
+    }
+    
+    @Test
+    public void onkoAikaTestiTunnistaaTyhjanAjan() {
+        kali.getKonsoli().kirjoitaKomentoriville("merk");
+        kotu.otaKomento();
+        kotu.otaKomento();//tassa kohtaa komentoriville on hakeutunut oikea paiva
+        kali.getKonsoli().kirjoitaKomentoriville("");
         kotu.otaKomento();
 
         String tuloste = kali.getKonsoli().getTulosteAlue().getText();
