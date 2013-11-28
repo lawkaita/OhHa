@@ -6,11 +6,7 @@ package ajankayttokirjanpito;
  */
 import tietokantasysteemi.OmaTiedostonkasittelija;
 import sovelluslogiikka.Dekooderi;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
-import kayttoliittyma.Kayttoliittyma;
 import kayttoliittyma.Kayttoliittyma;
 import kayttoliittyma.Komentotulkki;
 import kayttoliittyma.KontekstinHaltija;
@@ -21,7 +17,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import sovelluslogiikka.OmaAjanAntaja;
 import sovelluslogiikka.KomentoLogiikka;
 import tietokantasysteemi.Kellonaika;
 import tietokantasysteemi.Merkinta;
@@ -42,6 +37,9 @@ public class AjankayttokirjanpitoTest {
     private KontekstinHaltija koha;
     private KomentoLogiikka kolo;
     private Komentotulkki kotu;
+    
+    private String alkuteksti;
+    private String kayttajanTulosteMerkki = "> ";
 
     @Before
     public void setUp() {
@@ -52,22 +50,32 @@ public class AjankayttokirjanpitoTest {
         tulostaja = new Tulostaja(konsoli, tika, dekooderi);
         koha = new KontekstinHaltija();
         kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali);
-        kotu = new Komentotulkki(konsoli, koha, kolo);
+        kotu = new Komentotulkki(konsoli, koha, kolo, dekooderi);
 
         kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));
-
+        
+        alkuteksti = konsoli.getTulosteAlue().getText();
+        
         SwingUtilities.invokeLater(kali);
     }
-
-    @Test //vanhentunut: nollaa komento ei nollaa enää mitään.
-    public void nollaaKomentoTyhjentaaTiedoston() {
-        konsoli.kirjoitaKomentoriville("nollaa");
+    
+    @Test
+    public void alkuTestiOnOikein() {
+        assertEquals(" :Komenna apua saadaksesi apua", alkuteksti);
+    }
+    
+    @Test
+    public void tyhjaKomentoTulostaaTyhjanRivin() {
         kotu.otaKomento();
-
-        konsoli.kirjoitaKomentoriville("tulosta");
-        kotu.otaKomento();
-
-        assertFalse(tika.getTietokannanLukija().hasNext());
+        
+        String tuloste = konsoli.getTulosteAlue().getText();
+        String saatu = tuloste.substring(alkuteksti.length() + 2); // +2 koska \n ja pyörivä kursori.
+        String odotettu = "> ";
+        
+        System.out.println(alkuteksti);
+        System.out.println(tuloste);
+        
+        assertEquals(odotettu, saatu);
     }
 
     @Test
@@ -76,7 +84,7 @@ public class AjankayttokirjanpitoTest {
         kotu.otaKomento();
 
         String tuloste = kali.getKonsoli().getTulosteAlue().getText();
-        String odotettu = tuloste.substring(5, tuloste.length());
+        String odotettu = tuloste.substring(alkuteksti.length() +2, tuloste.length());
         //jätetään alusta komentorivin tervehdys ja pyörivä kursori.
 
         assertEquals("> Jeessys\n :Ei ole komento", odotettu);
@@ -90,10 +98,11 @@ public class AjankayttokirjanpitoTest {
         kotu.otaKomento();
 
         String tuloste = kali.getKonsoli().getTulosteAlue().getText();
-        String odotettu = tuloste.substring(34, tuloste.length());
+        String alkuosa = alkuteksti + "\n-> merk" + "\n :Päiväys:" + "\n-> jeessys" + "\n";
+        String saatu = tuloste.substring(alkuosa.length(), tuloste.length());
         //jätetään alusta komentorivin tervehdys, pyörivä kursori ja aluksi annettu komento.
 
-        assertEquals(" :Ei ole päivä", odotettu);
+        assertEquals(" :Ei ole päivä", saatu);
     }
 
     @Test
@@ -104,10 +113,11 @@ public class AjankayttokirjanpitoTest {
         kotu.otaKomento();
 
         String tuloste = kali.getKonsoli().getTulosteAlue().getText();
-        String odotettu = tuloste.substring(30, tuloste.length());
+        String alkuosa = alkuteksti + "\n-> merk" + "\n :Päiväys:" + "\n-> .13" + "\n";
+        String saatu = tuloste.substring(alkuosa.length(), tuloste.length());
         //jätetään alusta komentorivin tervehdys, pyörivä kursori ja aluksi annettu komento.
 
-        assertEquals(" :Ei ole päivä", odotettu);
+        assertEquals(" :Ei ole päivä", saatu);
     }
 
     @Test
@@ -118,10 +128,11 @@ public class AjankayttokirjanpitoTest {
         kotu.otaKomento();
 
         String tuloste = kali.getKonsoli().getTulosteAlue().getText();
-        String odotettu = tuloste.substring(37, tuloste.length());
+        String alkuosa = alkuteksti + "\n-> merk" + "\n :Päiväys:" + "\n-> dd.mm.yyyy" + "\n";
+        String saatu = tuloste.substring(alkuosa.length(), tuloste.length());
         //jätetään alusta komentorivin tervehdys, pyörivä kursori ja aluksi annettu komento.
 
-        assertEquals(" :Aloitusaika:", odotettu);
+        assertEquals(" :Aloitusaika:", saatu);
     }
 
     @Test

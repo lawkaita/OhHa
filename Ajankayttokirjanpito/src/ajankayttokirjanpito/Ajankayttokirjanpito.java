@@ -36,7 +36,7 @@ public class Ajankayttokirjanpito {
         KontekstinHaltija koha = new KontekstinHaltija();
         Tulostaja tulostaja = new Tulostaja(konsoli, tika, dekooderi);
         KomentoLogiikka kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali);
-        Komentotulkki kotu = new Komentotulkki(konsoli, koha, kolo);
+        Komentotulkki kotu = new Komentotulkki(konsoli, koha, kolo, dekooderi);
         
         kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));
         

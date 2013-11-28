@@ -16,7 +16,7 @@ import javax.swing.JTextArea;
 public class Tulostealue extends JTextArea {
     
     public Tulostealue(Font f, int dimensioLuku1) {
-        super("hei");
+        super(" :Komenna apua saadaksesi apua");
         
         setFont(f);
         setEditable(false);

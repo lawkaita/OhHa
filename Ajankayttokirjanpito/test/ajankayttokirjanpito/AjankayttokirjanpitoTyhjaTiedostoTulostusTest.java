@@ -42,6 +42,8 @@ public class AjankayttokirjanpitoTyhjaTiedostoTulostusTest {
     private KontekstinHaltija koha;
     private KomentoLogiikka kolo;
     private Komentotulkki kotu;
+    
+    private String eiMerkintoja;
 
     @Before
     public void setUp() {
@@ -52,9 +54,11 @@ public class AjankayttokirjanpitoTyhjaTiedostoTulostusTest {
         tulostaja = new Tulostaja(konsoli, tika, dekooderi);
         koha = new KontekstinHaltija();
         kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali);
-        kotu = new Komentotulkki(konsoli, koha, kolo);
+        kotu = new Komentotulkki(konsoli, koha, kolo, dekooderi);
 
         kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));
+        
+        eiMerkintoja = " :Ei merkintöjä";
 
         SwingUtilities.invokeLater(kali);
         try {
@@ -63,6 +67,7 @@ public class AjankayttokirjanpitoTyhjaTiedostoTulostusTest {
         } catch (IOException ex) {
             System.out.println("IOException");
         }
+        
     }
 
     @Test
@@ -71,7 +76,7 @@ public class AjankayttokirjanpitoTyhjaTiedostoTulostusTest {
         konsoli.kirjoitaKomentoriville("tulosta");
         kotu.otaKomento();
 
-        String odotettu = " :Ei merkintöjä";
+        String odotettu = eiMerkintoja;
         String tuloste = konsoli.getTulosteAlue().getText();
         String aktuaali = tuloste.substring(tuloste.length() - odotettu.length(), tuloste.length());
         boolean tulosteOnSamaViestiKuinEimerkintoja = (aktuaali.equals(odotettu));
@@ -91,10 +96,10 @@ public class AjankayttokirjanpitoTyhjaTiedostoTulostusTest {
         konsoli.kirjoitaKomentoriville("tulosta");
         kotu.otaKomento();
 
-        String eiOotettu = " :Ei merkintöjä\n :::::";
+        String eiOdotettu = eiMerkintoja;
         String tuloste = konsoli.getTulosteAlue().getText();
-        String aktuaali = tuloste.substring(tuloste.length() - eiOotettu.length(), tuloste.length());
-        boolean tulosteOnEriViestiKuinEimerkintoja = (!aktuaali.equals(eiOotettu));
+        String aktuaali = tuloste.substring(tuloste.length() - eiOdotettu.length(), tuloste.length());
+        boolean tulosteOnEriViestiKuinEimerkintoja = (!aktuaali.equals(eiOdotettu));
 
         System.out.println(aktuaali);
 

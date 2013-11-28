@@ -56,7 +56,7 @@ public class Dekooderi {
      * Laskee eroteltavien osien määrän.
      * @param lajiteltava lajiteltava String
      * @param valimerkki lajittelussa käytettävä välimerkki.
-     * @return 
+     * @return kuinka monta kertaa välimerkki esiintyy annettavassa Stringissa
      */
     public int laskeOsienMaara(String lajiteltava, Character valimerkki) {
         if (lajiteltava.isEmpty()) {

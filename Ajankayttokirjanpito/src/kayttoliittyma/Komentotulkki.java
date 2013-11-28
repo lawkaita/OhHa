@@ -6,6 +6,7 @@ package kayttoliittyma;
 
 import tietokantasysteemi.OmaTiedostonkasittelija;
 import konsoli.OmaKonsoli;
+import sovelluslogiikka.Dekooderi;
 import sovelluslogiikka.OmaAjanTestaaja;
 import sovelluslogiikka.KomentoLogiikka;
 
@@ -23,11 +24,13 @@ public class Komentotulkki {
     private OmaKonsoli konsoli;
     private KontekstinHaltija koha;
     private KomentoLogiikka komentologiikka;
+    private Dekooderi dekooderi;
 
-    public Komentotulkki(OmaKonsoli konsoli, KontekstinHaltija koha, KomentoLogiikka kolo) {
+    public Komentotulkki(OmaKonsoli konsoli, KontekstinHaltija koha, KomentoLogiikka kolo, Dekooderi dekooderi) {
         this.konsoli = konsoli;
         this.koha = koha;
         this.komentologiikka = kolo;
+        this.dekooderi = dekooderi;
     }
 
     /**
@@ -39,43 +42,50 @@ public class Komentotulkki {
      */
     public void haarauta(String komento) {
 
-        if (koha.getHakuKaynnissa() == true) {
-            komentologiikka.merkintaHaku(komento);
-            return;
+        if (komentojenMaara(komento) > 1) {
+            kasitteleKomentoSarja(komento);
+            
+        } else {
+
+            if (koha.getHakuKaynnissa() == true) {
+                komentologiikka.merkintaHaku(komento);
+                return;
+            }
+
+            if (koha.getMerkintaanPaiva() == true) {
+                komentologiikka.otetaanPaiva(komento);
+                return;
+            }
+
+            if (koha.getMerkintaanAloitusAika() == true) {
+                komentologiikka.otetaanAloitusAika(komento);
+                return;
+            }
+
+            if (koha.getMerkintaanLopetusAika() == true) {
+                komentologiikka.otetaanLopetusAika(komento);
+                return;
+            }
+
+            if (koha.getMerkintaanSelostus() == true) {
+                komentologiikka.otetaanSelostus(komento);
+
+                return;
+            }
+
+            if (koha.getPoistetaanMerkintaa() == true) {
+                komentologiikka.poistetaanMerkinta(komento);
+                return;
+            }
+
+            tulkitse(komento);
         }
-
-        if (koha.getMerkintaanPaiva() == true) {
-            komentologiikka.otetaanPaiva(komento);
-            return;
-        }
-
-        if (koha.getMerkintaanAloitusAika() == true) {
-            komentologiikka.otetaanAloitusAika(komento);
-            return;
-        }
-
-        if (koha.getMerkintaanLopetusAika() == true) {
-            komentologiikka.otetaanLopetusAika(komento);
-            return;
-        }
-
-        if (koha.getMerkintaanSelostus() == true) {
-            komentologiikka.otetaanSelostus(komento);
-
-            return;
-        }
-
-        if (koha.getPoistetaanMerkintaa() == true) {
-            komentologiikka.poistetaanMerkinta(komento);
-            return;
-        }
-
-        tulkitse(komento);
     }
-    
+
     /**
-     * Tulkitsee käyttäjän antaman komennon, kun komentoa ei annettu missään kontekstissa.
-     * 
+     * Tulkitsee käyttäjän antaman komennon, kun komentoa ei annettu missään
+     * kontekstissa.
+     *
      * @param komento käyttäjän antama komento
      */
     public void tulkitse(String komento) {
@@ -122,23 +132,24 @@ public class Komentotulkki {
             komentologiikka.aloitetaanPaivanPoisto();
             return;
         }
-        
+
         if (komento.equals("tallenna")) {
             komentologiikka.tallenna();
             return;
         }
-        
+
         if (komento.equals("yhteenveto")) {
             this.komentologiikka.yhteenveto();
             return;
         }
 
         komentologiikka.tulostetaanVirhe();
-        
+
     }
 
     /**
-     * Ottaa käyttäjän antaman komennon konsolin komentoriviltä ja käsittelee sen.
+     * Ottaa käyttäjän antaman komennon konsolin komentoriviltä ja käsittelee
+     * sen.
      */
     public void otaKomento() {
         String komento = konsoli.getVarsinainenKomentoRivi().getText();
@@ -152,12 +163,33 @@ public class Komentotulkki {
     public void keskeytaKaikki() {
         this.komentologiikka.keskeytaKaikki();
     }
-    
+
     /**
      * Palauttaa komentotulkin kontekstinHaltijan.
-     * @return komentotulkin kontekstinhaltija  
+     *
+     * @return komentotulkin kontekstinhaltija
      */
     public KontekstinHaltija getKontekstinHaltija() {
         return this.koha;
+    }
+
+    private int komentojenMaara(String komento) {
+        return this.dekooderi.laskeOsienMaara(komento, null);
+    }
+
+    private void kasitteleKomentoSarja(String komento) {
+        String[] komentosarja = this.dekooderi.dekoodaa(komento, null);
+
+        if (komentosarja[0].equals("hae")) {
+            this.komentologiikka.merkintaHaku(komentosarja[1]);
+            return;
+        }
+        
+        if (komentosarja[0].equals("poista")) {
+            this.komentologiikka.poistetaanMerkinta(komentosarja[1]);
+            return;
+        }
+        
+        this.komentologiikka.tulostetaanVirhe();
     }
 }

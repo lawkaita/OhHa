@@ -32,22 +32,34 @@ public class Nappaimistonkuuntelija implements KeyListener{
     @Override
     public void keyPressed(KeyEvent ke) {
         if (ke.getKeyCode() == KeyEvent.VK_ENTER){
-            komentotulkki.otaKomento();
+            painettiinEnter();
         }
         
         if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            komentotulkki.keskeytaKaikki();
+            painettiinEsc();            
         }
         
-        if (konsoli.getVarsinainenKomentoRivi().getText().length() > 30) {
-            //konsoli.jatkaKirjoitustaTyhjaanKenttaan();
-            konsoli.estaLiianPitkaKomento();
-        }
-        
+        estaLiianPitkaKomentoKonsolissa();
+                
     }
 
     @Override
     public void keyReleased(KeyEvent ke) {
+    }
+
+    private void painettiinEnter() {
+        komentotulkki.otaKomento();
+    }
+
+    private void painettiinEsc() {
+        komentotulkki.keskeytaKaikki();
+    }
+
+    private void estaLiianPitkaKomentoKonsolissa() {
+        if (konsoli.getVarsinainenKomentoRivi().getText().length() > 30) {
+            //konsoli.jatkaKirjoitustaTyhjaanKenttaan();
+            konsoli.estaLiianPitkaKomento();
+        }
     }
     
 }
