@@ -80,7 +80,7 @@ public class OmaKonsoli extends JPanel implements Konsoli {
         String etumerkki = komentorivi.getKursori().annaMerkki() + "> ";
 
         if (!kirjoittajaOnKayttaja) {
-            etumerkki = " :";
+            etumerkki = " # ";
         }
 
         tulosteAlue.setPreferredSize(new Dimension(400,

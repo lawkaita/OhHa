@@ -4,10 +4,7 @@
  */
 package kayttoliittyma;
 
-import tietokantasysteemi.OmaTiedostonkasittelija;
-import konsoli.OmaKonsoli;
 import sovelluslogiikka.Dekooderi;
-import sovelluslogiikka.OmaAjanTestaaja;
 import sovelluslogiikka.KomentoLogiikka;
 
 /**
@@ -58,9 +55,31 @@ public class Komentotulkki {
             kasitteleKomentoSarja(komento);
             
         } else {
+           
+            if (koha.ollaanPoistumassaOhjelmasta) {
+                if (komento.equals("k")) {
+                    komentologiikka.ollaanPoistumassaOhjelmasta();
+                } else if (komento.equals("e")) {
+                    komentologiikka.poistutaanKonteksteista();
+                } else {
+                    komentologiikka.tulostetaanKyllaEi(); 
+                }
+                return;
+            }
+            
+            if (koha.kysytaanPoistumisenYhteydessaTallennuksesta) {
+                if (komento.equals("k")) {
+                    komentologiikka.poistutaanTallentaen();
+                } else if (komento.equals("e")) {
+                    komentologiikka.poistutaanTallentamatta();
+                } else {
+                    komentologiikka.tulostetaanKyllaEi();
+                }
+            }
+            
 
             if (koha.getHakuKaynnissa() == true) {
-                komentologiikka.merkintaHaku(komento);
+                komentologiikka.haarautaHaku(komento);
                 return;
             }
 
@@ -107,7 +126,8 @@ public class Komentotulkki {
         }
 
         if (komento.equals("exit")) {
-            komentologiikka.tapaKali();
+            komentologiikka.aloitaOhjelmastaPoistuminen();
+            return;
         }
 
         if (komento.equals("nyt")) {
@@ -129,8 +149,8 @@ public class Komentotulkki {
             this.komentologiikka.haunAloitus();
             return;
         }
-
-        if (komento.equals("merk")) {
+        
+        if (komento.equals("merkintä")) {
             this.komentologiikka.merkinnanAloitus();
             return;
         }
@@ -191,9 +211,22 @@ public class Komentotulkki {
 
     private void kasitteleKomentoSarja(String komento) {
         String[] komentosarja = this.dekooderi.dekoodaa(komento, null);
+        
+        if (komentosarja[0].equals("lisää")) {
+            if (komentosarja[1].equals("merkintä")) {
+                this.komentologiikka.merkinnanAloitus();
+                return;
+            } else if (komentosarja[1].equals("seurattava")) {
+                if (komentosarja.length > 2) {
+                    this.komentologiikka.lisätäänSeurattava(komentosarja[2]);
+                    return;
+                }
+            }
+                    
+        }
 
         if (komentosarja[0].equals("hae")) {
-            this.komentologiikka.merkintaHaku(komentosarja[1]);
+            this.komentologiikka.haarautaHaku(komentosarja[1]);
             return;
         }
         
@@ -202,6 +235,20 @@ public class Komentotulkki {
             return;
         }
         
+        if (komentosarja[0].equals("apua")) {
+            pyydetaanApua(komentosarja[1]);
+            return;
+        }
+        
         this.komentologiikka.tulostetaanVirhe();
+    }
+
+    private void pyydetaanApua(String string) {
+        if (string.equals("lisää")) {
+            this.komentologiikka.neuvottavaLisaamisessa();
+            return;
+        }
+        
+         this.komentologiikka.tulostetaanVirhe();
     }
 }

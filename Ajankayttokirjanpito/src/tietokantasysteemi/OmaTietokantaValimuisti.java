@@ -15,10 +15,12 @@ public class OmaTietokantaValimuisti implements TietokantaValimuisti {
 
     private Tiedostonkasittelija tika;
     private ArrayList<Merkinta> muisti;
+    private ArrayList<String> seurattavatToiminnot;
 
     public OmaTietokantaValimuisti(Tiedostonkasittelija tika) {
         this.tika = tika;
         this.muisti = tika.lataaTietokanta();
+        this.seurattavatToiminnot = tika.lataaSeurattavatToiminnot();
     }
 
     /**
@@ -150,5 +152,30 @@ public class OmaTietokantaValimuisti implements TietokantaValimuisti {
     @Override
     public void nollaaMuisti() {
         this.muisti = new ArrayList<Merkinta>();
+    }
+
+    @Override
+    public ArrayList<String> annaSeurattavatToiminnot() {
+        return this.seurattavatToiminnot;
+    }
+
+    @Override
+    public void lisaaSeurattava(String string) {
+        this.seurattavatToiminnot.add(string);
+    }
+
+    @Override
+    public boolean kannassaOnSeurattavaToiminta(String komento) {
+        for(String seurattava : this.seurattavatToiminnot) {
+            if (seurattava.equals(komento)) {
+                return true;
+            }                     
+        }
+        return false;
+    }
+
+    @Override
+    public int laskeSeurattavienMaara() {
+        return this.seurattavatToiminnot.size();
     }
 }

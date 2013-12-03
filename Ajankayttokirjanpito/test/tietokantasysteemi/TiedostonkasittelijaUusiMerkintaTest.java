@@ -56,7 +56,7 @@ public class TiedostonkasittelijaUusiMerkintaTest {
                     + "    00.01-01.03: vanhaMerkinta\r\n"
                     + "    02.02-04.08: lisattyMerkinta";
 
-            String aktuaali = tika.kirjoitaKantaTekstitauluStringiksiRivittaen(tika.getTietokantaTekstiTauluna());
+            String aktuaali = tika.kirjoitaTekstitauluStringiksiRivittaen(tika.getTietokantaTekstiTauluna());
             //kirjoitKantaTekstitauluStringiksiRivittaenLisaaYlimaaraisenRivinvaihdon koska haetussa tekstitaulussa on jo yksi rivinvaihto
 
             System.out.println(odotettu);
@@ -67,16 +67,25 @@ public class TiedostonkasittelijaUusiMerkintaTest {
             assertEquals(odotettu, aktuaali);
 
         } catch (IOException ex) {
-            assertEquals(true, false);
+            testiEiOnnistunut(ex);
         }
     }
 
     @After
     public void tearDown() {
+        try {
+            tika.nollaaTietokantaTiedosto();
+        } catch (IOException ex) {
+            System.out.println("Tietokantatiedoston nollaus testien lopussa ei onnistu: " + ex.getMessage());
+        }
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
     // @Test
     // public void hello() {}
+
+    private void testiEiOnnistunut(IOException ex) {
+        System.out.println("Testi ei onnistu!" + ex.getMessage());
+    }
 }

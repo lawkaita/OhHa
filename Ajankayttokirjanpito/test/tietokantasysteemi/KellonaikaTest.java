@@ -117,8 +117,7 @@ public class KellonaikaTest {
         Paivays p = new Paivays(12, 12, 2012);
         
         assertFalse(a.equals(p));
-    }
-    
+    }    
     
     @After
     public void tearDown() {

@@ -26,13 +26,12 @@ public class TiedostonkasittelijaTest {
 
     @Before
     public void setUp() {
-        this.tika = new OmaTiedostonkasittelija(new Dekooderi());
+        this.tika = new OmaTiedostonkasittelija(new Dekooderi()); 
         try {
-            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("\nTestimerkintöjä\n", true);
+            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("TietokantaTestiTeksti\r\n", true);
         } catch (IOException ex) {
-            System.out.println("TiedostonkasittelijaTestIOException");
+            System.out.println("Testtin valmistelu ei onnistu: " + ex.getMessage());
         }
-        
     }
     
     @Test
@@ -59,8 +58,7 @@ public class TiedostonkasittelijaTest {
         try {
             tika.alustaTietokannanLukija();
         } catch (FileNotFoundException ex) {
-            System.out.println("FileNotFoundException");
-            assertEquals(true, false);
+            testiEiOnnistunut(ex);
        }   
     }
     
@@ -69,8 +67,7 @@ public class TiedostonkasittelijaTest {
         try {
             tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("alustaTietokantaTestiTeksti\r\n", true);
         } catch (IOException ex) {
-            System.out.println("IOException");
-            assertEquals(true, false);
+            testiEiOnnistunut(ex);
         }
     }
     
@@ -81,8 +78,7 @@ public class TiedostonkasittelijaTest {
             boolean onSeuraava = tika.getTietokannanLukija().hasNextLine();
             assertEquals(true, onSeuraava);
         } catch (FileNotFoundException ex) {
-            System.out.println("FileNotFoundException");
-            assertEquals(true, false);
+            testiEiOnnistunut(ex);
        }   
     }
  
@@ -100,8 +96,7 @@ public class TiedostonkasittelijaTest {
 
             assertEquals("testiteksti", vikaRivi);
         } catch (IOException ex) {
-            assertEquals(1, 2);
-            System.out.println("tika ei onnistunut kirjoittamaan tiedostoon ja lukemaan tiedostoa");
+            testiEiOnnistunut(ex);
         }
     }
     
@@ -111,13 +106,12 @@ public class TiedostonkasittelijaTest {
         try {
             this.tika.nollaaTietokantaTiedosto();
         } catch (IOException ex) {
-            System.out.println("Tiedoston nollaustestissä nollaaminen ei onnistu");
+            testiEiOnnistunut(ex);
         }
         try {
             this.tika.alustaTietokannanLukija();
         } catch (FileNotFoundException ex) {
-            System.out.println("Tiedoston nollaamistestissä tiedostoa ei löydy");
-            assertEquals(1, 2);
+            testiEiOnnistunut(ex);
         }
         
         assertEquals(false, tika.getTietokannanLukija().hasNext());        
@@ -132,8 +126,7 @@ public class TiedostonkasittelijaTest {
             assertEquals(true, onKannassa);
             
         } catch (IOException ex) {
-            System.out.println("IOException testissa 'haeMinut onKannassa'");
-            assertEquals(1, 2);
+            testiEiOnnistunut(ex);
         }
     }
     
@@ -152,7 +145,7 @@ public class TiedostonkasittelijaTest {
             
             assertEquals(0, merkintojenMaara);
         } catch (IOException ex) {
-            System.out.println("IOException");
+            testiEiOnnistunut(ex);
         }
     }
     
@@ -169,17 +162,26 @@ public class TiedostonkasittelijaTest {
             
             assertEquals(1, merkintojenMaara);
         } catch (IOException ex) {
-            System.out.println("IOException");
+            testiEiOnnistunut(ex);
         }
     }
 
 
     @After
     public void tearDown() {
+        try {
+            tika.nollaaTietokantaTiedosto();
+        } catch (IOException ex) {
+            System.out.println("Tietokantatiedoston nollaus testien lopussa ei onnistu: " + ex.getMessage());
+        }
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
     // @Test
     // public void hello() {}
+
+    private void testiEiOnnistunut(IOException ex) {
+        System.out.println("Testi ei onnistu!" + ex.getMessage());
+    }
 }

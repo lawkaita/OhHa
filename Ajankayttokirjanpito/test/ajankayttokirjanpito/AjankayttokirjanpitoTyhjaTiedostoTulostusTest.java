@@ -53,22 +53,23 @@ public class AjankayttokirjanpitoTyhjaTiedostoTulostusTest {
         kali = new Kayttoliittyma(konsoli, null);
         dekooderi = new Dekooderi();
         meka = new MerkinnanKasittelija(dekooderi);
-        tika = new OmaTiedostonkasittelija(dekooderi, meka);
         tulostaja = new Tulostaja(konsoli, dekooderi);
+        tika = new OmaTiedostonkasittelija(dekooderi, meka, tulostaja);
         koha = new KontekstinHaltija();
         kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali, meka);
         kotu = new Komentotulkki(konsoli, koha, kolo, dekooderi);
 
         kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));
         
-        eiMerkintoja = " :Ei merkintöjä";
+        eiMerkintoja = " # Ei merkintöjä";
 
         SwingUtilities.invokeLater(kali);
+        
         try {
             tika.nollaaTietokantaTiedosto();
             kolo.getTietokantaValimuisti().nollaaMuisti();
         } catch (IOException ex) {
-            System.out.println("IOException");
+            System.out.println("Tiedoston nollaaminen testien alussa ei onnistu: " + ex.getMessage());
         }
         
     }
@@ -113,6 +114,11 @@ public class AjankayttokirjanpitoTyhjaTiedostoTulostusTest {
 
     @After
     public void tearDown() {
+        try {
+            tika.nollaaTietokantaTiedosto();
+        } catch (IOException ex) {
+            System.out.println("Tietokantatiedoston nollaus testien lopussa ei onnistu: " + ex.getMessage());
+        }
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:

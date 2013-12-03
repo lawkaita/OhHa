@@ -27,12 +27,6 @@ public class TiedostonkasittelijaPoistoTest {
     @Before
     public void setUp() {
         this.tika = new OmaTiedostonkasittelija(new Dekooderi());
-        try {
-            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("\nTiedostonkasittelijaPoistoTesti\n", true);
-        } catch (IOException ex) {
-            System.out.println("TiedostonkasittelijaTestIOException");
-        }
-
     }
 
     @Test
@@ -53,7 +47,7 @@ public class TiedostonkasittelijaPoistoTest {
             assertEquals(tietokannanAlkuperainenKokoRiveina - 1, uusiKannanKoko);
 
         } catch (IOException ex) {
-            System.out.println("IOException");
+            testiEiOnnistunut(ex);
         }
     }
 
@@ -74,7 +68,7 @@ public class TiedostonkasittelijaPoistoTest {
             assertEquals("alapoistaminua", tietokantaTauluna.get(tietokantaTauluna.size() - 1));
 
         } catch (IOException ex) {
-            System.out.println("IOException");
+            testiEiOnnistunut(ex);
         }
     }
 
@@ -106,16 +100,25 @@ public class TiedostonkasittelijaPoistoTest {
             assertEquals(2, uusiSize);
 
         } catch (IOException ex) {
-            System.out.println("IOException");
+            testiEiOnnistunut(ex);
         }
     }
 
     @After
     public void tearDown() {
+        try {
+            tika.nollaaTietokantaTiedosto();
+        } catch (IOException ex) {
+            System.out.println("Tietokantatiedoston nollaus testien lopussa ei onnistu: " + ex.getMessage());
+        }
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
     // @Test
     // public void hello() {}
+    
+    private void testiEiOnnistunut(IOException ex) {
+        System.out.println("Testi ei onnistu!" + ex.getMessage());
+    }
 }

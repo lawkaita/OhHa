@@ -6,12 +6,14 @@ package sovelluslogiikka;
 
 /**
  * Testaa onko annettu aika edes ohjelmassa käytettävän merkinnän muotoinen.
+ *
  * @author Envy 6-1010
  */
 public class OmaAjanTestaaja implements AjanTestaaja {
-    
+
     /**
      * Testaa, käykö annettu String päiväyksestä.
+     *
      * @param komento annettu String
      * @return oliko annettu String sopiva
      */
@@ -41,14 +43,19 @@ public class OmaAjanTestaaja implements AjanTestaaja {
 
         if (!(0 < lukuina[1] && lukuina[1] < 13)) {
             return false;
-    }
+        }
+        
+        if (lukuina[2] < 0) {
+            return false;
+        }
 
         return true;
 
     }
-    
+
     /**
      * Testaa käykö annettu String kellonajasta.
+     *
      * @param komento annettu String
      * @return oliko annettu String sopiva.
      */
@@ -82,5 +89,4 @@ public class OmaAjanTestaaja implements AjanTestaaja {
 
         return true;
     }
-    
 }

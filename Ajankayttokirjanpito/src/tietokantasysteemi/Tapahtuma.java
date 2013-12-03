@@ -48,6 +48,18 @@ public class Tapahtuma implements Comparable<Tapahtuma>{
      */
     public Kellonaika kesto() {
         return lopetusaika.aikaEro(aloitusaika);
-    }   
+    }
+    
+    public String getSeloste() {
+        return this.seloste;
+    }
+    
+    public boolean kellonaikaOsuuTapahtumaan(Kellonaika kellonaika) {
+        if ((aloitusaika.compareTo(kellonaika) < 0) && (lopetusaika.compareTo(kellonaika) > 0)){
+            return true;
+        }
+        
+        return false;
+    }
     
 }

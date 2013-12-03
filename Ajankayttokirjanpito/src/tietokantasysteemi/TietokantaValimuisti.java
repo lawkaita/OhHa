@@ -16,9 +16,13 @@ public interface TietokantaValimuisti {
     public boolean kannassaOnMerkintaPaivalla(String paivaysMuistettavaStringista);
     public boolean poistaMerkintaPaivanPerusteella(String komento);
     public ArrayList<Merkinta> annaMuisti();
+    public ArrayList<String> annaSeurattavatToiminnot();
     public void lisaaMerkinta(Merkinta uusiMerkinta);
     public void lisaaMerkintaYhdistaen(Merkinta uusiMerkinta);
-
     public void nollaaMuisti();
+    public void lisaaSeurattava(String string);
+    public boolean kannassaOnSeurattavaToiminta(String komento);
+
+    public int laskeSeurattavienMaara();
     
 }

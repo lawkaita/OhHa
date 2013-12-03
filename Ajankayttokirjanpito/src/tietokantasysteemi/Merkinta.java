@@ -5,7 +5,6 @@
 package tietokantasysteemi;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Ohjelmassa käytettävän merkinnän formaatti. Merkintä-olio sisältää aina
@@ -40,6 +39,25 @@ public class Merkinta implements Comparable<Merkinta> {
     @Override
     public int compareTo(Merkinta m) {
         return this.paivays.compareTo(m.paivays);
+    }
+    
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        }
+        
+        if (object.getClass() != this.getClass()) {
+            return false;
+        }
+        
+        Merkinta verrattava = (Merkinta) object;
+        
+        if (this.compareTo(verrattava) != 0) {
+            return false;
+        }
+        
+        return true;
     }
 
     // tarvittiin tänne \r\n jotta windowsilla kirjoitus tiedostoon tapahtui oikein.

@@ -5,12 +5,9 @@
 package tietokantasysteemi;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import kayttoliittyma.Tulostaja;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import sovelluslogiikka.Dekooderi;
@@ -27,11 +24,6 @@ public class TiedostonkasittelijaHakuTest {
     @Before
     public void setUp() {
         this.tika = new OmaTiedostonkasittelija(new Dekooderi());
-        try {
-            tika.kirjoitaTietokantaanLisatenRivinvaihtoLoppuun("\nTiedostonkasittelijaHakuTesti\n", true);
-        } catch (IOException ex) {
-            System.out.println("TiedostonkasittelijaTestIOException");
-        }
     }
 
     @Test
@@ -48,8 +40,7 @@ public class TiedostonkasittelijaHakuTest {
             assertEquals(true, tauluEiOleNolla);
 
         } catch (IOException ex) {
-            assertEquals(true, false);
-            System.out.println("IOException");
+            testiEiOnnistunut(ex);
         }
     }
 
@@ -77,8 +68,7 @@ public class TiedostonkasittelijaHakuTest {
             assertEquals(odotettu, osumat[0]);
 
         } catch (IOException ex) {
-            assertEquals(true, false);
-            System.out.println("IOException");
+            testiEiOnnistunut(ex);
         }
     }
 
@@ -96,8 +86,7 @@ public class TiedostonkasittelijaHakuTest {
             assertEquals(odotettu, osumat[0]);
 
         } catch (IOException ex) {
-            assertEquals(true, false);
-            System.out.println("IOException");
+            testiEiOnnistunut(ex);
         }
     }
 
@@ -119,8 +108,7 @@ public class TiedostonkasittelijaHakuTest {
             assertEquals(odotettu, osumat[1]);
 
         } catch (IOException ex) {
-            assertEquals(1, 2);
-            System.out.println("IOException");
+            testiEiOnnistunut(ex);            
         }
     }
 
@@ -155,17 +143,25 @@ public class TiedostonkasittelijaHakuTest {
             
             
         } catch (IOException ex) {
-            assertEquals(1, 2);
-            System.out.println("IOException");
+            testiEiOnnistunut(ex);
         }
     }
 
     @After
     public void tearDown() {
+        try {
+            tika.nollaaTietokantaTiedosto();
+        } catch (IOException ex) {
+            System.out.println("Tietokantatiedoston nollaus testien lopussa ei onnistu: " + ex.getMessage());
+        }
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
     // @Test
     // public void hello() {}
+
+    private void testiEiOnnistunut(IOException ex) {
+        System.out.println("Testi ei onnistu!" + ex.getMessage());
+    }
 }

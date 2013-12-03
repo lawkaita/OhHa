@@ -4,15 +4,9 @@
  */
 package kayttoliittyma;
 
-import sovelluslogiikka.OmaAjanAntaja;
-import tietokantasysteemi.OmaTiedostonkasittelija;
 import sovelluslogiikka.Dekooderi;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
-import kayttoliittyma.Kayttoliittyma;
-import konsoli.OmaKonsoli;
 import tietokantasysteemi.Merkinta;
-import tietokantasysteemi.Tiedostonkasittelija;
 
 /**
  * Tulostajan vastuulla on tulostaa ohjelman vastauksia tai tietokannan
@@ -37,19 +31,21 @@ public class Tulostaja {
      * Tulostaa ohjeita ohjelman käyttöön.
      */
     public void apua() {
-        String[] apua = {"exit - poistu",
-            "nyt - tämänhetkinen aika",
-            "apua - tämä tuloste",
-            "tulosta - tulostaa koko tietokannan",
-            "hae - hakutoiminnon aloitus",
-            "merk - aloittaa merkinnän luomisen",
-            "nollaa - nollaa koko tietokannan",
-            "poista - aloittaa yksittäisen merkinnän",
-            "         poistotoiminnon"};
+        String apua = "exit - poistu\n"+
+            "nyt - tämänhetkinen aika\n"+
+            "apua - tämä tuloste\n"+
+            "apua <komento> - neuvoa komennon käytöstä\n"+
+            "apua apua - neuvoa ohjelman käytössä\n"+
+            "tulosta - tulostaa koko tietokannan\n"+
+            "hae - hakutoiminnon aloitus\n"+
+            "lisää - aloittaa merkinnän luomisen\n"+
+            "nollaa - nolla välimuistin\n"+
+            "poista - aloittaa merkinnän poistotoiminnon\n"+
+            "tallenna - tallentaa välimuistin tiedostoon\n"+
+            "esc-näppäin - keskeytä käynnissäoleva tehtävä\n"+
+            "page-up ja -down näppäimet - selaa dialogia\n"; 
 
-        for (String s : apua) {
-            tulostaKonsoliin(s);
-        }
+        tulostaRivitettyString(apua);
 
     }
 
@@ -136,7 +132,8 @@ public class Tulostaja {
     }
 
     public void tulostaEiOlePaiva() {
-        tulostaKonsoliin("Ei ole päivä");
+        tulostaKonsoliin("Ei ole päivä:");
+        tulostaKonsoliin("Anna päivä muodossa 'pp.kk.vvvv'");
     }
 
     public void ilmoitaValimuistinNollaamisesta() {
@@ -152,7 +149,8 @@ public class Tulostaja {
     }
 
     public void tulostaEiOleAika() {
-        tulostaKonsoliin("Ei ole aika");
+        tulostaKonsoliin("Ei ole aika:");
+        tulostaKonsoliin("Anna aika muodossa 'tt.mm'");
     }
 
     public void tulostaEiOsumia() {
@@ -177,6 +175,44 @@ public class Tulostaja {
 
     public void ilmoitaTallennuksenOnnistumisesta() {
         tulostaKonsoliin("Tallennus onnistui");
+    }
+
+    public void otsikoiMerkinnanLuominen() {
+        tulostaKonsoliin("Luodaan uusi merkintä");
+    }
+
+    public void otsikoiHaunAloitus() {
+        tulostaKonsoliin("Aloitetaan haku");
+    }
+
+    public void leuvoLisaamisessa() {
+        String neuvo = "Ohjelmalle annetaan ensin päiväys, jonka alle\n"
+                + "merkintä tehdään. Ohjelma ehdottaa oletuksena\n"
+                + "tämänhetkistä päivää. Päiväyksen jälkeen ohjelma\n"
+                + "pyytää aloitus- ja lopetusajan. Ohjelma ehdottaa\n"
+                + "lopetusajaksi tämänhetkistä kellonaikaa. Lopuksi\n"
+                + "ohjelmalle syötetään lyhyt selostus siitä, mitä\n"
+                + "tekemistä merkintä koski.";
+        tulostaRivitettyString(neuvo);
+    }
+
+    public void tulostaOllaanPoistumassaOhjelmasta() {
+        tulostaKonsoliin("Poistutaan ohjelmasta");}
+
+    public void kysyOletkoVarma() {
+        tulostaKonsoliin("Oletko varma? (k/e)");
+    }
+
+    public void kysyTallenetaankoMuutokset() {
+        tulostaKonsoliin("Tallennetaanko muutokset? (k/e)");
+    }
+
+    public void tulostaKyllaEi() {
+        tulostaKonsoliin("Vastaa k tai e");
+    }
+
+    public void tulostaMerkinta(Merkinta merkinta) {
+        tulostaRivitettyString(merkinta.toString() + "\n");
     }
     
 }

@@ -14,7 +14,6 @@ import kayttoliittyma.Nappaimistonkuuntelija;
 import kayttoliittyma.Tulostaja;
 import konsoli.OmaKonsoli;
 import sovelluslogiikka.Dekooderi;
-import sovelluslogiikka.OmaAjanAntaja;
 import sovelluslogiikka.KomentoLogiikka;
 import sovelluslogiikka.MerkinnanKasittelija;
 
@@ -34,10 +33,10 @@ public class Ajankayttokirjanpito {
         Konsoli konsoli = new OmaKonsoli(ubuntulla);        
         Kayttoliittyma kali = new Kayttoliittyma(konsoli);            
         Dekooderi dekooderi = new  Dekooderi();
+        Tulostaja tulostaja = new Tulostaja(konsoli, dekooderi); 
         MerkinnanKasittelija meka = new MerkinnanKasittelija(dekooderi);
-        OmaTiedostonkasittelija tika = new OmaTiedostonkasittelija(dekooderi, meka);
-        KontekstinHaltija koha = new KontekstinHaltija();
-        Tulostaja tulostaja = new Tulostaja(konsoli, dekooderi);        
+        OmaTiedostonkasittelija tika = new OmaTiedostonkasittelija(dekooderi, meka, tulostaja);
+        KontekstinHaltija koha = new KontekstinHaltija();               
         KomentoLogiikka kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali, meka);
         Komentotulkki kotu = new Komentotulkki(konsoli, koha, kolo, dekooderi);
         

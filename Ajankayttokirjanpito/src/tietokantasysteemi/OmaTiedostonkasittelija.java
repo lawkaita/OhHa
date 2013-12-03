@@ -5,7 +5,6 @@
 package tietokantasysteemi;
 
 import sovelluslogiikka.MerkinnanKasittelija;
-import java.awt.List;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -15,6 +14,7 @@ import java.util.Collections;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import kayttoliittyma.Tulostaja;
 import sovelluslogiikka.Dekooderi;
 
 /**
@@ -25,40 +25,54 @@ import sovelluslogiikka.Dekooderi;
 public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
 
     private File tietokanta;
+    private File seurattavatToiminnot;
     private Scanner lukija;
     private Dekooderi dekooderi;
     private MerkinnanKasittelija meka;
+    private Tulostaja tulostaja;
 
-    public OmaTiedostonkasittelija(Dekooderi dekooderi, MerkinnanKasittelija meka) {
+    public OmaTiedostonkasittelija(Dekooderi dekooderi, MerkinnanKasittelija meka, Tulostaja tulostaja) {
         tietokanta = new File("kirjaukset.txt");
+        seurattavatToiminnot = new File("seurattavatToiminnot.txt");
+
+        this.tulostaja = tulostaja;
+
         try {
             tietokanta.createNewFile();
+            seurattavatToiminnot.createNewFile();
         } catch (IOException ex) {
-            System.out.println("TiedostonkasittelijaIOException");
+            this.tulostaja.tulostaKonsoliin("Tiedostonkasittelijalla IOException: " + ex.getMessage());
         }
         try {
             lukija = new Scanner(tietokanta);
         } catch (FileNotFoundException ex) {
-            System.out.println("TiedostonkastittelijaFileNotFoundException");
+            this.tulostaja.tulostaKonsoliin("Tietokantatiedostoa ei löydy: " + ex.getMessage());
         }
         this.dekooderi = dekooderi;
         this.meka = meka;
+
     }
     
-     public OmaTiedostonkasittelija(Dekooderi dekooderi) {
+    public OmaTiedostonkasittelija(Dekooderi dekooderi) {
         tietokanta = new File("kirjaukset.txt");
+        seurattavatToiminnot = new File("seurattavatToiminnot.txt");
+
+        this.tulostaja = null;
+
         try {
             tietokanta.createNewFile();
+            seurattavatToiminnot.createNewFile();
         } catch (IOException ex) {
-            System.out.println("TiedostonkasittelijaIOException");
+            this.tulostaja.tulostaKonsoliin("Tiedostonkasittelijalla IOException: " + ex.getMessage());
         }
         try {
             lukija = new Scanner(tietokanta);
         } catch (FileNotFoundException ex) {
-            System.out.println("TiedostonkastittelijaFileNotFoundException");
+            this.tulostaja.tulostaKonsoliin("Tietokantatiedostoa ei löydy: " + ex.getMessage());
         }
         this.dekooderi = dekooderi;
         this.meka = new MerkinnanKasittelija(dekooderi);
+
     }
 
     public File getTietokanta() {
@@ -319,7 +333,7 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
      */
     public void kirjoitaKannanYli(ArrayList<String> tekstitaulu) {
         try {
-            kirjoitaTietokantaanLisatenRivinvaihtoLoppuun(kirjoitaKantaTekstitauluStringiksiRivittaen(tekstitaulu), false);
+            kirjoitaTietokantaanLisatenRivinvaihtoLoppuun(kirjoitaTekstitauluStringiksiRivittaen(tekstitaulu), false);
         } catch (IOException ex) {
             //
         }
@@ -334,7 +348,7 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
     private void poistaKannastaRivi(int riviIndeksi) {
         ArrayList<String> tekstitaulu = getTietokantaTekstiTauluna();
         tekstitaulu.remove(riviIndeksi);
-        String tekstitauluStringina = kirjoitaKantaTekstitauluStringiksiRivittaen(tekstitaulu);
+        String tekstitauluStringina = kirjoitaTekstitauluStringiksiRivittaen(tekstitaulu);
 
         try {
             kirjoitaTietokantaanLisatenRivinvaihtoLoppuun(tekstitauluStringina, false);
@@ -350,8 +364,18 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
      * @param tekstitaulu annettu tekstitaulu
      * @return tekstitaulu kirjoitettuna String-olioksi.
      */
-    public String kirjoitaKantaTekstitauluStringiksiRivittaen(ArrayList<String> tekstitaulu) {
+    public String kirjoitaTekstitauluStringiksiRivittaen(ArrayList<String> tekstitaulu) {
         String tekstitauluStringina = "";
+        
+        if (tekstitaulu.isEmpty()) {
+            return tekstitauluStringina;
+        }
+        
+        if (tekstitaulu.size() == 1) {
+            return tekstitaulu.get(0) + "\r\n";
+        }
+        
+        
 
         for (String rivi : tekstitaulu) {
             tekstitauluStringina += rivi + "\r\n";
@@ -474,5 +498,35 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
     public void yliKirjoitaTietokantatiedosto(ArrayList<Merkinta> merkinnat) {
         ylikirjoitaMerkintalistaTietokantaan(merkinnat);
     }
+
+    @Override
+    public ArrayList<String> lataaSeurattavatToiminnot() {
+        ArrayList<String> toiminnot = new ArrayList<String>();
+        
+        try {
+            Scanner toimintojenLukija = new Scanner(seurattavatToiminnot);
+            while (toimintojenLukija.hasNextLine()) {
+                toiminnot.add(toimintojenLukija.nextLine());
+            }
+
+        } catch (FileNotFoundException ex) {
+            tulostaja.tulostaKonsoliin("Tiedostoa ei löydy: " + ex.getMessage());
+        }
+
+        return toiminnot;
+    }
+
+    @Override
+    public void ylikirjoitaSeurattavatToiminnotTiedosto(ArrayList<String> annaSeurattavatToiminnot) {
+        FileWriter kirjoittaja;
+        try {
+            kirjoittaja = new FileWriter(seurattavatToiminnot);
+            kirjoittaja.write(kirjoitaTekstitauluStringiksiRivittaen(annaSeurattavatToiminnot));
+            kirjoittaja.close();
+        } catch (IOException ex) {
+            tulostaja.tulostaKonsoliin("Seurattavien toimintojen tallettaminen ei onnistu: " + ex.getMessage());
+        }
+    }
+
 }
 //Tiedostonkasittelijalla on yksi tiedosto johon se tallettaa ja kirjoittaa tietoja.

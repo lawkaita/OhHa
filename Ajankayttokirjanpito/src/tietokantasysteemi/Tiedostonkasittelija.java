@@ -19,5 +19,7 @@ public interface Tiedostonkasittelija {
     void nollaaTietokantaTiedosto() throws IOException;
     MerkinnanKasittelija getMerkinnanKasittelija();
     Dekooderi getDekooderi();
+    ArrayList<String> lataaSeurattavatToiminnot();
+    public void ylikirjoitaSeurattavatToiminnotTiedosto(ArrayList<String> annaSeurattavatToiminnot);
     
 }

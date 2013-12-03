@@ -6,7 +6,6 @@ package sovelluslogiikka;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import sovelluslogiikka.Dekooderi;
 import tietokantasysteemi.Kellonaika;
 import tietokantasysteemi.Merkinta;
 import tietokantasysteemi.Paivays;

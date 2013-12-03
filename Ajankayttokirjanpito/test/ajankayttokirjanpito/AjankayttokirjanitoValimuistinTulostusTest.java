@@ -4,6 +4,7 @@
  */
 package ajankayttokirjanpito;
 
+import java.io.IOException;
 import javax.swing.SwingUtilities;
 import kayttoliittyma.Kayttoliittyma;
 import kayttoliittyma.Komentotulkki;
@@ -46,8 +47,9 @@ public class AjankayttokirjanitoValimuistinTulostusTest {
         kali = new Kayttoliittyma(konsoli, null);
         dekooderi = new Dekooderi();
         meka = new MerkinnanKasittelija(dekooderi);
-        tika = new OmaTiedostonkasittelija(dekooderi, meka);
         tulostaja = new Tulostaja(konsoli, dekooderi);
+        tika = new OmaTiedostonkasittelija(dekooderi, meka, tulostaja);
+
         koha = new KontekstinHaltija();
         kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali, meka);
         kotu = new Komentotulkki(konsoli, koha, kolo, dekooderi);
@@ -55,9 +57,9 @@ public class AjankayttokirjanitoValimuistinTulostusTest {
         kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));
 
         SwingUtilities.invokeLater(kali);
-        
+
         kolo.getTietokantaValimuisti().nollaaMuisti();
-        
+
         Merkinta eka = new Merkinta(new Paivays(11, 11, 2013),
                 new Tapahtuma(new Kellonaika(12, 12), new Kellonaika(13, 45), "testiteksti"));
 
@@ -75,13 +77,13 @@ public class AjankayttokirjanitoValimuistinTulostusTest {
         konsoli.kirjoitaKomentoriville("tulosta");
         kotu.otaKomento();
 
-        String odotettu = " :11.11.2013\n"
-                + " :    12.12-13.45: testiteksti\n"
-                + " :\n"
-                + " :11.12.2013\n"
-                + " :    13.12-13.45: testiteksti2\n"
-                + " :";
-                
+        String odotettu = " # 11.11.2013\n"
+                + " #     12.12-13.45: testiteksti\n"
+                + " # \n"
+                + " # 11.12.2013\n"
+                + " #     13.12-13.45: testiteksti2\n"
+                + " # ";
+
 
         String tuloste = konsoli.getTulosteAlue().getText();
         String aktuaali = tuloste.substring(tuloste.length() - odotettu.length(), tuloste.length());
@@ -95,27 +97,32 @@ public class AjankayttokirjanitoValimuistinTulostusTest {
         assertEquals(odotettu, aktuaali);
 
     }
-    
+
     @Test
     public void tulostaKomentoKomentoTulostaValimuistinOikeinKunKannassaOnMerkintoja() {
-        
+
         konsoli.kirjoitaKomentoriville("tallenna");
-        kotu.otaKomento();        
+        kotu.otaKomento();
         konsoli.kirjoitaKomentoriville("nollaa");
         kotu.otaKomento();
         konsoli.kirjoitaKomentoriville("tulosta");
         kotu.otaKomento();
-        
-        String odotettu = " :Ei merkintöjä";
+
+        String odotettu = " # Ei merkintöjä";
         String tuloste = konsoli.getTulosteAlue().getText();
         String saatu = konsoli.getTulosteAlue().getText().substring(tuloste.length() - odotettu.length());
-        
+
         assertEquals(odotettu, saatu);
-        
+
     }
 
     @After
     public void tearDown() {
+        try {
+            tika.nollaaTietokantaTiedosto();
+        } catch (IOException ex) {
+            System.out.println("Tietokantatiedoston nollaus testien lopussa ei onnistu: " + ex.getMessage());
+        }
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:

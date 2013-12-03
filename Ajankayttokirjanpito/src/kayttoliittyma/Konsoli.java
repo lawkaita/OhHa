@@ -27,5 +27,7 @@ public interface Konsoli {
     public void estaLiianPitkaKomento();
 
     public JTextArea getTulosteAlue();
+
+    public void jatkaKirjoitustaTyhjaanKenttaan();
     
 }

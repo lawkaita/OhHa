@@ -4,6 +4,7 @@
  */
 package ajankayttokirjanpito;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.SwingUtilities;
 import kayttoliittyma.Kayttoliittyma;
@@ -49,8 +50,8 @@ public class AjankayttokirjanpitoTallennusTest {
         kali = new Kayttoliittyma(konsoli, null);
         dekooderi = new Dekooderi();
         meka = new MerkinnanKasittelija(dekooderi);
-        tika = new OmaTiedostonkasittelija(dekooderi, meka);
         tulostaja = new Tulostaja(konsoli, dekooderi);
+        tika = new OmaTiedostonkasittelija(dekooderi, meka, tulostaja);
         koha = new KontekstinHaltija();
         kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali, meka);
         kotu = new Komentotulkki(konsoli, koha, kolo, dekooderi);
@@ -85,6 +86,11 @@ public class AjankayttokirjanpitoTallennusTest {
 
     @After
     public void tearDown() {
+        try {
+            tika.nollaaTietokantaTiedosto();
+        } catch (IOException ex) {
+            System.out.println("Tietokantatiedoston nollaus testien lopussa ei onnistu: " + ex.getMessage());
+        }
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:

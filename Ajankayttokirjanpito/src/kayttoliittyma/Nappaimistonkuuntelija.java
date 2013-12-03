@@ -4,7 +4,6 @@
  */
 package kayttoliittyma;
 
-import konsoli.OmaKonsoli;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -39,7 +38,7 @@ public class Nappaimistonkuuntelija implements KeyListener{
             painettiinEsc();            
         }
         
-        //estaLiianPitkaKomentoKonsolissa();
+        estaLiianPitkaKomentoKonsolissa();
                 
     }
 
@@ -56,9 +55,10 @@ public class Nappaimistonkuuntelija implements KeyListener{
     }
 
     private void estaLiianPitkaKomentoKonsolissa() {
-        if (konsoli.getVarsinainenKomentoRivi().getText().length() > 30) {
+        if (konsoli.getVarsinainenKomentoRivi().getText().length() > 47) {
             //konsoli.jatkaKirjoitustaTyhjaanKenttaan();
             konsoli.estaLiianPitkaKomento();
+            //siirrä teksti tyhjään kenttään ja jatka siellä
         }
     }
     

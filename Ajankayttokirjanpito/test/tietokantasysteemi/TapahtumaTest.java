@@ -64,6 +64,24 @@ public class TapahtumaTest {
         Kellonaika kesto = toinenErasTapahtuma.kesto();
         assertEquals(nollaAika, kesto);
     }
+    
+    @Test
+    public void kellonaikaOsuuTapahtumaanKunSeOsuuSiihen() {
+        boolean tosi = erasTapahtuma.kellonaikaOsuuTapahtumaan(new Kellonaika(10, 30));
+        assertTrue(tosi);
+    }
+    
+    @Test
+    public void kellonaikaEiOsuTapahtumaanKunSeOsuuTapahtumanJalkeiseenAikaan() {
+        boolean tosi = erasTapahtuma.kellonaikaOsuuTapahtumaan(new Kellonaika(12, 04));
+        assertFalse(tosi);
+    }
+    
+    @Test
+    public void kellonaikaEiOsuTapahtumaanKunSeOsuuTapahtumaaEdeltaneeseenAikaan() {
+        boolean tosi = toinenTapahtuma.kellonaikaOsuuTapahtumaan(new Kellonaika(3, 55));
+        assertFalse(tosi);
+    }
 
     @After
     public void tearDown() {
