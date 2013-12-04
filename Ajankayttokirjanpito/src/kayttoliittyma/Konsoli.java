@@ -30,4 +30,6 @@ public interface Konsoli {
 
     public void jatkaKirjoitustaTyhjaanKenttaan();
     
+    public void setDimensioLuku();
+    
 }

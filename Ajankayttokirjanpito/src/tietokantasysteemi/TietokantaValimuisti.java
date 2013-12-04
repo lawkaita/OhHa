@@ -24,5 +24,7 @@ public interface TietokantaValimuisti {
     public boolean kannassaOnSeurattavaToiminta(String komento);
 
     public int laskeSeurattavienMaara();
+
+    public void nollaaSeurattavat();
     
 }

@@ -12,14 +12,15 @@ package kayttoliittyma;
  */
 public class KontekstinHaltija {
 
-    public boolean ollaanPoistumassaOhjelmasta;
-    public boolean kysytaanPoistumisenYhteydessaTallennuksesta;
-    public boolean merkintaanPaiva;
-    public boolean merkintaanAloitusAika;
-    public boolean merkintaanLopetusAika;
-    public boolean merkintaanSelostus;
-    public boolean hakuKaynnissa;
-    public boolean poistetaanMerkintaa;
+    private boolean ollaanPoistumassaOhjelmasta;
+    private boolean kysytaanPoistumisenYhteydessaTallennuksesta;
+    private boolean merkintaanPaiva;
+    private boolean merkintaanAloitusAika;
+    private boolean merkintaanLopetusAika;
+    private boolean merkintaanSelostus;
+    private boolean hakuKaynnissa;
+    private boolean poistetaanMerkintaa;
+    private boolean kysytaanLisataankoSeurattava;
 
     public KontekstinHaltija() {
 
@@ -31,9 +32,10 @@ public class KontekstinHaltija {
         merkintaanSelostus = false;
         hakuKaynnissa = false;
         poistetaanMerkintaa = false;
+        kysytaanLisataankoSeurattava = false;
     }
 
-    public boolean getkysytaanPoistumisenYhteydessaTallennuksesta() {
+    public boolean getKysytaanPoistumisenYhteydessaTallennuksesta() {
         return this.kysytaanPoistumisenYhteydessaTallennuksesta;
     }
     
@@ -63,6 +65,10 @@ public class KontekstinHaltija {
 
     public boolean getPoistetaanMerkintaa() {
         return this.poistetaanMerkintaa;
+    }
+    
+    public boolean getKysytaanLisataankoSeurattava() {
+        return this.kysytaanLisataankoSeurattava;
     }
     
     public void setKysytaanPoistumisenYhteydessaTallennuksesta(boolean b) {
@@ -96,6 +102,10 @@ public class KontekstinHaltija {
     public void setPoistetaanMerkintaa(boolean b) {
         poistetaanMerkintaa = b;
     }
+    
+    public void setKysytaanLisataankoSeurattava(boolean b) {
+        kysytaanLisataankoSeurattava = b;
+    }
 
     /**
      * Asettaa kaikki kontekstinHaltijan kontekstia vastaavat boolean-muuttujat
@@ -111,6 +121,7 @@ public class KontekstinHaltija {
         merkintaanSelostus = false;
         hakuKaynnissa = false;
         poistetaanMerkintaa = false;
+        kysytaanLisataankoSeurattava = false;
     }
 
     /**
@@ -136,7 +147,7 @@ public class KontekstinHaltija {
      * @return kaikki kontekstiHaltijan boolean-muuttujat taulussa.
      */
     public boolean[] kaikkiKontekstit() {
-        boolean[] kaikkiKontekstit = new boolean[8];
+        boolean[] kaikkiKontekstit = new boolean[9];
 
         kaikkiKontekstit[0] = ollaanPoistumassaOhjelmasta;
         kaikkiKontekstit[1] = kysytaanPoistumisenYhteydessaTallennuksesta;
@@ -146,7 +157,10 @@ public class KontekstinHaltija {
         kaikkiKontekstit[5] = merkintaanSelostus;
         kaikkiKontekstit[6] = hakuKaynnissa;
         kaikkiKontekstit[7] = poistetaanMerkintaa;
+        kaikkiKontekstit[8] = kysytaanLisataankoSeurattava;
 
         return kaikkiKontekstit;
     }
+
+    
 }

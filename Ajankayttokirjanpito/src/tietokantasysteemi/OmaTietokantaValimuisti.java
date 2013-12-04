@@ -178,4 +178,9 @@ public class OmaTietokantaValimuisti implements TietokantaValimuisti {
     public int laskeSeurattavienMaara() {
         return this.seurattavatToiminnot.size();
     }
+
+    @Override
+    public void nollaaSeurattavat() {
+        this.seurattavatToiminnot = new ArrayList<String>();
+    }
 }

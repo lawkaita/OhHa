@@ -164,4 +164,9 @@ public class OmaKonsoli extends JPanel implements Konsoli {
         kirjoitaKomentoriville("");
     }
 
+    @Override
+    public void setDimensioLuku() {
+        
+    }
+
 }

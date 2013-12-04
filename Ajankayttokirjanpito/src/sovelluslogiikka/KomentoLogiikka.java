@@ -78,7 +78,7 @@ public class KomentoLogiikka {
     public void nollaaTiedosto() {
         try {
             tika.nollaaTietokantaTiedosto();
-            tulostaja.ilmoitaValimuistinNollaamisesta();
+            tulostaja.ilmoitaTiedostonNollaamisesta();
         } catch (IOException ex) {
             tulostaja.tulostaIOException();
         }
@@ -92,6 +92,7 @@ public class KomentoLogiikka {
         } else {
             //tämä pitää hoitaa eritavalla
             tulostaja.tulostaEiOsumia();
+            this.koha.setHakuKaynnissa(false);
         }
     }
 
@@ -224,6 +225,9 @@ public class KomentoLogiikka {
 
             koha.setMerkintaanSelostus(false);
             muistettavaString = "";
+        } else {
+            tulostaja.tulostaEiSeurattavissa();
+            koha.setKysytaanLisataankoSeurattava(true);
         }
     }
 
@@ -406,13 +410,13 @@ public class KomentoLogiikka {
     public void aloitaOhjelmastaPoistuminen() {
         tulostaja.tulostaOllaanPoistumassaOhjelmasta();
         tulostaja.kysyOletkoVarma();
-        this.koha.ollaanPoistumassaOhjelmasta = true;
+        this.koha.setOllaanPoistumassaOhjelmasta(true);
     }
 
     public void ollaanPoistumassaOhjelmasta() {
         tulostaja.kysyTallenetaankoMuutokset();
-        this.koha.ollaanPoistumassaOhjelmasta = false;
-        this.koha.kysytaanPoistumisenYhteydessaTallennuksesta = true;
+        this.koha.setOllaanPoistumassaOhjelmasta(false);
+        this.koha.setKysytaanPoistumisenYhteydessaTallennuksesta(true);
     }
 
     public void poistutaanKonteksteista() {
@@ -457,6 +461,8 @@ public class KomentoLogiikka {
         for (Merkinta merkinta : osumat) {
             this.tulostaja.tulostaMerkinta(merkinta);
         }
+        
+        this.koha.setHakuKaynnissa(false);
     }
 
     private int seurattavanKaytettyAikaHaku(String hakusana) {
@@ -485,5 +491,10 @@ public class KomentoLogiikka {
 
     private boolean aikaOsuuJoOlemassaOleviintapahtumiin() {
         return false;
+    }
+
+    public void nollaaSeurattavat() {
+        this.timu.nollaaSeurattavat();
+        this.tulostaja.ilmoitaSeurattavienNollaamisesta();
     }
 }

@@ -38,7 +38,7 @@ public class Tulostaja {
             "apua apua - neuvoa ohjelman käytössä\n"+
             "tulosta - tulostaa koko tietokannan\n"+
             "hae - hakutoiminnon aloitus\n"+
-            "lisää - aloittaa merkinnän luomisen\n"+
+            "merkintä - aloittaa merkinnän luomisen\n"+
             "nollaa - nolla välimuistin\n"+
             "poista - aloittaa merkinnän poistotoiminnon\n"+
             "tallenna - tallentaa välimuistin tiedostoon\n"+
@@ -213,6 +213,18 @@ public class Tulostaja {
 
     public void tulostaMerkinta(Merkinta merkinta) {
         tulostaRivitettyString(merkinta.toString() + "\n");
+    }
+
+    public void ilmoitaTiedostonNollaamisesta() {
+        tulostaKonsoliin("Tiedosto nollattu");
+    }
+
+    public void ilmoitaSeurattavienNollaamisesta() {
+        tulostaKonsoliin("Seurattavat nollattu");
+    }
+
+    public void tulostaEiSeurattavissa() {
+        tulostaKonsoliin("Annettu tekeminen ei ollut seurattavissa");
     }
     
 }

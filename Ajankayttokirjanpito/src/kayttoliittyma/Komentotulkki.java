@@ -56,7 +56,7 @@ public class Komentotulkki {
             
         } else {
            
-            if (koha.ollaanPoistumassaOhjelmasta) {
+            if (koha.getOllaanPoistumassaOhjelmasta()) {
                 if (komento.equals("k")) {
                     komentologiikka.ollaanPoistumassaOhjelmasta();
                 } else if (komento.equals("e")) {
@@ -64,10 +64,11 @@ public class Komentotulkki {
                 } else {
                     komentologiikka.tulostetaanKyllaEi(); 
                 }
+                
                 return;
             }
             
-            if (koha.kysytaanPoistumisenYhteydessaTallennuksesta) {
+            if (koha.getKysytaanPoistumisenYhteydessaTallennuksesta()) {
                 if (komento.equals("k")) {
                     komentologiikka.poistutaanTallentaen();
                 } else if (komento.equals("e")) {
@@ -75,6 +76,8 @@ public class Komentotulkki {
                 } else {
                     komentologiikka.tulostetaanKyllaEi();
                 }
+                
+                return;
             }
             
 
@@ -107,6 +110,10 @@ public class Komentotulkki {
             if (koha.getPoistetaanMerkintaa() == true) {
                 komentologiikka.poistetaanMerkinta(komento);
                 return;
+            }
+            
+            if(koha.getKysytaanLisataankoSeurattava()) {
+                komentologiikka.lisätäänSeurattava(komento);
             }
 
             tulkitse(komento);
@@ -240,11 +247,24 @@ public class Komentotulkki {
             return;
         }
         
+        if (komentosarja[0].equals("nollaa")) {
+            
+            if(komentosarja[1].equals("välimuisti")) {
+                this.komentologiikka.nollaaValimuisti();
+                return;
+            }
+            
+            if(komentosarja[1].equals("seurattavat")) {
+                this.komentologiikka.nollaaSeurattavat();
+                return;
+            }
+        }
+        
         this.komentologiikka.tulostetaanVirhe();
     }
 
     private void pyydetaanApua(String string) {
-        if (string.equals("lisää")) {
+        if (string.equals("merkintä")) {
             this.komentologiikka.neuvottavaLisaamisessa();
             return;
         }
