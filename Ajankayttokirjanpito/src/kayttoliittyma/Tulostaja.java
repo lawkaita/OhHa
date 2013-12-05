@@ -185,7 +185,7 @@ public class Tulostaja {
         tulostaKonsoliin("Aloitetaan haku");
     }
 
-    public void leuvoLisaamisessa() {
+    public void neuvoLisaamisessa() {
         String neuvo = "Ohjelmalle annetaan ensin päiväys, jonka alle\n"
                 + "merkintä tehdään. Ohjelma ehdottaa oletuksena\n"
                 + "tämänhetkistä päivää. Päiväyksen jälkeen ohjelma\n"
@@ -225,6 +225,10 @@ public class Tulostaja {
 
     public void tulostaEiSeurattavissa() {
         tulostaKonsoliin("Annettu tekeminen ei ollut seurattavissa");
+    }
+
+    public void tulostaLisataankoSeurattava() {
+        tulostaKonsoliin("Lisätäänkö tekeminen seurattaviin?");
     }
     
 }

@@ -227,6 +227,9 @@ public class KomentoLogiikka {
             muistettavaString = "";
         } else {
             tulostaja.tulostaEiSeurattavissa();
+            tulostaja.tulostaLisataankoSeurattava();
+            muistettavaString += komento;
+            koha.setMerkintaanSelostus(false);
             koha.setKysytaanLisataankoSeurattava(true);
         }
     }
@@ -404,7 +407,7 @@ public class KomentoLogiikka {
     }
 
     public void neuvottavaLisaamisessa() {
-        tulostaja.leuvoLisaamisessa();
+        tulostaja.neuvoLisaamisessa();
     }
 
     public void aloitaOhjelmastaPoistuminen() {
@@ -466,7 +469,6 @@ public class KomentoLogiikka {
     }
 
     private int seurattavanKaytettyAikaHaku(String hakusana) {
-        ArrayList<Merkinta> osumat = new ArrayList<>();
         int kaytettyAikaMinuutteina = 0;
 
         for (Merkinta merkinta : this.timu.annaMuisti()) {
@@ -496,5 +498,23 @@ public class KomentoLogiikka {
     public void nollaaSeurattavat() {
         this.timu.nollaaSeurattavat();
         this.tulostaja.ilmoitaSeurattavienNollaamisesta();
+    }
+
+    public void lisätäänSeurattavaMuististaJaTehdaanSillaMerkinta() {
+        String uusiSeurattava = haeMuistettavastaStringistaIndeksista(2);
+        lisätäänSeurattava(uusiSeurattava);        
+        luoMerkinta(muistettavaString);        
+        this.muistettavaString = "";
+        this.koha.setKysytaanLisataankoSeurattava(false);
+    }
+    
+    private String haeMuistettavastaStringistaIndeksista(int indeksi) {
+        String[] dekoodi = tika.getDekooderi().dekoodaa(muistettavaString, dekoodausMerkki);
+        
+        if (indeksi < dekoodi.length) {
+            return dekoodi[indeksi];
+        } else {
+            return "";
+        }
     }
 }

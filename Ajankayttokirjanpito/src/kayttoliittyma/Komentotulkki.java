@@ -113,7 +113,17 @@ public class Komentotulkki {
             }
             
             if(koha.getKysytaanLisataankoSeurattava()) {
-                komentologiikka.lisätäänSeurattava(komento);
+                if (komento.equals("k")) {
+                    komentologiikka.lisätäänSeurattavaMuististaJaTehdaanSillaMerkinta();
+                    return;
+                } else if (komento.equals("e")) {
+                    komentologiikka.poistutaanKonteksteista();
+                    return;
+                } else {
+                    komentologiikka.tulostetaanKyllaEi();
+                }
+                
+                
             }
 
             tulkitse(komento);

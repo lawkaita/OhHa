@@ -27,7 +27,7 @@ public class Ajankayttokirjanpito {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        boolean ubuntulla = true;
+        boolean ubuntulla = false;
         //tämän pitää näkyä huomenna tässä
         
         Konsoli konsoli = new OmaKonsoli(ubuntulla);        
