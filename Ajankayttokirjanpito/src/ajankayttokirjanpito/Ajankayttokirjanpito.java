@@ -31,18 +31,18 @@ public class Ajankayttokirjanpito {
         //tämän pitää näkyä huomenna tässä
         
         Konsoli konsoli = new OmaKonsoli(ubuntulla);        
-        Kayttoliittyma kali = new Kayttoliittyma(konsoli);            
+        Kayttoliittyma kayttoliittyma = new Kayttoliittyma(konsoli);            
         Dekooderi dekooderi = new  Dekooderi();
         Tulostaja tulostaja = new Tulostaja(konsoli, dekooderi); 
-        MerkinnanKasittelija meka = new MerkinnanKasittelija(dekooderi);
-        OmaTiedostonkasittelija tika = new OmaTiedostonkasittelija(dekooderi, meka, tulostaja);
-        KontekstinHaltija koha = new KontekstinHaltija();               
-        KomentoLogiikka kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali, meka);
-        Komentotulkki kotu = new Komentotulkki(konsoli, koha, kolo, dekooderi);
+        MerkinnanKasittelija merkinnankasittelija = new MerkinnanKasittelija(dekooderi);
+        OmaTiedostonkasittelija tiedostonkasittelija = new OmaTiedostonkasittelija(dekooderi, merkinnankasittelija, tulostaja);
+        KontekstinHaltija kontekstinHaltija = new KontekstinHaltija();               
+        KomentoLogiikka komentologiikka = new KomentoLogiikka(tulostaja, tiedostonkasittelija, konsoli, kontekstinHaltija, kayttoliittyma, merkinnankasittelija);
+        Komentotulkki komentotulkki = new Komentotulkki(konsoli, kontekstinHaltija, komentologiikka, dekooderi);
         
-        kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));
+        kayttoliittyma.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, komentotulkki));
         
-        SwingUtilities.invokeLater(kali);
+        SwingUtilities.invokeLater(kayttoliittyma);
         // TODO code application logic here
     }
 }

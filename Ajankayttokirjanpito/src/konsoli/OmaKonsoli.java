@@ -74,14 +74,14 @@ public class OmaKonsoli extends JPanel implements Konsoli {
      * @param kirjoittajaOnKayttaja kertoo onko kirjoittaja käyttäjä vai ei
      */
     @Override
-    public void paivita(String teksti, boolean kirjoittajaOnKayttaja) {;
+    public void paivita(String teksti, boolean kirjoittajaOnKayttaja) {
         skrollausnakyma.setPaivitetaan(true);    
         String dialogi = tulosteAlue.getText();
         String etumerkki = komentorivi.getKursori().annaMerkki() + "> ";
 
         if (!kirjoittajaOnKayttaja) {
             etumerkki = " # ";
-        }
+        }        
 
         tulosteAlue.setPreferredSize(new Dimension(400,
                 (tulosteAlue.getPreferredSize().height + dimensioLuku1)));
@@ -108,6 +108,7 @@ public class OmaKonsoli extends JPanel implements Konsoli {
         nollaaTyhjaTila();
     }
 
+    @Override
     public void jatkaKirjoitustaTyhjaanKenttaan() {
         tyhjaTila.getTyhja().setEditable(true);
         tyhjaTila.getTyhja().setFocusable(true);

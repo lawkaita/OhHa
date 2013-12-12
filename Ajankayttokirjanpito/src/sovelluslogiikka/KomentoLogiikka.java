@@ -28,13 +28,13 @@ public class KomentoLogiikka {
 
     private Tulostaja tulostaja;
     private AjanTestaaja ajantestaaja;
-    private AjanAntaja ajan;
-    private Tiedostonkasittelija tika;
+    private AjanAntaja ajanAntaja;
+    private Tiedostonkasittelija tiedostonkasittelija;
     private Konsoli konsoli;
-    private KontekstinHaltija koha;
-    private Kayttoliittyma kali;
-    private TietokantaValimuisti timu;
-    private MerkinnanKasittelija meka;
+    private KontekstinHaltija kontekstinHaltija;
+    private Kayttoliittyma kayttoliittyma;
+    private TietokantaValimuisti tietokantaValimuisti;
+    private MerkinnanKasittelija merkinnanKasittelija;
     /**
      * merkki, joka annettaan dekooderille erottamaan Stringin osat toisistaan.
      */
@@ -46,16 +46,16 @@ public class KomentoLogiikka {
     private String muistettavaString;
 
     public KomentoLogiikka(Tulostaja tulostaja,
-            Tiedostonkasittelija tika, Konsoli konsoli, KontekstinHaltija koha, Kayttoliittyma kali, MerkinnanKasittelija meka) {
+            Tiedostonkasittelija tiedostonkasittelija, Konsoli konsoli, KontekstinHaltija kontekstinHaltija, Kayttoliittyma kayttoliittyma, MerkinnanKasittelija merkinnankasittelija) {
         this.tulostaja = tulostaja;
         this.ajantestaaja = new OmaAjanTestaaja();
-        this.ajan = new OmaAjanAntaja();
-        this.meka = meka;
-        this.tika = tika;
+        this.ajanAntaja = new OmaAjanAntaja();
+        this.merkinnanKasittelija = merkinnankasittelija;
+        this.tiedostonkasittelija = tiedostonkasittelija;
         this.konsoli = konsoli;
-        this.koha = koha;
-        this.kali = kali;
-        this.timu = new OmaTietokantaValimuisti(this.tika);
+        this.kontekstinHaltija = kontekstinHaltija;
+        this.kayttoliittyma = kayttoliittyma;
+        this.tietokantaValimuisti = new OmaTietokantaValimuisti(this.tiedostonkasittelija);
 
         dekoodausMerkki = '!';
         muistettavaString = "";
@@ -67,9 +67,9 @@ public class KomentoLogiikka {
     public void merkinnanAloitus() {
         tulostaja.otsikoiMerkinnanLuominen();
         tulostaja.pyydaPaivaa();
-        String paiva = ajan.annaTamaPaiva();
+        String paiva = ajanAntaja.annaTamaPaiva();
         konsoli.kirjoitaKomentoriville(paiva);
-        this.koha.setMerkintaanPaiva(true);
+        this.kontekstinHaltija.setMerkintaanPaiva(true);
     }
 
     /**
@@ -77,7 +77,7 @@ public class KomentoLogiikka {
      */
     public void nollaaTiedosto() {
         try {
-            tika.nollaaTietokantaTiedosto();
+            tiedostonkasittelija.nollaaTietokantaTiedosto();
             tulostaja.ilmoitaTiedostonNollaamisesta();
         } catch (IOException ex) {
             tulostaja.tulostaIOException();
@@ -87,12 +87,12 @@ public class KomentoLogiikka {
     public void haarautaHaku(String hakusana) {
         if (this.ajantestaaja.onPaiva(hakusana)) {
             merkintaHaku(hakusana);
-        } else if (this.timu.kannassaOnSeurattavaToiminta(hakusana)) {
+        } else if (this.tietokantaValimuisti.kannassaOnSeurattavaToiminta(hakusana)) {
             seurattavaHaku(hakusana);
         } else {
             //tämä pitää hoitaa eritavalla
             tulostaja.tulostaEiOsumia();
-            this.koha.setHakuKaynnissa(false);
+            this.kontekstinHaltija.setHakuKaynnissa(false);
         }
     }
 
@@ -103,13 +103,13 @@ public class KomentoLogiikka {
      * @param paivays annettu päivämäärä Stringinä.
      */
     public void merkintaHaku(String paivays) {
-        Merkinta osuma = timu.haeMuististaMerkintaPaivayksella(paivays);
+        Merkinta osuma = tietokantaValimuisti.haeMuististaMerkintaPaivayksella(paivays);
         if (osuma != null) {
             tulostaja.tulostaHaunOsuma(osuma);
-            koha.setHakuKaynnissa(false);
+            kontekstinHaltija.setHakuKaynnissa(false);
         } else {
             tulostaja.tulostaEiOsumia();
-            koha.setHakuKaynnissa(false);
+            kontekstinHaltija.setHakuKaynnissa(false);
         }
 
     }
@@ -120,17 +120,17 @@ public class KomentoLogiikka {
      * @param komento annettu String
      */
     public void luoMerkinta(String komento) {
-        Merkinta uusiMerkinta = meka
+        Merkinta uusiMerkinta = merkinnanKasittelija
                 .muutaKayttajanAntamaMerkintaTietokannanMerkinnaksi(komento);
-        String paivaysMuistettavaStringista = tika.getDekooderi().dekoodaa(komento, '!')[0];
+        String paivaysMuistettavaStringista = tiedostonkasittelija.getDekooderi().dekoodaa(komento, '!')[0];
 
         boolean kannassaOnMerkintaSamallaPaivalla =
-                timu.kannassaOnMerkintaPaivalla(paivaysMuistettavaStringista);
+                tietokantaValimuisti.kannassaOnMerkintaPaivalla(paivaysMuistettavaStringista);
 
         if (kannassaOnMerkintaSamallaPaivalla) {
-            timu.lisaaMerkintaYhdistaen(uusiMerkinta);
+            tietokantaValimuisti.lisaaMerkintaYhdistaen(uusiMerkinta);
         } else {
-            timu.lisaaMerkinta(uusiMerkinta);
+            tietokantaValimuisti.lisaaMerkinta(uusiMerkinta);
         }
 
         tulostaja.kerroLisayksesta();
@@ -146,17 +146,17 @@ public class KomentoLogiikka {
      */
     public void otetaanPaiva(String komento) {
         if (ajantestaaja.onPaiva(komento)) {
-            String paiva = meka.luoPaivays(komento).toString();
+            String paiva = merkinnanKasittelija.luoPaivays(komento).toString();
             muistettavaString = paiva + dekoodausMerkki;
             tulostaja.pyydaAloitusAikaa();
-            koha.setMerkintaanAloitusAika(true);
+            kontekstinHaltija.setMerkintaanAloitusAika(true);
         } else {
             tulostaja.tulostaEiOlePaiva();
-            String paiva = ajan.annaTamaPaiva();
+            String paiva = ajanAntaja.annaTamaPaiva();
             konsoli.kirjoitaKomentoriville(paiva);
             return;
         }
-        koha.setMerkintaanPaiva(false);
+        kontekstinHaltija.setMerkintaanPaiva(false);
     }
 
     /**
@@ -168,15 +168,15 @@ public class KomentoLogiikka {
      */
     public void otetaanAloitusAika(String komento) {
         if (ajantestaaja.onAika(komento)) {
-            String aika = meka.luoKellonaikaStringina(komento);
+            String aika = merkinnanKasittelija.luoKellonaikaStringina(komento);
             boolean osuu = aikaOsuuJoOlemassaOleviintapahtumiin(komento);
 
             if (!osuu) {
                 muistettavaString += aika;
                 tulostaja.pyydaLopetusAikaa();
-                konsoli.kirjoitaKomentoriville(ajan.annaTamaAika());
-                koha.setMerkintaanAloitusAika(false);
-                koha.setMerkintaanLopetusaika(true);
+                konsoli.kirjoitaKomentoriville(ajanAntaja.annaTamaAika());
+                kontekstinHaltija.setMerkintaanAloitusAika(false);
+                kontekstinHaltija.setMerkintaanLopetusaika(true);
             } else {
                 tulostaja.tulostaAikaOsuuOlemassaolevaanTapahtumaan();
                 merkintaHaku(haeMuistettavastaStringistaIndeksista(0));
@@ -205,17 +205,16 @@ public class KomentoLogiikka {
             if (onAloitusaikaaSuurempiKellonaika(komento)) {
                 boolean osuu = aikaOsuuJoOlemassaOleviintapahtumiin(komento);
 
-
                 if (!osuu) {
                     String aloitusaika = haeMuistettavastaStringistaIndeksista(1);
-                    String aika = meka.luoKellonaikaStringina(komento);
+                    String aika = merkinnanKasittelija.luoKellonaikaStringina(komento);
                     boolean kellonaikaPariOsuu = aikaPariOsuuJoOlemassaOleviinTapahtumiin(aloitusaika, aika);
 
                     if (!kellonaikaPariOsuu) {
                         muistettavaString += "-" + aika + dekoodausMerkki;
                         tulostaja.pyydaSelostus();
-                        koha.setMerkintaanSelostus(true);
-                        koha.setMerkintaanLopetusaika(false);
+                        kontekstinHaltija.setMerkintaanSelostus(true);
+                        kontekstinHaltija.setMerkintaanLopetusaika(false);
                     } else {
                         tulostaja.luotavaTapahtumaLeikkaaOlemassaOlevanTapahtumanKanssa();
                         merkintaHaku(haeMuistettavastaStringistaIndeksista(0));
@@ -243,19 +242,19 @@ public class KomentoLogiikka {
      * @param komento
      */
     public void otetaanSelostus(String komento) {
-        if (this.timu.kannassaOnSeurattavaToiminta(komento)) {
+        if (this.tietokantaValimuisti.kannassaOnSeurattavaToiminta(komento)) {
 
             muistettavaString += komento;
             luoMerkinta(muistettavaString);
 
-            koha.setMerkintaanSelostus(false);
+            kontekstinHaltija.setMerkintaanSelostus(false);
             muistettavaString = "";
         } else {
             tulostaja.tulostaEiSeurattavissa();
             tulostaja.tulostaLisataankoSeurattava();
             muistettavaString += komento;
-            koha.setMerkintaanSelostus(false);
-            koha.setKysytaanLisataankoSeurattava(true);
+            kontekstinHaltija.setMerkintaanSelostus(false);
+            kontekstinHaltija.setKysytaanLisataankoSeurattava(true);
         }
     }
 
@@ -269,13 +268,13 @@ public class KomentoLogiikka {
      */
     public void poistetaanMerkinta(String komento) {
         if (ajantestaaja.onPaiva(komento)) {
-            boolean merkintaLoytyiJaSePoistettiin = timu.poistaMerkintaPaivanPerusteella(komento);
+            boolean merkintaLoytyiJaSePoistettiin = tietokantaValimuisti.poistaMerkintaPaivanPerusteella(komento);
             if (merkintaLoytyiJaSePoistettiin) {
                 tulostaja.tulostaMerkinnanPoistoOnnistui();
-                koha.setPoistetaanMerkintaa(false);
+                kontekstinHaltija.setPoistetaanMerkintaa(false);
             } else {
                 tulostaja.tulostaEiOsumia();
-                koha.setPoistetaanMerkintaa(false);
+                kontekstinHaltija.setPoistetaanMerkintaa(false);
             }
         } else {
             tulostaja.tulostaEiOlePaiva();
@@ -286,7 +285,7 @@ public class KomentoLogiikka {
      * Hoitaa tämän hetken tarkan merkinnän tulostuksen.
      */
     public void sanoMikaAikaNytOn() {
-        tulostaja.tulostaKonsoliin(ajan.mikaAikaNytOn());
+        tulostaja.tulostaKonsoliin(ajanAntaja.mikaAikaNytOn());
     }
 
     /**
@@ -294,11 +293,11 @@ public class KomentoLogiikka {
      */
     public void keskeytaKaikki() {
 
-        if (this.koha.onKontekstissa()) {
+        if (this.kontekstinHaltija.onKontekstissa()) {
             this.tulostaja.tulostaKeskeytettiin();
         }
 
-        this.koha.poistuKaikistaKonteksteista();
+        this.kontekstinHaltija.poistuKaikistaKonteksteista();
 
         this.konsoli.kirjoitaKomentoriville("");
     }
@@ -309,14 +308,14 @@ public class KomentoLogiikka {
     public void haunAloitus() {
         tulostaja.otsikoiHaunAloitus();
         tulostaja.pyydaHakusana();
-        this.koha.setHakuKaynnissa(true);
+        this.kontekstinHaltija.setHakuKaynnissa(true);
     }
 
     /**
      * Kutsuu kayttoliittyman sulkemismetodia.
      */
     public void tapaKali() {
-        this.kali.tapa();
+        this.kayttoliittyma.tapa();
     }
 
     /**
@@ -330,7 +329,7 @@ public class KomentoLogiikka {
      * Kutsuu tulostajaa tulostamaan koko tietokantatiedoston.
      */
     public void tulostetaanValimuisti() {
-        String tuloste = timu.toString();
+        String tuloste = tietokantaValimuisti.toString();
         if (tuloste.isEmpty()) {
             tulostaja.tulostaEiMerkintoja();
         }
@@ -344,7 +343,7 @@ public class KomentoLogiikka {
      */
     public void aloitetaanPaivanPoisto() {
         tulostaja.pyydaPaivaa();
-        this.koha.setPoistetaanMerkintaa(true);
+        this.kontekstinHaltija.setPoistetaanMerkintaa(true);
     }
 
     /**
@@ -361,15 +360,15 @@ public class KomentoLogiikka {
     public void yhteenveto() {
         DecimalFormat df = new DecimalFormat("#.##");
 
-        String seurattavia = "Seurattavia toimintoja: " + timu.laskeSeurattavienMaara();
+        String seurattavia = "Seurattavia toimintoja: " + tietokantaValimuisti.laskeSeurattavienMaara();
         tulostaja.tulostaKonsoliin(seurattavia);
 
-        ArrayList<String> seurattavaTaulu = timu.annaSeurattavatToiminnot();
+        ArrayList<String> seurattavaTaulu = tietokantaValimuisti.annaSeurattavatToiminnot();
 
-        String merkintoja = "Merkintöjä: " + timu.laskeMerkintojenMaara();
+        String merkintoja = "Merkintöjä: " + tietokantaValimuisti.laskeMerkintojenMaara();
         tulostaja.tulostaKonsoliin(merkintoja);
 
-        ArrayList<Merkinta> merkintaTaulu = timu.annaMuisti();
+        ArrayList<Merkinta> merkintaTaulu = tietokantaValimuisti.annaMuisti();
         int kaytetytMinuutit = 0;
 
         for (Merkinta merkinta : merkintaTaulu) {
@@ -382,19 +381,19 @@ public class KomentoLogiikka {
 
         for (String seurattava : seurattavaTaulu) {
             int seurattavaanKaytettyAika = seurattavanKaytettyAikaHaku(seurattava);
-            
+
             String prosenttiosuus;
             if (seurattavaanKaytettyAika == 0) {
                 prosenttiosuus = " (0%)";
             } else {
                 prosenttiosuus = " (" + df.format(((double) seurattavaanKaytettyAika) * 100 / ((double) kaytetytMinuutit)) + "%)";
             }
-            
+
             String tuloste = "  " + seurattava
                     + ": "
                     + aikaTunteinaJaMinuutteina(seurattavaanKaytettyAika)
                     + prosenttiosuus;
-            
+
             tulostaja.tulostaKonsoliin(tuloste);
         }
 
@@ -409,12 +408,12 @@ public class KomentoLogiikka {
      * muuten false.
      */
     private boolean onAloitusaikaaSuurempiKellonaika(String komento) {
-        String[] tahanAstiKeratytVastaukset = tika.getDekooderi().dekoodaa(muistettavaString, dekoodausMerkki);
+        String[] tahanAstiKeratytVastaukset = tiedostonkasittelija.getDekooderi().dekoodaa(muistettavaString, dekoodausMerkki);
         String annettuAloitusaika = tahanAstiKeratytVastaukset[tahanAstiKeratytVastaukset.length - 1];
-        String[] annettuAloitusaikaOsina = tika.getDekooderi().dekoodaa(annettuAloitusaika, '.');
+        String[] annettuAloitusaikaOsina = tiedostonkasittelija.getDekooderi().dekoodaa(annettuAloitusaika, '.');
         Kellonaika aloitusaika = new Kellonaika(Integer.parseInt(annettuAloitusaikaOsina[0]), Integer.parseInt(annettuAloitusaikaOsina[1]));
 
-        String[] annettuLopetusaikaOsina = tika.getDekooderi().dekoodaa(komento, '.');
+        String[] annettuLopetusaikaOsina = tiedostonkasittelija.getDekooderi().dekoodaa(komento, '.');
         Kellonaika lopetusaika = new Kellonaika(Integer.parseInt(annettuLopetusaikaOsina[0]), Integer.parseInt(annettuLopetusaikaOsina[1]));
 
         if (aloitusaika.compareTo(lopetusaika) > 0) {
@@ -426,18 +425,18 @@ public class KomentoLogiikka {
     }
 
     public void tallenna() {
-        this.tika.yliKirjoitaTietokantatiedosto(this.timu.annaMuisti());
-        this.tika.ylikirjoitaSeurattavatToiminnotTiedosto(this.timu.annaSeurattavatToiminnot());
+        this.tiedostonkasittelija.yliKirjoitaTietokantatiedosto(this.tietokantaValimuisti.annaMuisti());
+        this.tiedostonkasittelija.ylikirjoitaSeurattavatToiminnotTiedosto(this.tietokantaValimuisti.annaSeurattavatToiminnot());
         tulostaja.ilmoitaTallennuksenOnnistumisesta();
     }
 
     public void nollaaValimuisti() {
-        this.timu.nollaaMuisti();
+        this.tietokantaValimuisti.nollaaMuisti();
         tulostaja.ilmoitaValimuistinNollaamisesta();
     }
 
     public TietokantaValimuisti getTietokantaValimuisti() {
-        return this.timu;
+        return this.tietokantaValimuisti;
     }
 
     public void neuvottavaLisaamisessa() {
@@ -447,17 +446,17 @@ public class KomentoLogiikka {
     public void aloitaOhjelmastaPoistuminen() {
         tulostaja.tulostaOllaanPoistumassaOhjelmasta();
         tulostaja.kysyOletkoVarma();
-        this.koha.setOllaanPoistumassaOhjelmasta(true);
+        this.kontekstinHaltija.setOllaanPoistumassaOhjelmasta(true);
     }
 
     public void ollaanPoistumassaOhjelmasta() {
         tulostaja.kysyTallenetaankoMuutokset();
-        this.koha.setOllaanPoistumassaOhjelmasta(false);
-        this.koha.setKysytaanPoistumisenYhteydessaTallennuksesta(true);
+        this.kontekstinHaltija.setOllaanPoistumassaOhjelmasta(false);
+        this.kontekstinHaltija.setKysytaanPoistumisenYhteydessaTallennuksesta(true);
     }
 
     public void poistutaanKonteksteista() {
-        this.koha.poistuKaikistaKonteksteista();
+        this.kontekstinHaltija.poistuKaikistaKonteksteista();
     }
 
     public void tulostetaanKyllaEi() {
@@ -474,14 +473,14 @@ public class KomentoLogiikka {
     }
 
     public void lisätäänSeurattava(String string) {
-        this.timu.lisaaSeurattava(string);
+        this.tietokantaValimuisti.lisaaSeurattava(string);
         this.tulostaja.tulostaSeurattavanLisaaminenOnnistui(string);
     }
 
     private void seurattavaHaku(String hakusana) {
         ArrayList<Merkinta> osumat = new ArrayList<>();
 
-        for (Merkinta merkinta : this.timu.annaMuisti()) {
+        for (Merkinta merkinta : this.tietokantaValimuisti.annaMuisti()) {
             ArrayList<Tapahtuma> merkinnanTapahtumat = merkinta.getTapahtumat();
             for (Tapahtuma tapahtuma : merkinnanTapahtumat) {
                 if (tapahtuma.getSeloste().equals(hakusana)) {
@@ -496,13 +495,13 @@ public class KomentoLogiikka {
             this.tulostaja.tulostaMerkinta(merkinta);
         }
 
-        this.koha.setHakuKaynnissa(false);
+        this.kontekstinHaltija.setHakuKaynnissa(false);
     }
 
     private int seurattavanKaytettyAikaHaku(String hakusana) {
         int kaytettyAikaMinuutteina = 0;
 
-        for (Merkinta merkinta : this.timu.annaMuisti()) {
+        for (Merkinta merkinta : this.tietokantaValimuisti.annaMuisti()) {
             ArrayList<Tapahtuma> merkinnanTapahtumat = merkinta.getTapahtumat();
             for (Tapahtuma tapahtuma : merkinnanTapahtumat) {
                 if (tapahtuma.getSeloste().equals(hakusana)) {
@@ -523,10 +522,10 @@ public class KomentoLogiikka {
     }
 
     private boolean aikaOsuuJoOlemassaOleviintapahtumiin(String aika) {
-        String[] kellonaikaOsina = tika.getDekooderi().dekoodaa(aika, '.');
-        Kellonaika aikaKellonaikana = meka.luoKellonaika(kellonaikaOsina);
+        String[] kellonaikaOsina = tiedostonkasittelija.getDekooderi().dekoodaa(aika, '.');
+        Kellonaika aikaKellonaikana = merkinnanKasittelija.luoKellonaika(kellonaikaOsina);
         String paivays = haeMuistettavastaStringistaIndeksista(0);
-        Merkinta merkintaSamallaPaivalla = timu.haeMuististaMerkintaPaivayksella(paivays);
+        Merkinta merkintaSamallaPaivalla = tietokantaValimuisti.haeMuististaMerkintaPaivayksella(paivays);
 
         if (merkintaSamallaPaivalla == null) {
             return false;
@@ -536,7 +535,7 @@ public class KomentoLogiikka {
     }
 
     public void nollaaSeurattavat() {
-        this.timu.nollaaSeurattavat();
+        this.tietokantaValimuisti.nollaaSeurattavat();
         this.tulostaja.ilmoitaSeurattavienNollaamisesta();
     }
 
@@ -546,11 +545,11 @@ public class KomentoLogiikka {
         luoMerkinta(muistettavaString);
         this.muistettavaString = "";
 
-        this.koha.setKysytaanLisataankoSeurattava(false);
+        this.kontekstinHaltija.setKysytaanLisataankoSeurattava(false);
     }
 
     private String haeMuistettavastaStringistaIndeksista(int indeksi) {
-        String[] dekoodi = tika.getDekooderi().dekoodaa(muistettavaString, dekoodausMerkki);
+        String[] dekoodi = tiedostonkasittelija.getDekooderi().dekoodaa(muistettavaString, dekoodausMerkki);
 
         if (indeksi < dekoodi.length) {
             return dekoodi[indeksi];
@@ -560,9 +559,9 @@ public class KomentoLogiikka {
     }
 
     private boolean aikaPariOsuuJoOlemassaOleviinTapahtumiin(String aloitusaika, String lopetusaika) {
-        Kellonaika[] ajat = this.meka.luoAloitusaikajaLopetusaika(aloitusaika + "-" + lopetusaika);
+        Kellonaika[] ajat = this.merkinnanKasittelija.luoAloitusaikajaLopetusaika(aloitusaika + "-" + lopetusaika);
         String paivays = haeMuistettavastaStringistaIndeksista(0);
-        Merkinta merkintaSamallaPaivalla = timu.haeMuististaMerkintaPaivayksella(paivays);
+        Merkinta merkintaSamallaPaivalla = tietokantaValimuisti.haeMuististaMerkintaPaivayksella(paivays);
 
         if (merkintaSamallaPaivalla == null) {
             return false;

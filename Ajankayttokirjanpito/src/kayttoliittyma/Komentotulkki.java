@@ -25,7 +25,7 @@ public class Komentotulkki {
     /**
      * Olio, joka pitää kirjaa siitä, missä asiayhteydessä konsolia käytetään.
      */
-    private KontekstinHaltija koha;
+    private KontekstinHaltija kontekstinhaltija;
     /**
      * Ohjelman komentokokonaisuuksia suorittava olio.
      */
@@ -35,9 +35,9 @@ public class Komentotulkki {
      */
     private Dekooderi dekooderi;
 
-    public Komentotulkki(Konsoli konsoli, KontekstinHaltija koha, KomentoLogiikka kolo, Dekooderi dekooderi) {
+    public Komentotulkki(Konsoli konsoli, KontekstinHaltija kontekstinhaltija, KomentoLogiikka kolo, Dekooderi dekooderi) {
         this.konsoli = konsoli;
-        this.koha = koha;
+        this.kontekstinhaltija = kontekstinhaltija;
         this.komentologiikka = kolo;
         this.dekooderi = dekooderi;
     }
@@ -56,7 +56,7 @@ public class Komentotulkki {
 
         } else {
 
-            if (koha.getOllaanPoistumassaOhjelmasta()) {
+            if (kontekstinhaltija.getOllaanPoistumassaOhjelmasta()) {
                 if (komento.equals("k")) {
                     komentologiikka.ollaanPoistumassaOhjelmasta();
                 } else if (komento.equals("e")) {
@@ -68,7 +68,7 @@ public class Komentotulkki {
                 return;
             }
 
-            if (koha.getKysytaanPoistumisenYhteydessaTallennuksesta()) {
+            if (kontekstinhaltija.getKysytaanPoistumisenYhteydessaTallennuksesta()) {
                 if (komento.equals("k")) {
                     komentologiikka.poistutaanTallentaen();
                 } else if (komento.equals("e")) {
@@ -81,38 +81,38 @@ public class Komentotulkki {
             }
 
 
-            if (koha.getHakuKaynnissa() == true) {
+            if (kontekstinhaltija.getHakuKaynnissa() == true) {
                 komentologiikka.haarautaHaku(komento);
                 return;
             }
 
-            if (koha.getMerkintaanPaiva() == true) {
+            if (kontekstinhaltija.getMerkintaanPaiva() == true) {
                 komentologiikka.otetaanPaiva(komento);
                 return;
             }
 
-            if (koha.getMerkintaanAloitusAika() == true) {
+            if (kontekstinhaltija.getMerkintaanAloitusAika() == true) {
                 komentologiikka.otetaanAloitusAika(komento);
                 return;
             }
 
-            if (koha.getMerkintaanLopetusAika() == true) {
+            if (kontekstinhaltija.getMerkintaanLopetusAika() == true) {
                 komentologiikka.otetaanLopetusAika(komento);
                 return;
             }
 
-            if (koha.getMerkintaanSelostus() == true) {
+            if (kontekstinhaltija.getMerkintaanSelostus() == true) {
                 komentologiikka.otetaanSelostus(komento);
 
                 return;
             }
 
-            if (koha.getPoistetaanMerkintaa() == true) {
+            if (kontekstinhaltija.getPoistetaanMerkintaa() == true) {
                 komentologiikka.poistetaanMerkinta(komento);
                 return;
             }
 
-            if (koha.getKysytaanLisataankoSeurattava()) {
+            if (kontekstinhaltija.getKysytaanLisataankoSeurattava()) {
                 if (komento.equals("k")) {
                     komentologiikka.lisätäänSeurattavaMuististaJaTehdaanSillaMerkinta();
                     return;
@@ -218,7 +218,7 @@ public class Komentotulkki {
      * @return komentotulkin kontekstinhaltija
      */
     public KontekstinHaltija getKontekstinHaltija() {
-        return this.koha;
+        return this.kontekstinhaltija;
     }
 
     private int komentojenMaara(String komento) {

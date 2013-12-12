@@ -8,8 +8,7 @@ package sovelluslogiikka;
  * Pilkkoo String-muodossa olevia komentoja osiin käsiteltäväksi erikseen.
  * @author Envy 6-1010
  */
-public class Dekooderi {
-    
+public class Dekooderi {    
     
     /**
      * Dekoodauksen rekursiivinen metodi, joka askel kerrallaan määrittää palautettavan dekoodaustaulun

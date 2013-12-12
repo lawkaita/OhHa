@@ -28,10 +28,10 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
     private File seurattavatToiminnot;
     private Scanner lukija;
     private Dekooderi dekooderi;
-    private MerkinnanKasittelija meka;
+    private MerkinnanKasittelija merkinnanKasittelija;
     private Tulostaja tulostaja;
 
-    public OmaTiedostonkasittelija(Dekooderi dekooderi, MerkinnanKasittelija meka, Tulostaja tulostaja) {
+    public OmaTiedostonkasittelija(Dekooderi dekooderi, MerkinnanKasittelija merkinnanKasittelija, Tulostaja tulostaja) {
         tietokanta = new File("kirjaukset.txt");
         seurattavatToiminnot = new File("seurattavatToiminnot.txt");
 
@@ -49,7 +49,7 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
             this.tulostaja.tulostaKonsoliin("Tietokantatiedostoa ei löydy: " + ex.getMessage());
         }
         this.dekooderi = dekooderi;
-        this.meka = meka;
+        this.merkinnanKasittelija = merkinnanKasittelija;
 
     }
     
@@ -71,7 +71,7 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
             this.tulostaja.tulostaKonsoliin("Tietokantatiedostoa ei löydy: " + ex.getMessage());
         }
         this.dekooderi = dekooderi;
-        this.meka = new MerkinnanKasittelija(dekooderi);
+        this.merkinnanKasittelija = new MerkinnanKasittelija(dekooderi);
 
     }
 
@@ -201,7 +201,7 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
 
     @Override
     public MerkinnanKasittelija getMerkinnanKasittelija() {
-        return this.meka;
+        return this.merkinnanKasittelija;
     }
 
     /**
@@ -373,9 +373,7 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
         
         if (tekstitaulu.size() == 1) {
             return tekstitaulu.get(0) + "\r\n";
-        }
-        
-        
+        }        
 
         for (String rivi : tekstitaulu) {
             tekstitauluStringina += rivi + "\r\n";
@@ -384,7 +382,6 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
         //poistetaan viimeinen ylimääräinen \r\n
         tekstitauluStringina = tekstitauluStringina.substring(0, tekstitauluStringina.length() - 2);
         //poistaa molemmat \r\n
-
         return tekstitauluStringina;
     }
 
@@ -463,7 +460,7 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
             if (!rivi.isEmpty()) {
                 if ((rivi.charAt(0) != ' ')) {
                     String[] merkintaTauluna = haeStringtaulunaTietoKannastaMerkintaPaivalla(rivi);
-                    Merkinta lisattava = meka.luoMerkintaAnnetustaTaulusta(merkintaTauluna);
+                    Merkinta lisattava = merkinnanKasittelija.luoMerkintaAnnetustaTaulusta(merkintaTauluna);
                     merkinnat.add(lisattava);
                 }
             }

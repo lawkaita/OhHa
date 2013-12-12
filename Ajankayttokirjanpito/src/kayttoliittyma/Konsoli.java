@@ -13,23 +13,14 @@ import javax.swing.JTextField;
  */
 public interface Konsoli {
     void paivita(String s, boolean b);
-
     public JTextField getVarsinainenKomentoRivi();
-
     public void tulostaViesti(String s);
-
     public JTextArea getTyhjanTilanTyhja();
-
     public void kirjoitaKomentoriville(String paiva);
-
     public void tulostaKomento();
-
     public void estaLiianPitkaKomento();
-
     public JTextArea getTulosteAlue();
-
-    public void jatkaKirjoitustaTyhjaanKenttaan();
-    
+    public void jatkaKirjoitustaTyhjaanKenttaan();    
     public void setDimensioLuku();
     
 }

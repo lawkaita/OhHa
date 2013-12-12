@@ -33,16 +33,16 @@ public class Kayttoliittyma implements Runnable{
     /**
      * Näppäimistön tapahtumia ja niistä käskyjä tekevä olio.
      */
-    private Nappaimistonkuuntelija naku;
+    private Nappaimistonkuuntelija nappaimistonkuuntelija;
     
     public Kayttoliittyma(Konsoli konsoli, Nappaimistonkuuntelija nappaimistonkuuntelija){
         this.konsoli = konsoli;
-        this.naku = nappaimistonkuuntelija;        
+        this.nappaimistonkuuntelija = nappaimistonkuuntelija;        
     }
 
     public Kayttoliittyma(Konsoli konsoli) {
         this.konsoli = konsoli;
-        this.naku = null;
+        this.nappaimistonkuuntelija = null;
     }
     
     /**
@@ -50,7 +50,7 @@ public class Kayttoliittyma implements Runnable{
      * @param nappaimistonkuuntelija Annettava nappaimistonkuuntelija.
      */    
     public void otaNappaimistonkuuntelija(Nappaimistonkuuntelija nappaimistonkuuntelija) {
-        this.naku = nappaimistonkuuntelija;
+        this.nappaimistonkuuntelija = nappaimistonkuuntelija;
     }
     
     /**
@@ -83,8 +83,8 @@ public class Kayttoliittyma implements Runnable{
         container.setLayout(new BorderLayout());
                 
         container.add((OmaKonsoli)this.konsoli, BorderLayout.CENTER);
-        konsoli.getVarsinainenKomentoRivi().addKeyListener(naku);
-        konsoli.getTyhjanTilanTyhja().addKeyListener(naku);
+        konsoli.getVarsinainenKomentoRivi().addKeyListener(nappaimistonkuuntelija);
+        konsoli.getTyhjanTilanTyhja().addKeyListener(nappaimistonkuuntelija);
         
     }
     
@@ -93,7 +93,7 @@ public class Kayttoliittyma implements Runnable{
      * @return ohjelman nappaimistonkuuntelija.
      */
     public Nappaimistonkuuntelija getNappaimistonkuuntelija() {
-        return this.naku;
+        return this.nappaimistonkuuntelija;
     }
     
     /**

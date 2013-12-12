@@ -147,3 +147,6 @@ Luotu toiminnallisuutta.
 
 12.12.13 13.00-17.12
 Luotu toiminnallisuutta ja ohjelman käyttäjälle näytettäviä viestejä.
+
+12.12.13 18.00-20.32
+Kirjoitettu ohjelman käyttäjälle näytettäviä viestejä ja refaktoroitu.

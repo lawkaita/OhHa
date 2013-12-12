@@ -13,14 +13,14 @@ import java.util.Collections;
  */
 public class OmaTietokantaValimuisti implements TietokantaValimuisti {
 
-    private Tiedostonkasittelija tika;
+    private Tiedostonkasittelija tiedostonkasittelija;
     private ArrayList<Merkinta> muisti;
     private ArrayList<String> seurattavatToiminnot;
 
-    public OmaTietokantaValimuisti(Tiedostonkasittelija tika) {
-        this.tika = tika;
-        this.muisti = tika.lataaTietokanta();
-        this.seurattavatToiminnot = tika.lataaSeurattavatToiminnot();
+    public OmaTietokantaValimuisti(Tiedostonkasittelija tiedostonkasittelija) {
+        this.tiedostonkasittelija = tiedostonkasittelija;
+        this.muisti = tiedostonkasittelija.lataaTietokanta();
+        this.seurattavatToiminnot = tiedostonkasittelija.lataaSeurattavatToiminnot();
     }
 
     /**
@@ -129,7 +129,7 @@ public class OmaTietokantaValimuisti implements TietokantaValimuisti {
     public void lisaaMerkintaYhdistaen(Merkinta uusiMerkinta) {
         int vanhanMerkinnanIndeksi = haeMuististaMerkinnanIndeksiPaivayksenPerusteella(uusiMerkinta.getPaivays().toString());
         Merkinta vanhaMerkinta = this.muisti.get(vanhanMerkinnanIndeksi);
-        this.tika.getMerkinnanKasittelija().yhdista(vanhaMerkinta, uusiMerkinta);
+        this.tiedostonkasittelija.getMerkinnanKasittelija().yhdista(vanhaMerkinta, uusiMerkinta);
     }
 
     /**
