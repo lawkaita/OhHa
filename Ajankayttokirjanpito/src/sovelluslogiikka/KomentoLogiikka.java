@@ -168,22 +168,27 @@ public class KomentoLogiikka {
      */
     public void otetaanAloitusAika(String komento) {
         if (ajantestaaja.onAika(komento)) {
-            String aika = meka.luoKellonaika(komento);
-            boolean osuu = aikaOsuuJoOlemassaOleviintapahtumiin();
+            String aika = meka.luoKellonaikaStringina(komento);
+            boolean osuu = aikaOsuuJoOlemassaOleviintapahtumiin(komento);
 
             if (!osuu) {
                 muistettavaString += aika;
                 tulostaja.pyydaLopetusAikaa();
                 konsoli.kirjoitaKomentoriville(ajan.annaTamaAika());
+                koha.setMerkintaanAloitusAika(false);
                 koha.setMerkintaanLopetusaika(true);
+            } else {
+                tulostaja.tulostaAikaOsuuOlemassaolevaanTapahtumaan();
+                merkintaHaku(haeMuistettavastaStringistaIndeksista(0));
+                tulostaja.pyydaAloitusAikaa();
+
             }
 
         } else {
             tulostaja.tulostaEiOleAika();
-            return;
         }
 
-        koha.setMerkintaanAloitusAika(false);
+
     }
 
     /**
@@ -198,11 +203,31 @@ public class KomentoLogiikka {
     public void otetaanLopetusAika(String komento) {
         if (ajantestaaja.onAika(komento)) {
             if (onAloitusaikaaSuurempiKellonaika(komento)) {
-                String aika = meka.luoKellonaika(komento);
-                muistettavaString += "-" + aika + dekoodausMerkki;
-                tulostaja.pyydaSelostus();
-                koha.setMerkintaanSelostus(true);
-                koha.setMerkintaanLopetusaika(false);
+                boolean osuu = aikaOsuuJoOlemassaOleviintapahtumiin(komento);
+
+
+                if (!osuu) {
+                    String aloitusaika = haeMuistettavastaStringistaIndeksista(1);
+                    String aika = meka.luoKellonaikaStringina(komento);
+                    boolean kellonaikaPariOsuu = aikaPariOsuuJoOlemassaOleviinTapahtumiin(aloitusaika, aika);
+
+                    if (!kellonaikaPariOsuu) {
+                        muistettavaString += "-" + aika + dekoodausMerkki;
+                        tulostaja.pyydaSelostus();
+                        koha.setMerkintaanSelostus(true);
+                        koha.setMerkintaanLopetusaika(false);
+                    } else {
+                        tulostaja.luotavaTapahtumaLeikkaaOlemassaOlevanTapahtumanKanssa();
+                        merkintaHaku(haeMuistettavastaStringistaIndeksista(0));
+                        tulostaja.pyydaLopetusAikaa();
+                    }
+
+                } else {
+                    tulostaja.tulostaAikaOsuuOlemassaolevaanTapahtumaan();
+                    merkintaHaku(haeMuistettavastaStringistaIndeksista(0));
+                    tulostaja.pyydaLopetusAikaa();
+                }
+
             } else {
                 tulostaja.tulostaLiianSuuriAika();
             }
@@ -250,6 +275,7 @@ public class KomentoLogiikka {
                 koha.setPoistetaanMerkintaa(false);
             } else {
                 tulostaja.tulostaEiOsumia();
+                koha.setPoistetaanMerkintaa(false);
             }
         } else {
             tulostaja.tulostaEiOlePaiva();
@@ -333,7 +359,7 @@ public class KomentoLogiikka {
      * tulostamisen.
      */
     public void yhteenveto() {
-        DecimalFormat df = new DecimalFormat("#.###");
+        DecimalFormat df = new DecimalFormat("#.##");
 
         String seurattavia = "Seurattavia toimintoja: " + timu.laskeSeurattavienMaara();
         tulostaja.tulostaKonsoliin(seurattavia);
@@ -356,11 +382,19 @@ public class KomentoLogiikka {
 
         for (String seurattava : seurattavaTaulu) {
             int seurattavaanKaytettyAika = seurattavanKaytettyAikaHaku(seurattava);
-
+            
+            String prosenttiosuus;
+            if (seurattavaanKaytettyAika == 0) {
+                prosenttiosuus = " (0%)";
+            } else {
+                prosenttiosuus = " (" + df.format(((double) seurattavaanKaytettyAika) * 100 / ((double) kaytetytMinuutit)) + "%)";
+            }
+            
             String tuloste = "  " + seurattava
                     + ": "
                     + aikaTunteinaJaMinuutteina(seurattavaanKaytettyAika)
-                    + " (" + df.format(((double) seurattavaanKaytettyAika) * 100 / ((double) kaytetytMinuutit)) + "%)";
+                    + prosenttiosuus;
+            
             tulostaja.tulostaKonsoliin(tuloste);
         }
 
@@ -439,12 +473,9 @@ public class KomentoLogiikka {
         tapaKali();
     }
 
-    public void aloitetaanSeurattavanLisaaminen() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public void lisätäänSeurattava(String string) {
         this.timu.lisaaSeurattava(string);
+        this.tulostaja.tulostaSeurattavanLisaaminenOnnistui(string);
     }
 
     private void seurattavaHaku(String hakusana) {
@@ -464,7 +495,7 @@ public class KomentoLogiikka {
         for (Merkinta merkinta : osumat) {
             this.tulostaja.tulostaMerkinta(merkinta);
         }
-        
+
         this.koha.setHakuKaynnissa(false);
     }
 
@@ -491,8 +522,17 @@ public class KomentoLogiikka {
         return kaytettyAika;
     }
 
-    private boolean aikaOsuuJoOlemassaOleviintapahtumiin() {
-        return false;
+    private boolean aikaOsuuJoOlemassaOleviintapahtumiin(String aika) {
+        String[] kellonaikaOsina = tika.getDekooderi().dekoodaa(aika, '.');
+        Kellonaika aikaKellonaikana = meka.luoKellonaika(kellonaikaOsina);
+        String paivays = haeMuistettavastaStringistaIndeksista(0);
+        Merkinta merkintaSamallaPaivalla = timu.haeMuististaMerkintaPaivayksella(paivays);
+
+        if (merkintaSamallaPaivalla == null) {
+            return false;
+        }
+
+        return merkintaSamallaPaivalla.sisaltaaTapahtumanJohonKellonaikaOsuu(aikaKellonaikana);
     }
 
     public void nollaaSeurattavat() {
@@ -502,19 +542,36 @@ public class KomentoLogiikka {
 
     public void lisätäänSeurattavaMuististaJaTehdaanSillaMerkinta() {
         String uusiSeurattava = haeMuistettavastaStringistaIndeksista(2);
-        lisätäänSeurattava(uusiSeurattava);        
-        luoMerkinta(muistettavaString);        
+        lisätäänSeurattava(uusiSeurattava);
+        luoMerkinta(muistettavaString);
         this.muistettavaString = "";
+
         this.koha.setKysytaanLisataankoSeurattava(false);
     }
-    
+
     private String haeMuistettavastaStringistaIndeksista(int indeksi) {
         String[] dekoodi = tika.getDekooderi().dekoodaa(muistettavaString, dekoodausMerkki);
-        
+
         if (indeksi < dekoodi.length) {
             return dekoodi[indeksi];
         } else {
             return "";
         }
+    }
+
+    private boolean aikaPariOsuuJoOlemassaOleviinTapahtumiin(String aloitusaika, String lopetusaika) {
+        Kellonaika[] ajat = this.meka.luoAloitusaikajaLopetusaika(aloitusaika + "-" + lopetusaika);
+        String paivays = haeMuistettavastaStringistaIndeksista(0);
+        Merkinta merkintaSamallaPaivalla = timu.haeMuististaMerkintaPaivayksella(paivays);
+
+        if (merkintaSamallaPaivalla == null) {
+            return false;
+        }
+
+        return merkintaSamallaPaivalla.sisaltaaTapahtumanJohonKellonaikaPariOsuu(ajat[0], ajat[1]);
+    }
+
+    public void neuvottavaOhjelmanKaytossa() {
+        this.tulostaja.neuvoOhjelmanKaytossa();
     }
 }

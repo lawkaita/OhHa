@@ -15,11 +15,12 @@ import tietokantasysteemi.Merkinta;
  * @author lawkaita
  */
 public class Tulostaja {
-    
+
     /**
-     * Ohjelman käyttöliittymän pääkomponentti. Tulostaja tulostaa tekstiä tähän komponenttiin.
+     * Ohjelman käyttöliittymän pääkomponentti. Tulostaja tulostaa tekstiä tähän
+     * komponenttiin.
      */
-    private Konsoli konsoli;    
+    private Konsoli konsoli;
     private Dekooderi dekooderi;
 
     public Tulostaja(Konsoli konsoli, Dekooderi dekooderi) {
@@ -31,29 +32,29 @@ public class Tulostaja {
      * Tulostaa ohjeita ohjelman käyttöön.
      */
     public void apua() {
-        String apua = "exit - poistu\n"+
-            "nyt - tämänhetkinen aika\n"+
-            "apua - tämä tuloste\n"+
-            "apua <komento> - neuvoa komennon käytöstä\n"+
-            "apua apua - neuvoa ohjelman käytössä\n"+
-            "tulosta - tulostaa koko tietokannan\n"+
-            "hae - hakutoiminnon aloitus\n"+
-            "merkintä - aloittaa merkinnän luomisen\n"+
-            "nollaa - nolla välimuistin\n"+
-            "poista - aloittaa merkinnän poistotoiminnon\n"+
-            "tallenna - tallentaa välimuistin tiedostoon\n"+
-            "esc-näppäin - keskeytä käynnissäoleva tehtävä\n"+
-            "page-up ja -down näppäimet - selaa dialogia\n"; 
+        String apua = "exit - poistu\n"
+                + "nyt - tämänhetkinen aika\n"
+                + "apua - tämä tuloste\n"
+                + "apua <komento> - neuvoa komennon käytöstä\n"
+                + "apua apua - neuvoa ohjelman käytössä\n"
+                + "tulosta - tulostaa koko tietokannan\n"
+                + "hae - hakutoiminnon aloitus\n"
+                + "merkintä - aloittaa merkinnän luomisen\n"
+                + "nollaa - nollaa välimuistin\n"
+                + "poista - aloittaa merkinnän poistotoiminnon\n"
+                + "tallenna - tallentaa välimuistin tiedostoon\n"
+                + "yhteenveto - tekee annetuista tiedoista yhteenvedon \n"
+                + "esc-näppäin - keskeytä käynnissäoleva tehtävä\n"
+                + "page-up ja -down näppäimet - selaa dialogia\n";
 
         tulostaRivitettyString(apua);
 
     }
 
-    
     public void tulostaValimuisti(String muistiString) {
         tulostaRivitettyString(muistiString);
     }
-    
+
     private void tulostaRivitettyString(String rivitettyString) {
         Scanner lukija = new Scanner(rivitettyString);
         while (lukija.hasNextLine()) {
@@ -195,9 +196,24 @@ public class Tulostaja {
                 + "tekemistä merkintä koski.";
         tulostaRivitettyString(neuvo);
     }
+    
+    public void neuvoOhjelmanKaytossa() {
+        String neuvo = "Ohjelmaa käytetään pitämään ajankäytöstä kirjaa.\n"
+                + "Ohjelmalle kerrotaan, minkä nimisiä asioita\n"
+                + "seurataan. Ohjelmaan kirjoitetaan merkintöjä, \n"
+                + "jotka ohjelma jäsentää kirjoittajan puolesta. \n"
+                + "Merkinnät jäävät ohjelman välimuistiin yhdessä\n"
+                + "seurattavien asioiden listan kanssa. Ohjelmaa voi \n"
+                + "komentaa tallentamaan syötetyt tiedot tiedostoon.\n"
+                + "Ohjelmaa voi pyytää tekemään yhteenvedon \n"
+                + "annetuista tiedoista.";
+        
+        tulostaRivitettyString(neuvo);
+    }
 
     public void tulostaOllaanPoistumassaOhjelmasta() {
-        tulostaKonsoliin("Poistutaan ohjelmasta");}
+        tulostaKonsoliin("Poistutaan ohjelmasta");
+    }
 
     public void kysyOletkoVarma() {
         tulostaKonsoliin("Oletko varma? (k/e)");
@@ -230,5 +246,16 @@ public class Tulostaja {
     public void tulostaLisataankoSeurattava() {
         tulostaKonsoliin("Lisätäänkö tekeminen seurattaviin?");
     }
-    
+
+    public void tulostaSeurattavanLisaaminenOnnistui(String seurattava) {
+        tulostaKonsoliin(seurattava + " lisättiin seurattaviin");
+    }
+
+    public void tulostaAikaOsuuOlemassaolevaanTapahtumaan() {
+        tulostaKonsoliin("Merkinnässä on jo tapahtuma johon annettu aika osuu");
+    }
+
+    public void luotavaTapahtumaLeikkaaOlemassaOlevanTapahtumanKanssa() {
+        tulostaRivitettyString("Luotava tapahtuma leikkaa olemassaolevan tapahtuman \nkanssa");
+    }
 }

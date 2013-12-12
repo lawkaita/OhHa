@@ -53,21 +53,21 @@ public class Komentotulkki {
 
         if (komentojenMaara(komento) > 1) {
             kasitteleKomentoSarja(komento);
-            
+
         } else {
-           
+
             if (koha.getOllaanPoistumassaOhjelmasta()) {
                 if (komento.equals("k")) {
                     komentologiikka.ollaanPoistumassaOhjelmasta();
                 } else if (komento.equals("e")) {
                     komentologiikka.poistutaanKonteksteista();
                 } else {
-                    komentologiikka.tulostetaanKyllaEi(); 
+                    komentologiikka.tulostetaanKyllaEi();
                 }
-                
+
                 return;
             }
-            
+
             if (koha.getKysytaanPoistumisenYhteydessaTallennuksesta()) {
                 if (komento.equals("k")) {
                     komentologiikka.poistutaanTallentaen();
@@ -76,10 +76,10 @@ public class Komentotulkki {
                 } else {
                     komentologiikka.tulostetaanKyllaEi();
                 }
-                
+
                 return;
             }
-            
+
 
             if (koha.getHakuKaynnissa() == true) {
                 komentologiikka.haarautaHaku(komento);
@@ -111,8 +111,8 @@ public class Komentotulkki {
                 komentologiikka.poistetaanMerkinta(komento);
                 return;
             }
-            
-            if(koha.getKysytaanLisataankoSeurattava()) {
+
+            if (koha.getKysytaanLisataankoSeurattava()) {
                 if (komento.equals("k")) {
                     komentologiikka.lisätäänSeurattavaMuististaJaTehdaanSillaMerkinta();
                     return;
@@ -122,8 +122,8 @@ public class Komentotulkki {
                 } else {
                     komentologiikka.tulostetaanKyllaEi();
                 }
-                
-                
+
+
             }
 
             tulkitse(komento);
@@ -166,7 +166,7 @@ public class Komentotulkki {
             this.komentologiikka.haunAloitus();
             return;
         }
-        
+
         if (komento.equals("merkintä")) {
             this.komentologiikka.merkinnanAloitus();
             return;
@@ -193,7 +193,6 @@ public class Komentotulkki {
         }
 
         komentologiikka.tulostetaanVirhe();
-
     }
 
     /**
@@ -228,7 +227,7 @@ public class Komentotulkki {
 
     private void kasitteleKomentoSarja(String komento) {
         String[] komentosarja = this.dekooderi.dekoodaa(komento, null);
-        
+
         if (komentosarja[0].equals("lisää")) {
             if (komentosarja[1].equals("merkintä")) {
                 this.komentologiikka.merkinnanAloitus();
@@ -239,37 +238,38 @@ public class Komentotulkki {
                     return;
                 }
             }
-                    
+
         }
 
         if (komentosarja[0].equals("hae")) {
             this.komentologiikka.haarautaHaku(komentosarja[1]);
             return;
         }
-        
+
         if (komentosarja[0].equals("poista")) {
             this.komentologiikka.poistetaanMerkinta(komentosarja[1]);
             return;
         }
-        
+
         if (komentosarja[0].equals("apua")) {
             pyydetaanApua(komentosarja[1]);
             return;
         }
-        
+
         if (komentosarja[0].equals("nollaa")) {
-            
-            if(komentosarja[1].equals("välimuisti")) {
+
+            if (komentosarja[1].equals("välimuisti")) {
                 this.komentologiikka.nollaaValimuisti();
                 return;
             }
-            
-            if(komentosarja[1].equals("seurattavat")) {
+
+            if (komentosarja[1].equals("seurattavat")) {
                 this.komentologiikka.nollaaSeurattavat();
                 return;
             }
+
         }
-        
+
         this.komentologiikka.tulostetaanVirhe();
     }
 
@@ -278,7 +278,12 @@ public class Komentotulkki {
             this.komentologiikka.neuvottavaLisaamisessa();
             return;
         }
-        
-         this.komentologiikka.tulostetaanVirhe();
+
+        if (string.equals("apua")) {
+            this.komentologiikka.neuvottavaOhjelmanKaytossa();
+            return;
+        }
+
+        this.komentologiikka.tulostetaanVirhe();
     }
 }

@@ -62,4 +62,17 @@ public class Tapahtuma implements Comparable<Tapahtuma>{
         return false;
     }
     
+    public boolean kellonaikaPariOsuuTapahtumaan(Kellonaika pienempi, Kellonaika suurempi) {
+        if ((aloitusaika.compareTo(pienempi) <= 0) && (lopetusaika.compareTo(pienempi) <= 0)) {
+            return false;
+        }
+        
+        if ((aloitusaika.compareTo(suurempi) >= 0) && (lopetusaika.compareTo(suurempi) >= 0)) {
+            return false;
+        }
+        
+        return true;
+        
+    }
+    
 }

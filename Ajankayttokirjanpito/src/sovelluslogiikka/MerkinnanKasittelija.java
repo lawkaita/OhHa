@@ -98,7 +98,7 @@ public class MerkinnanKasittelija {
      * @param aikaOsina aika lajiteltuna tauluun minuutteina ja tunteina.
      * @return Kellonaika luotuna annetusta String-taulusta.
      */
-    private Kellonaika luoKellonaika(String[] aikaOsina) {
+    public Kellonaika luoKellonaika(String[] aikaOsina) {
         String tuntiString = aikaOsina[0].trim();
         String minuuttiString = aikaOsina[1].trim();
         int aikaTunti = Integer.parseInt(tuntiString);
@@ -145,7 +145,7 @@ public class MerkinnanKasittelija {
         return tapahtuma;
     }
 
-    public String luoKellonaika(String komento) {
+    public String luoKellonaikaStringina(String komento) {
         String[] dekoodi = dekooderi.dekoodaa(komento, '.');
         return luoKellonaika(dekoodi).toString();
     }

@@ -116,4 +116,25 @@ public class Merkinta implements Comparable<Merkinta> {
         
         return kaytetytMinuutit;
     }
+
+    public boolean sisaltaaTapahtumanJohonKellonaikaOsuu(Kellonaika aika) {             
+        for (Tapahtuma t : this.tapahtumat) {
+            if (t.kellonaikaOsuuTapahtumaan(aika)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    public boolean sisaltaaTapahtumanJohonKellonaikaPariOsuu(Kellonaika pienempi, Kellonaika suurempi) {
+        for (Tapahtuma t : this.tapahtumat) {
+            if (t.kellonaikaPariOsuuTapahtumaan(pienempi, suurempi)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
 }
