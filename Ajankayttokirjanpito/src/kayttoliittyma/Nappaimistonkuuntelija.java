@@ -54,10 +54,11 @@ public class Nappaimistonkuuntelija implements KeyListener {
         komentotulkki.keskeytaKaikki();
     }
 
+    /**
+     * Huolehtii, että komentoriville kirjoitettu komento ei ole liian pitkä.
+     */
     private void estaLiianPitkaKomentoKonsolissa() {
         if (konsoli.getVarsinainenKomentoRivi().getText().length() > 47) {
-            //konsoli.jatkaKirjoitustaTyhjaanKenttaan();
-            //siirrä teksti tyhjään kenttään ja jatka siellä
             konsoli.estaLiianPitkaKomento();
 
         }

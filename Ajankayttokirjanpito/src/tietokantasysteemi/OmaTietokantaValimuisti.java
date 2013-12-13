@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- *
+ * Ohjelman välimuistina toimiva olio, johon kaikki muutokset tallenetaan suoraan,
+ * ennenkuin ne tallenetaan levylle.
  * @author Envy 6-1010
  */
 public class OmaTietokantaValimuisti implements TietokantaValimuisti {
@@ -26,7 +27,7 @@ public class OmaTietokantaValimuisti implements TietokantaValimuisti {
     /**
      * Laskee kuinka monta päivää on merkitty tietokantaan.
      *
-     * @return
+     * @return päivien määrä
      */
     @Override
     public int laskeMerkintojenMaara() {
@@ -154,16 +155,29 @@ public class OmaTietokantaValimuisti implements TietokantaValimuisti {
         this.muisti = new ArrayList<Merkinta>();
     }
 
+    /**
+     * Antaa seurattavien toimintojen listan
+     * @return seurattavien toimintojen lista
+     */
     @Override
     public ArrayList<String> annaSeurattavatToiminnot() {
         return this.seurattavatToiminnot;
     }
 
+    /**
+     * Lisää seurattavien toimintojen listaan annetun String-olion.
+     * @param string annettu String.
+     */
     @Override
     public void lisaaSeurattava(String string) {
         this.seurattavatToiminnot.add(string);
     }
 
+    /**
+     * Tarkistaa onko kannassa seurattavaa toimintoa annetulla String-oliolla.
+     * @param komento annettu String olio
+     * @return true jos seurattavien toimintojen listalla on annettu String-olio, muuten false
+     */
     @Override
     public boolean kannassaOnSeurattavaToiminta(String komento) {
         for (String seurattava : this.seurattavatToiminnot) {
@@ -174,16 +188,28 @@ public class OmaTietokantaValimuisti implements TietokantaValimuisti {
         return false;
     }
 
+    /**
+     * Laskee, kuinka monta String-oliota seurattavien toimintojen listalla on.
+     * @return seurattavien toimintojen määrä
+     */
     @Override
     public int laskeSeurattavienMaara() {
         return this.seurattavatToiminnot.size();
     }
 
+    /**
+     * Nollaa seurattavien toimintojen listan.
+     */
     @Override
     public void nollaaSeurattavat() {
         this.seurattavatToiminnot = new ArrayList<String>();
     }
 
+    /**
+     * Poistaa seurattavien toimintojen listalta annetun String-olion.
+     * @param komento annettu string olio
+     * @return true jos annettu olio löytyi ja poistettiinm, muuten false
+     */
     @Override
     public boolean poistaSeurattava(String komento) {
         int indeksi = haeSeurattavanIndeksi(komento);
@@ -195,6 +221,12 @@ public class OmaTietokantaValimuisti implements TietokantaValimuisti {
         }
     }
 
+    /**
+     * Hakee annetun seurattavan toiminnon indeksin seurattavien toimintojen listalta.
+     * @param seurattava annettu String-olio
+     * @return annetun String-olion indeksi seurattavien listalta, tai -1 jos annettua 
+     * oliota ei löydy.
+     */
     private int haeSeurattavanIndeksi(String seurattava) {
         int indeksi = 0;
         int seurattavia = this.seurattavatToiminnot.size();

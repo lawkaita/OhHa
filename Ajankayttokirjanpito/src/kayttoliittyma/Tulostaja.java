@@ -56,10 +56,18 @@ public class Tulostaja {
 
     }
 
+    /**
+     * Tulostaa annetun Stringin rivinvaihtojen mukaan. Käytetään välimuistin tulostamiseen.
+     * @param muistiString annettu String-olio
+     */
     public void tulostaValimuisti(String muistiString) {
         tulostaRivitettyString(muistiString);
     }
 
+    /**
+     * Tulostaa konsoliin Stringin vaihtaen riviä aina kun String-oliossa rivinvaihto.
+     * @param rivitettyString 
+     */
     private void tulostaRivitettyString(String rivitettyString) {
         Scanner lukija = new Scanner(rivitettyString);
         while (lukija.hasNextLine()) {

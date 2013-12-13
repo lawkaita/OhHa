@@ -156,3 +156,6 @@ Kirjoitettu ohjelman käyttöohjetta.
 
 13.12.13 20.00-21.15
 Kirjoitettu ohjelman aihemäärittelystä ja rakenteesta.
+
+13.12.13 21.15-21.51
+Kirjoitettu viimeiset javadokit.

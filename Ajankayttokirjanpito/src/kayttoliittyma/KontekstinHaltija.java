@@ -12,6 +12,11 @@ package kayttoliittyma;
  */
 public class KontekstinHaltija {
 
+    /**
+     * Ohjelman kontekstit boolean-muuttujina. Jos jokin boolean on tosi, ohjelma
+     * on sen osoittamassa konteksitssa. Tämän pohjalta ohjelma tulkitsee ja suorittaa
+     * annettuja komentoja.
+     */
     private boolean ollaanPoistumassaOhjelmasta;
     private boolean kysytaanPoistumisenYhteydessaTallennuksesta;
     private boolean merkintaanPaiva;

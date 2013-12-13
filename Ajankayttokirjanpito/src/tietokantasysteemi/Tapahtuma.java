@@ -54,6 +54,11 @@ public class Tapahtuma implements Comparable<Tapahtuma>{
         return this.seloste;
     }
     
+    /**
+     * Tarkistaa, osuuko annettu kellonaika tapahtuman aikavälille.
+     * @param kellonaika annettu kellonaika
+     * @return true jos annettu kellonaika osuu tapahtuman aikavälille, muuten false
+     */
     public boolean kellonaikaOsuuTapahtumaan(Kellonaika kellonaika) {
         if ((aloitusaika.compareTo(kellonaika) < 0) && (lopetusaika.compareTo(kellonaika) > 0)){
             return true;
@@ -62,6 +67,12 @@ public class Tapahtuma implements Comparable<Tapahtuma>{
         return false;
     }
     
+    /**
+     * Tarkistaa, leikkaako annettujen kellonaikojen aikaväli tapahtuman aikavälin kanssa.
+     * @param pienempi annetun aikavälin aloitusaika
+     * @param suurempi annetun aikavälin lopetusaika
+     * @return true, jos annettu aikaväli leikkaa tapahtuman aikavälin kanssa, muuten false
+     */
     public boolean kellonaikaPariOsuuTapahtumaan(Kellonaika pienempi, Kellonaika suurempi) {
         if ((aloitusaika.compareTo(pienempi) <= 0) && (lopetusaika.compareTo(pienempi) <= 0)) {
             return false;

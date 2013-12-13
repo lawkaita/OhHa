@@ -235,11 +235,20 @@ public class Komentotulkki {
     public KontekstinHaltija getKontekstinHaltija() {
         return this.kontekstinhaltija;
     }
-
+    
+    /**
+     * Laskee komentojen määrän annetusta String-oliosta.
+     * @param komento annettu komento
+     * @return komentojen määrä.
+     */
     private int komentojenMaara(String komento) {
         return this.dekooderi.laskeOsienMaara(komento, null);
     }
 
+    /**
+     * Suorittaa moniosaisen komennon tulkitsemisen.
+     * @param komento käyttäjän antama komento.
+     */
     private void kasitteleKomentoSarja(String komento) {
         String[] komentosarja = this.dekooderi.dekoodaa(komento, null);
 
@@ -298,6 +307,11 @@ public class Komentotulkki {
         this.komentologiikka.tulostetaanVirhe();
     }
 
+    /**
+     * Käsittelee komentosarjan, joka alkaa komennolla apua. Hoitaa kyseisen
+     * komentosarjan jälkimmäisen osan.
+     * @param string komennon jälkimmäinen osa
+     */
     private void pyydetaanApua(String string) {
         if (string.equals("merkintä")) {
             this.komentologiikka.neuvottavaLisaamisessa();

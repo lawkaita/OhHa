@@ -62,8 +62,11 @@ public class TyhjaTila extends JPanel {
                 Math.max(tyhjaAlue.getPreferredSize().height - dimensioLuku1, 17)));
         
     }
-
-    void kasvataKorkeutta() {
+    
+    /**
+     * Muuttaa tyhjän tilan korkeutta.
+     */
+    public void kasvataKorkeutta() {
         this.setPreferredSize(new Dimension (400,
                 tyhjaAlue.getPreferredSize().height + 2 * dimensioLuku1));        
         tyhjaAlue.setPreferredSize(new Dimension(350,

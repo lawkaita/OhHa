@@ -99,6 +99,12 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
 
     }
 
+    /**
+     * Kirjoittaa annetun String-olion lisäten rivin vaihdon loppuun, jos sitä vaaditaan.
+     * @param lisattava lisättävä String
+     * @param kirjoitetaanLisaten boolean muuttuja ilmaisemaan, lisätäänkö rivinvaihto vai ei
+     * @throws IOException 
+     */
     public void kirjoitaTietokantaanLisatenRivinvaihtoLoppuun(String lisattava, boolean kirjoitetaanLisaten) throws IOException {
         FileWriter kirjoittaja = new FileWriter(tietokanta, kirjoitetaanLisaten);
 
@@ -485,17 +491,29 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
         }
 
     }
-
+    
+    /**
+     * Antaa ohjelman käynnistyksen yhteydessä muistista ladatun tietokannan.
+     * @return muistista ladattu tietokanta.
+     */
     @Override
     public ArrayList<Merkinta> lataaTietokanta() {
         return merkinnatTaulussa();
     }
 
+    /**
+     * Kirjoittaa tietokannan yli annentun merkintätaulun tietokantaan.
+     * @param merkinnat annettu merkintätaulu
+     */
     @Override
     public void yliKirjoitaTietokantatiedosto(ArrayList<Merkinta> merkinnat) {
         ylikirjoitaMerkintalistaTietokantaan(merkinnat);
     }
 
+    /**
+     * Lataa tiedostostosta seurattavien toimintojen listan.
+     * @return seurattavien toimintojen lista
+     */
     @Override
     public ArrayList<String> lataaSeurattavatToiminnot() {
         ArrayList<String> toiminnot = new ArrayList<String>();
@@ -512,7 +530,11 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
 
         return toiminnot;
     }
-
+    
+    /**
+     * Kirjoittaa seurattavien toimintojen tiedoston yli annetun listan seurattavia toimintoja.
+     * @param annaSeurattavatToiminnot annettu lista seurattavia toimintoja
+     */
     @Override
     public void ylikirjoitaSeurattavatToiminnotTiedosto(ArrayList<String> annaSeurattavatToiminnot) {
         FileWriter kirjoittaja;
@@ -526,4 +548,3 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
     }
 
 }
-//Tiedostonkasittelijalla on yksi tiedosto johon se tallettaa ja kirjoittaa tietoja.

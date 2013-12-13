@@ -24,6 +24,9 @@ import javax.swing.Timer;
  */
 public class Kursori extends Timer implements ActionListener {
     
+    /**
+     * Kursorin kaikki merkit, jotka piirretään aina edellisen päälle ajan kuluessa.
+     */
     private File spritet;
     private Scanner lukija;
     private JTextField ilmentymisalue;
@@ -41,6 +44,10 @@ public class Kursori extends Timer implements ActionListener {
         setInitialDelay(500);
     }
     
+    /**
+     * Luo tiedston, josta spritet luetaan. Lisätty, koska ei haluta kuljettaa erikseen
+     * ohjelman mukana kursori.txt:tä.
+     */
     private void luoSpritetTiedosto() {
         try {
             this.spritet.createNewFile();

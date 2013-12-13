@@ -117,6 +117,12 @@ public class Merkinta implements Comparable<Merkinta> {
         return kaytetytMinuutit;
     }
 
+    /**
+     * Katsoo, onko mikään merkinnän tapahtuma sellainen, että sen aikaväli
+     * sisältää annetun kellonajan.
+     * @param aika annettu kellonaika
+     * @return true jos kellonaika osuu jonkin tapahtuman aikavälille, muuten false
+     */
     public boolean sisaltaaTapahtumanJohonKellonaikaOsuu(Kellonaika aika) {             
         for (Tapahtuma t : this.tapahtumat) {
             if (t.kellonaikaOsuuTapahtumaan(aika)) {
@@ -127,6 +133,14 @@ public class Merkinta implements Comparable<Merkinta> {
         return false;
     }
     
+    /**
+     * Tarkistaa, onko mikään merkinnän tapahtuma sellainen, että annettujen
+     * kellonaikojen aikaväli leikkaisi jonkin tapahtuman aikavälin kanssa.
+     * @param pienempi annettun aikavälin aloitusaika
+     * @param suurempi annetun kellonajan lopetusaika
+     * @return true jos annettu aikaväli leikkaa jonkin merkinnän tapahtuman 
+     * aikavälin kanssa, muuten false
+     */
     public boolean sisaltaaTapahtumanJohonKellonaikaPariOsuu(Kellonaika pienempi, Kellonaika suurempi) {
         for (Tapahtuma t : this.tapahtumat) {
             if (t.kellonaikaPariOsuuTapahtumaan(pienempi, suurempi)) {
