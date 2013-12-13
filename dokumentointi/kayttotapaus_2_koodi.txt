@@ -1,9 +1,0 @@
-title Merkinnän Hakeminen
-
-käyttäjä->käyttöliittymä: hae
-käyttöliittymä->komentologiikka: haunAloituis()
-komentologiikka->käyttöliittymä: pyydaHakusana()
-käyttäjä->käyttöliittymä: '11.11.2013'
-käyttöliittymä->+komentologiikka: haku('11.11.2013')
-komentologiikka->TietokantaValimuisti: osuma:= haeMuististaMerkintaPaivayksella('11.11.2013')
-komentologiikka->käyttöliittymä: tulostaHaunOsumat(osuma)
