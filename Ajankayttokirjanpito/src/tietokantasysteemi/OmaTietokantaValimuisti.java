@@ -166,10 +166,10 @@ public class OmaTietokantaValimuisti implements TietokantaValimuisti {
 
     @Override
     public boolean kannassaOnSeurattavaToiminta(String komento) {
-        for(String seurattava : this.seurattavatToiminnot) {
+        for (String seurattava : this.seurattavatToiminnot) {
             if (seurattava.equals(komento)) {
                 return true;
-            }                     
+            }
         }
         return false;
     }
@@ -182,5 +182,32 @@ public class OmaTietokantaValimuisti implements TietokantaValimuisti {
     @Override
     public void nollaaSeurattavat() {
         this.seurattavatToiminnot = new ArrayList<String>();
+    }
+
+    @Override
+    public boolean poistaSeurattava(String komento) {
+        int indeksi = haeSeurattavanIndeksi(komento);
+        if (indeksi != -1) {
+            this.seurattavatToiminnot.remove(indeksi);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private int haeSeurattavanIndeksi(String seurattava) {
+        int indeksi = 0;
+        int seurattavia = this.seurattavatToiminnot.size();
+
+        while (indeksi < seurattavia) {
+            if (this.seurattavatToiminnot.get(indeksi).equals(seurattava)) {
+                return indeksi;
+            }
+
+            indeksi++;
+        }
+
+        return -1;
+
     }
 }

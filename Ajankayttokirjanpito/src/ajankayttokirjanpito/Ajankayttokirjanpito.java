@@ -28,7 +28,6 @@ public class Ajankayttokirjanpito {
      */
     public static void main(String[] args) {
         boolean ubuntulla = false;
-        //tämän pitää näkyä huomenna tässä
         
         Konsoli konsoli = new OmaKonsoli(ubuntulla);        
         Kayttoliittyma kayttoliittyma = new Kayttoliittyma(konsoli);            
@@ -41,6 +40,8 @@ public class Ajankayttokirjanpito {
         Komentotulkki komentotulkki = new Komentotulkki(konsoli, kontekstinHaltija, komentologiikka, dekooderi);
         
         kayttoliittyma.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, komentotulkki));
+        
+        //kayttoliittyma.run();
         
         SwingUtilities.invokeLater(kayttoliittyma);
         // TODO code application logic here

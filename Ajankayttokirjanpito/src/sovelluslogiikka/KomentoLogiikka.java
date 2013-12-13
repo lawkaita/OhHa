@@ -242,9 +242,9 @@ public class KomentoLogiikka {
      * @param komento
      */
     public void otetaanSelostus(String komento) {
+        muistettavaString += komento;
         if (this.tietokantaValimuisti.kannassaOnSeurattavaToiminta(komento)) {
 
-            muistettavaString += komento;
             luoMerkinta(muistettavaString);
 
             kontekstinHaltija.setMerkintaanSelostus(false);
@@ -252,10 +252,16 @@ public class KomentoLogiikka {
         } else {
             tulostaja.tulostaEiSeurattavissa();
             tulostaja.tulostaLisataankoSeurattava();
-            muistettavaString += komento;
             kontekstinHaltija.setMerkintaanSelostus(false);
             kontekstinHaltija.setKysytaanLisataankoSeurattava(true);
         }
+    }
+
+    public void luodaanMerkintaIlmanEttaLisataanSeurattavaMuistiin() {
+        luoMerkinta(muistettavaString);
+
+        kontekstinHaltija.setMerkintaanSelostus(false);
+        muistettavaString = "";
     }
 
     /**
@@ -573,4 +579,52 @@ public class KomentoLogiikka {
     public void neuvottavaOhjelmanKaytossa() {
         this.tulostaja.neuvoOhjelmanKaytossa();
     }
+
+    public void aloitetaanSeurattavanLisaaminen() {
+        this.kontekstinHaltija.setLisataanSeurattava(true);
+        this.tulostaja.pyydaSeurattava();
+    }
+
+    public void otetaanSeurattava(String komento) {
+        lisätäänSeurattava(komento);
+        this.kontekstinHaltija.setLisataanSeurattava(false);
+    }
+
+    public void aloitetaanSeurattavanPoisto() {
+        this.kontekstinHaltija.setPoistetaanSeurattava(true);
+        this.tulostaja.pyydaPoistettavaSeurattava();
+    }
+
+    public void poistetaanSeurattava(String komento) {
+        boolean seruattavaLoytyiJaSePoistettiin = this.tietokantaValimuisti.poistaSeurattava(komento);
+        if (seruattavaLoytyiJaSePoistettiin) {
+            tulostaja.tulostaSeurattavanPoistoOnnistui();
+        } else {
+            tulostaja.tulostaSeurattavaaEiLoydy();
+        }
+
+        this.kontekstinHaltija.setPoistetaanSeurattava(false);
+
+    }
+
+    public void neuvottavaHakemisessa() {
+        tulostaja.neuvoHakemisessa();
+    }
+
+    public void neuvottavaSeurattavanLisaamisessa() {
+        tulostaja.neuvoSeurattavanLisaamisessa();
+    }
+
+    public void neuvottavaNollaamisessa() {
+        tulostaja.neuvoNollaamisessa();
+    }
+
+    public void neuvottavaPoistamisessa() {
+        tulostaja.neuvoPoistamisessa();    
+    }
+
+    public void neuvottavaYhteenvedossa() {
+        tulostaja.neuvoYhteenvedossa();
+    }
+    
 }

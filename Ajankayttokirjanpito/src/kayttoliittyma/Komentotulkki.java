@@ -35,10 +35,10 @@ public class Komentotulkki {
      */
     private Dekooderi dekooderi;
 
-    public Komentotulkki(Konsoli konsoli, KontekstinHaltija kontekstinhaltija, KomentoLogiikka kolo, Dekooderi dekooderi) {
+    public Komentotulkki(Konsoli konsoli, KontekstinHaltija kontekstinhaltija, KomentoLogiikka komentologiikka, Dekooderi dekooderi) {
         this.konsoli = konsoli;
         this.kontekstinhaltija = kontekstinhaltija;
-        this.komentologiikka = kolo;
+        this.komentologiikka = komentologiikka;
         this.dekooderi = dekooderi;
     }
 
@@ -112,12 +112,22 @@ public class Komentotulkki {
                 return;
             }
 
+            if (kontekstinhaltija.getLisataanseurattava()) {
+                komentologiikka.otetaanSeurattava(komento);
+                return;
+            }
+
+            if (kontekstinhaltija.getPoistetaanSeurattava()) {
+                komentologiikka.poistetaanSeurattava(komento);
+                return;
+            }
+
             if (kontekstinhaltija.getKysytaanLisataankoSeurattava()) {
                 if (komento.equals("k")) {
                     komentologiikka.lisätäänSeurattavaMuististaJaTehdaanSillaMerkinta();
                     return;
                 } else if (komento.equals("e")) {
-                    komentologiikka.poistutaanKonteksteista();
+                    komentologiikka.luodaanMerkintaIlmanEttaLisataanSeurattavaMuistiin();
                     return;
                 } else {
                     komentologiikka.tulostetaanKyllaEi();
@@ -192,6 +202,11 @@ public class Komentotulkki {
             return;
         }
 
+        if (komento.equals("seurattava")) {
+            this.komentologiikka.aloitetaanSeurattavanLisaaminen();
+            return;
+        }
+
         komentologiikka.tulostetaanVirhe();
     }
 
@@ -247,8 +262,18 @@ public class Komentotulkki {
         }
 
         if (komentosarja[0].equals("poista")) {
-            this.komentologiikka.poistetaanMerkinta(komentosarja[1]);
-            return;
+
+            if (komentosarja[1].equals("merkintä")) {
+                this.komentologiikka.aloitetaanPaivanPoisto();
+                return;
+            }
+
+            if (komentosarja[1].equals("seurattava")) {
+                this.komentologiikka.aloitetaanSeurattavanPoisto();
+                return;
+            }
+
+            this.komentologiikka.tulostetaanVirhe();
         }
 
         if (komentosarja[0].equals("apua")) {
@@ -281,6 +306,31 @@ public class Komentotulkki {
 
         if (string.equals("apua")) {
             this.komentologiikka.neuvottavaOhjelmanKaytossa();
+            return;
+        }
+
+        if (string.equals("hae")) {
+            this.komentologiikka.neuvottavaHakemisessa();
+            return;
+        }
+        
+        if (string.equals("seurattava")) {
+            this.komentologiikka.neuvottavaSeurattavanLisaamisessa();
+            return;
+        }
+        
+        if (string.equals("nollaa")) {
+            this.komentologiikka.neuvottavaNollaamisessa();
+            return;
+        }
+        
+        if (string.equals("poista")) {
+            this.komentologiikka.neuvottavaPoistamisessa();
+            return;
+        }
+        
+        if (string.equals("yhteenveto")) {
+            this.komentologiikka.neuvottavaYhteenvedossa();
             return;
         }
 

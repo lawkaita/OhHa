@@ -150,3 +150,7 @@ Luotu toiminnallisuutta ja ohjelman käyttäjälle näytettäviä viestejä.
 
 12.12.13 18.00-20.32
 Kirjoitettu ohjelman käyttäjälle näytettäviä viestejä ja refaktoroitu.
+
+13.12.13 17.30-19.36
+Kirjoitettu ohjelman käyttöohjetta.
+

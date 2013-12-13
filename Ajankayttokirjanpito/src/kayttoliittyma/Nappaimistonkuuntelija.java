@@ -6,19 +6,19 @@ package kayttoliittyma;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
 /**
- * Nappaimistokuuntelija seuraa nappaimiston tapahtumia. 
- * Enter-näppäimellä annetaan konsoliin kirjoitettu komento komentotulkille ja 
- * esc-näppäimellä poistutaan käynnissäolevasta komentokontekstista. 
- * Nappaimistokuuntelija myös valvoo, ettei konsoliin ole kirjoitettu 
- * liian pitkää komentoa.
+ * Nappaimistokuuntelija seuraa nappaimiston tapahtumia. Enter-näppäimellä
+ * annetaan konsoliin kirjoitettu komento komentotulkille ja esc-näppäimellä
+ * poistutaan käynnissäolevasta komentokontekstista. Nappaimistokuuntelija myös
+ * valvoo, ettei konsoliin ole kirjoitettu liian pitkää komentoa.
+ *
  * @author Envy 6-1010
  */
-public class Nappaimistonkuuntelija implements KeyListener{
+public class Nappaimistonkuuntelija implements KeyListener {
+
     private Konsoli konsoli;
     private Komentotulkki komentotulkki;
-    
+
     public Nappaimistonkuuntelija(Konsoli konsoli, Komentotulkki komentotulkki) {
         this.konsoli = konsoli;
         this.komentotulkki = komentotulkki;
@@ -30,16 +30,16 @@ public class Nappaimistonkuuntelija implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent ke) {
-        if (ke.getKeyCode() == KeyEvent.VK_ENTER){
+        if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
             painettiinEnter();
         }
-        
+
         if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            painettiinEsc();            
+            painettiinEsc();
         }
-        
+
         estaLiianPitkaKomentoKonsolissa();
-                
+
     }
 
     @Override
@@ -57,9 +57,9 @@ public class Nappaimistonkuuntelija implements KeyListener{
     private void estaLiianPitkaKomentoKonsolissa() {
         if (konsoli.getVarsinainenKomentoRivi().getText().length() > 47) {
             //konsoli.jatkaKirjoitustaTyhjaanKenttaan();
-            konsoli.estaLiianPitkaKomento();
             //siirrä teksti tyhjään kenttään ja jatka siellä
+            konsoli.estaLiianPitkaKomento();
+
         }
     }
-    
 }

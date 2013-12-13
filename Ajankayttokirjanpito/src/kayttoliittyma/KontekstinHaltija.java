@@ -21,6 +21,8 @@ public class KontekstinHaltija {
     private boolean hakuKaynnissa;
     private boolean poistetaanMerkintaa;
     private boolean kysytaanLisataankoSeurattava;
+    private boolean lisataanSeurattava;
+    private boolean poistetaanSeurattava;
 
     public KontekstinHaltija() {
 
@@ -33,6 +35,7 @@ public class KontekstinHaltija {
         hakuKaynnissa = false;
         poistetaanMerkintaa = false;
         kysytaanLisataankoSeurattava = false;
+        poistetaanSeurattava = false;
     }
 
     public boolean getKysytaanPoistumisenYhteydessaTallennuksesta() {
@@ -71,6 +74,14 @@ public class KontekstinHaltija {
         return this.kysytaanLisataankoSeurattava;
     }
     
+    public boolean getLisataanseurattava() {
+        return this.lisataanSeurattava;
+    }
+    
+    public boolean getPoistetaanSeurattava() {
+        return this.poistetaanSeurattava;
+    }
+    
     public void setKysytaanPoistumisenYhteydessaTallennuksesta(boolean b) {
         kysytaanPoistumisenYhteydessaTallennuksesta = b;
     }
@@ -106,6 +117,14 @@ public class KontekstinHaltija {
     public void setKysytaanLisataankoSeurattava(boolean b) {
         kysytaanLisataankoSeurattava = b;
     }
+    
+    public void setLisataanSeurattava(boolean b) {
+        lisataanSeurattava = b;
+    }
+    
+        public void setPoistetaanSeurattava(boolean b) {
+            poistetaanSeurattava = b;
+        }
 
     /**
      * Asettaa kaikki kontekstinHaltijan kontekstia vastaavat boolean-muuttujat
@@ -122,6 +141,8 @@ public class KontekstinHaltija {
         hakuKaynnissa = false;
         poistetaanMerkintaa = false;
         kysytaanLisataankoSeurattava = false;
+        lisataanSeurattava = false;
+        poistetaanSeurattava = false;
     }
 
     /**
@@ -147,7 +168,7 @@ public class KontekstinHaltija {
      * @return kaikki kontekstiHaltijan boolean-muuttujat taulussa.
      */
     public boolean[] kaikkiKontekstit() {
-        boolean[] kaikkiKontekstit = new boolean[9];
+        boolean[] kaikkiKontekstit = new boolean[11];
 
         kaikkiKontekstit[0] = ollaanPoistumassaOhjelmasta;
         kaikkiKontekstit[1] = kysytaanPoistumisenYhteydessaTallennuksesta;
@@ -158,9 +179,12 @@ public class KontekstinHaltija {
         kaikkiKontekstit[6] = hakuKaynnissa;
         kaikkiKontekstit[7] = poistetaanMerkintaa;
         kaikkiKontekstit[8] = kysytaanLisataankoSeurattava;
+        kaikkiKontekstit[9] = lisataanSeurattava;
+        kaikkiKontekstit[10] = poistetaanSeurattava;
 
         return kaikkiKontekstit;
     }
+
 
     
 }

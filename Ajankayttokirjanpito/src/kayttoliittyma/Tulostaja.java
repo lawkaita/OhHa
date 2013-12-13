@@ -35,14 +35,19 @@ public class Tulostaja {
         String apua = "exit - poistu\n"
                 + "nyt - tämänhetkinen aika\n"
                 + "apua - tämä tuloste\n"
-                + "apua <komento> - neuvoa komennon käytöstä\n"
+                + "apua <komento> - neuvoa komennon käytöstä,\n"
+                + "  missä <komento> voi olla: \n"
+                + "    apua, hae, merkintä,\n"
+                + "    seurattava, nollaa, \n"
+                + "    poista tai yhteenveto\n"
                 + "apua apua - neuvoa ohjelman käytössä\n"
                 + "tulosta - tulostaa koko tietokannan\n"
                 + "hae - hakutoiminnon aloitus\n"
                 + "merkintä - aloittaa merkinnän luomisen\n"
+                + "seurattava - aloittaa seurattavan lisäämisen \n"
                 + "nollaa - nollaa välimuistin\n"
                 + "poista - aloittaa merkinnän poistotoiminnon\n"
-                + "tallenna - tallentaa välimuistin tiedostoon\n"
+                + "tallenna - tallentaa ohjelman tilan tiedostoon\n"
                 + "yhteenveto - tekee annetuista tiedoista yhteenvedon \n"
                 + "esc-näppäin - keskeytä käynnissäoleva tehtävä\n"
                 + "page-up ja -down näppäimet - selaa dialogia\n";
@@ -89,7 +94,7 @@ public class Tulostaja {
     }
 
     public void pyydaSelostus() {
-        tulostaKonsoliin("Selostus:");
+        tulostaKonsoliin("Seurattava:");
     }
 
     /**
@@ -192,15 +197,18 @@ public class Tulostaja {
                 + "tämänhetkistä päivää. Päiväyksen jälkeen ohjelma\n"
                 + "pyytää aloitus- ja lopetusajan. Ohjelma ehdottaa\n"
                 + "lopetusajaksi tämänhetkistä kellonaikaa. Lopuksi\n"
-                + "ohjelmalle syötetään lyhyt selostus siitä, mitä\n"
-                + "tekemistä merkintä koski.";
+                + "ohjelmaan syötetään, mitä seurattavaa tekeminen \n"
+                + "koski. Jos seurattava on uusi, ohjelma kysyy, \n"
+                + "lisätäänkö annettu syöte seurattaviin, mutta \n"
+                + "tämä ei ole merkinnän luomisen kannalta pakollista.";
         tulostaRivitettyString(neuvo);
     }
-    
+
     public void neuvoOhjelmanKaytossa() {
         String neuvo = "Ohjelmaa käytetään pitämään ajankäytöstä kirjaa.\n"
                 + "Ohjelmalle kerrotaan, minkä nimisiä asioita\n"
-                + "seurataan. Ohjelmaan kirjoitetaan merkintöjä, \n"
+                + "seurataan. Kutsumme näitä lyhyesti seurattaviksi.\n"
+                + "Ohjelmaan kirjoitetaan merkintöjä, \n"
                 + "jotka ohjelma jäsentää kirjoittajan puolesta. \n"
                 + "Merkinnällä tarkoitetaan tässä päiväyksen ja \n"
                 + "siihen liittyvien tapahtumien kokonaisuutta. \n"
@@ -211,6 +219,54 @@ public class Tulostaja {
                 + "komentaa tallentamaan syötetyt tiedot tiedostoon.\n"
                 + "Ohjelmaa voi pyytää tekemään yhteenvedon \n"
                 + "annetuista tiedoista.";
+
+        tulostaRivitettyString(neuvo);
+    }
+
+    public void neuvoHakemisessa() {
+        String neuvo = "Ohjelma kysyy hakusanaa, joka voi olla päiväys\n"
+                + "muodossa 'pp.kk.vvvv' tai jokin seurattava. Ohjelma \n"
+                + "tulostaa haetun päivän merkintänä tai kaikki \n"
+                + "merkinnät, jossa haettava seurattaava esiintyy.";
+
+        tulostaRivitettyString(neuvo);
+    }
+
+    public void neuvoSeurattavanLisaamisessa() {
+        String neuvo = "Ohjelmalle kerrotaan, minkä nimistä asiaa seurataan.\n"
+                + "Ohjelma tekee ajankäytöstä yhteenvetoja seurattavien \n"
+                + "toimintojen - tai lyhyesti seurattavien - avulla.";
+
+        tulostaRivitettyString(neuvo);
+    }
+
+    public void neuvoNollaamisessa() {
+        String neuvo = "Oletusarvoisesti nollaa -komento nollaa muistista \n"
+                + "merkinnät, mutta ei seurattavia. Jos tarvitsee \n"
+                + "nollata seurattavat, täytyy komentaa 'nollaa \n"
+                + "seurattavat'.";
+
+        tulostaRivitettyString(neuvo);
+    }
+
+    public void neuvoPoistamisessa() {
+        String neuvo = "Oletusarvoisesti poista -komento aloittaa merkinnän\n"
+                + "poiston. Jos tarvitsee poistaa seurattava, täytyy\n"
+                + "komentaa 'poista seurattavaä'. Yksittäisen \n"
+                + "tapahtuman poistamista merkinnästä ei vielä\n"
+                + "tueta. ";
+
+        tulostaRivitettyString(neuvo);
+    }
+
+    public void neuvoYhteenvedossa() {
+        String neuvo = "Ohjelma laskee yhteenvedossa, kuinka paljon aikaa\n"
+                + "yhteensä on merkitty muistiin, kuinka monta \n"
+                + "merkintää muistissa on, sekä kuinka monta \n"
+                + "eri asiaa seurataan. Lisäksi ohjelma laskee\n"
+                + "jokaiseen yksittäiseen seurattavaan käytetyn \n"
+                + "ajan ja antaa sen prosenttiosuuden kaikesta\n"
+                + "merkitystä ajasta.";
         
         tulostaRivitettyString(neuvo);
     }
@@ -261,5 +317,21 @@ public class Tulostaja {
 
     public void luotavaTapahtumaLeikkaaOlemassaOlevanTapahtumanKanssa() {
         tulostaRivitettyString("Luotava tapahtuma leikkaa olemassaolevan tapahtuman \nkanssa");
+    }
+
+    public void pyydaSeurattava() {
+        tulostaKonsoliin("Seurattavan nimi:");
+    }
+
+    public void pyydaPoistettavaSeurattava() {
+        tulostaKonsoliin("Poistettavan seurattavan nimi:");
+    }
+
+    public void tulostaSeurattavanPoistoOnnistui() {
+        tulostaKonsoliin("Seurattavan poisto onnistui");
+    }
+
+    public void tulostaSeurattavaaEiLoydy() {
+        tulostaKonsoliin("Annettua seurattavaa ei löytynyt");
     }
 }
