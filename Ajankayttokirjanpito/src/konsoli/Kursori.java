@@ -66,7 +66,7 @@ public class Kursori extends Timer implements ActionListener {
     /**
      * lukee kursorin seuraavan näytettävän merkin.
      *
-     * @return
+     * @return seuraava sprite
      */
     public String lueSpritea() {
         if (this.lukija.hasNext()) {

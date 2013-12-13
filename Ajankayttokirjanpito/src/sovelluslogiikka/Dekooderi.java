@@ -88,7 +88,7 @@ public class Dekooderi {
      * annetun valimerkin avulla.
      * @param lajiteltava laijiteltava String
      * @param valimerkki lajitteluun käytettävä välimerkki
-     * @return 
+     * @return lajiteltu String-taulu
      */
     public String[] dekoodaa(String lajiteltava, Character valimerkki) {
         int komentojenMaara = laskeOsienMaara(lajiteltava, valimerkki);

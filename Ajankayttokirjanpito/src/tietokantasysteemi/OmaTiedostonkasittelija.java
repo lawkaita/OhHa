@@ -82,7 +82,7 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
     /**
      * Luo tietokannasta ArrayListin käsittelyä varten.
      *
-     * @return
+     * @return tietokanta ArrayListinä
      */
     public ArrayList<String> getTietokantaTekstiTauluna() {
         ArrayList<String> tekstitaulu = new ArrayList<String>();
@@ -215,7 +215,7 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
      *
      * @param lukija tiedostoa lukeva Scanner-olio
      * @param osuma merkinnan rakentamiseen kaytetty String
-     * @return
+     * @return merkintä String-tauluna
      */
     private String[] rakennaMerkintaString(Scanner lukija, String osuma) {
         if (lukija.hasNextLine()) {
@@ -402,7 +402,7 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
      * @param tekstitaulu muokattava tekstitaulu
      *
      * @see
-     * poistaVanhaMerkintaJaLisaaUusiYhdistettyMerkintaJaKirjaaMuutosTietokantaan(int
+     * #poistaVanhaMerkintaJaLisaaUusiYhdistettyMerkintaJaKirjaaMuutosTietokantaan(int
      * indeksi, int vanhanMerkinnanPituus, Merkinta uusiMerkinta)
      */
     private void kirjoitaTauluunAnnetustaRiviNumerostaEteenpäin(String kirjoitettava, int indeksi, ArrayList<String> tekstitaulu) {
