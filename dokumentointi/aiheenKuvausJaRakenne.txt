@@ -1,5 +1,7 @@
 Projektin aihe on Ajankäyttökirjanpito.
 
+Alkupohdinta
+============
 Ohjelmaan tulee pystyä kirjaamaan ylös ja esittämään ajankäyttöön liittyvää tietoa. Tiedon tulee olla jossakin ennaltamäärätyssä muodossa, jotta tietoa on helppo käsitellä ja jäsentää. Ohjelma lähestyy siten joiltain osin tietokantajärjestelmää; ainakin se joutuu hoitamaan tietokannankin operaatioita. Tarkoitus on tehdä tietokannan sovellusohjelma.
 
 Ohjelmalla on vain yksi käyttäjä ja ohjelman on tarkoitus tuottaa automatisoidusti yhteenvetoja käyttäjän antaman datan pohjalta. 
@@ -14,3 +16,27 @@ Tästä seuraa lähes itsestään, että tietoa voi tulla vahingossa tallentaneeksi ol
 Ohjelman täytyy pystyä esittämään tietoa, esimerkiksi tavallisena kalenterina tai yhteenvetokaavioina datasta. 
 
 Koska ohjelma käsittelee aikaa, sen pitää luultavasti pystyä hakemaan tietoa ajasta koneen kellosta ja vertailemaan ja laskemaan aikayksiköitä.
+
+Aihemäärittely
+==============
+Ohjelma on tarkoitettu yhden henkilön omaan käyttöön. Ohjelmaa käytetään ajankäytön kirjaukseen. Ohjelma avustaa tässä niin, että ohjelmaan vain syötetään, mitä tehtiin ja milloin, ja ohjelma sitten jäsentää annetun tiedon yhdistäen sen jo sisältämänsä tiedon kanssa. Jäsennyksen lopputuloksena saatu .txt-tiedosto on luettavissa sinällään. Tiedostoon voi myös tehdä itse merkintöjä, ohjelma osaa lukea nekin.
+
+Ohjelmalle voi antaa seurattavien toimintojen nimiä, kuten esimerkiksi 'opiskelu'. Tietojen jäsentämisen lisäksi ohjelma tekee pyydettäessä yhteenvedon ajankäytöstä siihen syötetyn tiedon perusteella. Ohjelma laskee, kuinka paljon aikaa on kirjattu ylös, kuinka monta merkintää on tehty, ja listaa jokaisen seurattavan toiminnon nimen sekä niihin käytetyn ajan ja tämän ajan prosenttiosuuden koko ylöskirjatusta ajasta.
+
+Ohjelman rakenne
+================
+Olen yrittänyt noudattaa kerrosarkkitehtuuria ohjelman koodaamisessa. Karkeasti ohjelma noudattaakin tätä: siinä on käyttöliittymäkerros, sovelluslogiikkakerros ja tallennuskerros - niin hyvin kuin osasin sen tehdä. Koodi kärsii hieman ei-low-couplingista, eli moni ohjelman komponentti tuntee toistaiseksi liudan muita komponentteja.
+
+Esimerkiksi dekooderi-luokan olio, joka pilkkoo String-olion osiin ja palauttaa osat taulussa, on keskeinen työkalu ohjelmassa ja moni ohjelman luokka käyttää sitä, vaikka olen merkinnyt vain Tiedostonkäsittelijä-luokan tuntemaan sen. Luokkakaavio ei olisi luettava jos olisin yhdistänyt sen kaikkiin luokkiin, jotka Dekooderin tuntevat. 
+
+Ohjelman oleellisimmat komponentit ovat Konsoli, Komentotulkki, Komentologiikka, TietokantaValimuisti ja TiedostonKasittelija sekä KontekstinHaltija. Kaikki komennot kirjoitetaan ja kaikki viesti tulostetaan Konsoliin, josta ohjelman käyttöliittymä pääasiassa koostuu. Konsolista luetaan kirjoitettu komento ja annetaan Komentotulkille. Tulkki tulkitsee komennon ja kutsuu Komentologiikka-luokan oikeaa metodia, joka suorittaa halutun komennon.
+
+Ohjelman käytössä tulee vastaan eri pituisia kyselyitä, jotka kuuluvat aina johonkin kontekstiin. KontekstinHaltija tietää, missä kontekstissa ohjelma on, ja osallistuu komennon tulkitsemiseen komentotulkissa sekä komennon antamiseen Komentologiikka-luokalle. 
+
+Ohjelman tila on muistissa TietokantaValimuistissa, johon kaikki muutokset ensin tehdään. Kun ollaan tyytyväisiä tehtyihin muutoksiin, voidaan komentaa ohjelmaa tallentamaan TietokantaValimuistin muisti tiedostoon. Tästä prosessista vastaa Tiedostonkasittelija.
+
+Mainitsemisen arvoinen luokka on vielä Merkintä-luokka, joka koostuu päiväyksestä ja listasta siihen liittyviä tapahtumia. Lyhyesti voidaan sanoa, että koko ohjelman toiminta liittyy Merkintä-olioiden käsittelyyn.
+
+Käyttöohjeet
+============
+Käyttöohjeet on kirjoitettu ohjelmaan. Niitä voi pyytää komentamalla 'apua'
