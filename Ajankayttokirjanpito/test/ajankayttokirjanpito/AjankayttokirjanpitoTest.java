@@ -48,7 +48,8 @@ public class AjankayttokirjanpitoTest {
 
     @Before
     public void setUp() {
-        konsoli = new OmaKonsoli(true);
+        //windowssilla Omakonsoli(false)
+        konsoli = new OmaKonsoli(false);
         kali = new LegacyKayttoliittyma(konsoli, null);
         dekooderi = new Dekooderi();
         meka = new MerkinnanKasittelija(dekooderi);
@@ -99,13 +100,13 @@ public class AjankayttokirjanpitoTest {
     }
     
     private String onkoPaivaTesti(String string) {
-        kali.getKonsoli().kirjoitaKomentoriville("lisää");
+        kali.getKonsoli().kirjoitaKomentoriville("merkintä");
         kotu.otaKomento();
         kali.getKonsoli().kirjoitaKomentoriville(string);
         kotu.otaKomento();
         
         String tuloste = kali.getKonsoli().getTulosteAlue().getText();
-        String alkuosa = alkuteksti + "\n-> lisää" + "\n # Luodaan uusi merkintä" + "\n # Päiväys:" + "\n-> " +  string + "\n";
+        String alkuosa = alkuteksti + "\n-> merkintä" + "\n # Luodaan uusi merkintä" + "\n # Päiväys:" + "\n-> " +  string + "\n";
         String saatu = tuloste.substring(alkuosa.length(), tuloste.length());
         //jätetään alusta komentorivin tervehdys, pyörivä kursori ja aluksi annettu komento.
         
@@ -151,13 +152,13 @@ public class AjankayttokirjanpitoTest {
 
     @Test
     public void onkoPaivaTestiTunnistaaOikeanPaivanJaOhjlemaSiirtyyKysymaanAloitusAikaa() {
-        kali.getKonsoli().kirjoitaKomentoriville("lisää");
+        kali.getKonsoli().kirjoitaKomentoriville("merkintä");
         kotu.otaKomento();
         //tassa kohtaa komentoriville on hakeutunut oikea paiva
         kotu.otaKomento();
 
         String tuloste = kali.getKonsoli().getTulosteAlue().getText();
-        String alkuosa = alkuteksti + "\n-> lisää" + "\n # Luodaan uusi merkintä" + "\n # Päiväys:" + "\n-> dd.mm.yyyy" + "\n";
+        String alkuosa = alkuteksti + "\n-> merkintä" + "\n # Luodaan uusi merkintä" + "\n # Päiväys:" + "\n-> dd.mm.yyyy" + "\n";
         String saatu = tuloste.substring(alkuosa.length(), tuloste.length());
         //jätetään alusta komentorivin tervehdys, pyörivä kursori ja aluksi annettu komento.
         
@@ -169,7 +170,7 @@ public class AjankayttokirjanpitoTest {
     }
     
     private String onkoAikaTesti(String aika) {
-        kali.getKonsoli().kirjoitaKomentoriville("lisää");
+        kali.getKonsoli().kirjoitaKomentoriville("merkintä");
         kotu.otaKomento();
         kotu.otaKomento();//tassa kohtaa komentoriville on hakeutunut oikea paiva
         kali.getKonsoli().kirjoitaKomentoriville(aika);
@@ -197,7 +198,7 @@ public class AjankayttokirjanpitoTest {
 
     @Test
     public void onkoAikaTestiTunnistaaOikeanAjan() {
-        kali.getKonsoli().kirjoitaKomentoriville("lisää");
+        kali.getKonsoli().kirjoitaKomentoriville("merkintä");
         kotu.otaKomento();
         kotu.otaKomento();//tassa kohtaa komentoriville on hakeutunut oikea paiva
         kali.getKonsoli().kirjoitaKomentoriville("12.12");
