@@ -11,7 +11,7 @@ import javax.swing.JTextField;
  *
  * @author Envy 6-1010
  */
-public interface Konsoli {
+public interface LegacyKonsoliRajapinta {
     void paivita(String s, boolean b);
     public JTextField getVarsinainenKomentoRivi();
     public void tulostaViesti(String s);

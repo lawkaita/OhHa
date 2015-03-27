@@ -12,7 +12,6 @@ import kayttoliittyma.LegacyKonsoliRajapinta;
 import kayttoliittyma.KontekstinHaltija;
 import kayttoliittyma.LegacyKonsolinKorvaajaRajapinta;
 import kayttoliittyma.LegacyTulostaja;
-import kayttoliittyma.Tulostaja;
 import tietokantasysteemi.Kellonaika;
 import tietokantasysteemi.Merkinta;
 import tietokantasysteemi.OmaTietokantaValimuisti;
@@ -26,15 +25,15 @@ import tietokantasysteemi.TietokantaValimuisti;
  *
  * @author Envy 6-1010
  */
-public class KomentoLogiikka {
+public class LegacyKomentoLogiikka {
 
-    private Tulostaja tulostaja;
+    private LegacyTulostaja tulostaja;
     private AjanTestaaja ajantestaaja;
     private AjanAntaja ajanAntaja;
     private Tiedostonkasittelija tiedostonkasittelija;
-    private LegacyKonsolinKorvaajaRajapinta lkkr;
+    private LegacyKonsoliRajapinta konsoli;
     private KontekstinHaltija kontekstinHaltija;
-    //private Kayttoliittyma kayttoliittyma;
+    private LegacyKayttoliittyma kayttoliittyma;
     private TietokantaValimuisti tietokantaValimuisti;
     private MerkinnanKasittelija merkinnanKasittelija;
     /**
@@ -47,16 +46,16 @@ public class KomentoLogiikka {
      */
     private String muistettavaString;
 
-    public KomentoLogiikka(Tulostaja tulostaja,
-            Tiedostonkasittelija tiedostonkasittelija, LegacyKonsolinKorvaajaRajapinta lkkr, KontekstinHaltija kontekstinHaltija, MerkinnanKasittelija merkinnankasittelija) {
+    public LegacyKomentoLogiikka(LegacyTulostaja tulostaja,
+            Tiedostonkasittelija tiedostonkasittelija, LegacyKonsoliRajapinta konsoli, KontekstinHaltija kontekstinHaltija, LegacyKayttoliittyma kayttoliittyma, MerkinnanKasittelija merkinnankasittelija) {
         this.tulostaja = tulostaja;
         this.ajantestaaja = new OmaAjanTestaaja();
         this.ajanAntaja = new OmaAjanAntaja();
         this.merkinnanKasittelija = merkinnankasittelija;
         this.tiedostonkasittelija = tiedostonkasittelija;
-        this.lkkr = lkkr;
+        this.konsoli = konsoli;
         this.kontekstinHaltija = kontekstinHaltija;
-        //this.kayttoliittyma = kayttoliittyma;
+        this.kayttoliittyma = kayttoliittyma;
         this.tietokantaValimuisti = new OmaTietokantaValimuisti(this.tiedostonkasittelija);
 
         dekoodausMerkki = '!';
@@ -70,7 +69,7 @@ public class KomentoLogiikka {
         tulostaja.otsikoiMerkinnanLuominen();
         tulostaja.pyydaPaivaa();
         String paiva = ajanAntaja.annaTamaPaiva();
-        lkkr.kirjoitaKomentoriville(paiva);
+        konsoli.kirjoitaKomentoriville(paiva);
         this.kontekstinHaltija.setMerkintaanPaiva(true);
     }
 
@@ -155,7 +154,7 @@ public class KomentoLogiikka {
         } else {
             tulostaja.tulostaEiOlePaiva();
             String paiva = ajanAntaja.annaTamaPaiva();
-            lkkr.kirjoitaKomentoriville(paiva);
+            konsoli.kirjoitaKomentoriville(paiva);
             return;
         }
         kontekstinHaltija.setMerkintaanPaiva(false);
@@ -176,7 +175,7 @@ public class KomentoLogiikka {
             if (!osuu) {
                 muistettavaString += aika;
                 tulostaja.pyydaLopetusAikaa();
-                lkkr.kirjoitaKomentoriville(ajanAntaja.annaTamaAika());
+                konsoli.kirjoitaKomentoriville(ajanAntaja.annaTamaAika());
                 kontekstinHaltija.setMerkintaanAloitusAika(false);
                 kontekstinHaltija.setMerkintaanLopetusaika(true);
             } else {
@@ -307,7 +306,7 @@ public class KomentoLogiikka {
 
         this.kontekstinHaltija.poistuKaikistaKonteksteista();
 
-        this.lkkr.kirjoitaKomentoriville("");
+        this.konsoli.kirjoitaKomentoriville("");
     }
 
     /**

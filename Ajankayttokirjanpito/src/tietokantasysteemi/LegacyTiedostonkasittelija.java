@@ -15,7 +15,6 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import kayttoliittyma.LegacyTulostaja;
-import kayttoliittyma.Tulostaja;
 import sovelluslogiikka.Dekooderi;
 
 /**
@@ -23,16 +22,16 @@ import sovelluslogiikka.Dekooderi;
  *
  * @author Envy 6-1010
  */
-public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
+public class LegacyTiedostonkasittelija implements Tiedostonkasittelija {
 
     private File tietokanta;
     private File seurattavatToiminnot;
     private Scanner lukija;
     private Dekooderi dekooderi;
     private MerkinnanKasittelija merkinnanKasittelija;
-    private Tulostaja tulostaja;
+    private LegacyTulostaja tulostaja;
 
-    public OmaTiedostonkasittelija(Dekooderi dekooderi, MerkinnanKasittelija merkinnanKasittelija, Tulostaja tulostaja) {
+    public LegacyTiedostonkasittelija(Dekooderi dekooderi, MerkinnanKasittelija merkinnanKasittelija, LegacyTulostaja tulostaja) {
         tietokanta = new File("kirjaukset.txt");
         seurattavatToiminnot = new File("seurattavatToiminnot.txt");
 
@@ -54,7 +53,7 @@ public class OmaTiedostonkasittelija implements Tiedostonkasittelija {
 
     }
     
-    public OmaTiedostonkasittelija(Dekooderi dekooderi) {
+    public LegacyTiedostonkasittelija(Dekooderi dekooderi) {
         tietokanta = new File("kirjaukset.txt");
         seurattavatToiminnot = new File("seurattavatToiminnot.txt");
 

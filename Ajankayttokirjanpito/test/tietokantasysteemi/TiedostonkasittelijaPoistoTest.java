@@ -22,11 +22,11 @@ import sovelluslogiikka.Dekooderi;
  */
 public class TiedostonkasittelijaPoistoTest {
 
-    private OmaTiedostonkasittelija tika;
+    private LegacyTiedostonkasittelija tika;
 
     @Before
     public void setUp() {
-        this.tika = new OmaTiedostonkasittelija(new Dekooderi());
+        this.tika = new LegacyTiedostonkasittelija(new Dekooderi());
     }
 
     @Test

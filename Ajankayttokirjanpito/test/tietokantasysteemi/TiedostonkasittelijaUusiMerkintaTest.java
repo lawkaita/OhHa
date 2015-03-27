@@ -23,14 +23,14 @@ import sovelluslogiikka.Dekooderi;
  */
 public class TiedostonkasittelijaUusiMerkintaTest {
 
-    private OmaTiedostonkasittelija tika;
+    private LegacyTiedostonkasittelija tika;
     private Merkinta vanhaMerkinta;
     private Merkinta merkinta;
     private Merkinta uudempiMerkinta;
 
     @Before
     public void setUp() {
-        this.tika = new OmaTiedostonkasittelija(new Dekooderi());
+        this.tika = new LegacyTiedostonkasittelija(new Dekooderi());
 
         vanhaMerkinta = new Merkinta(new Paivays(1, 1, 1990), new Tapahtuma(new Kellonaika(0, 1), new Kellonaika(1, 3), "vanhaMerkinta"));
         merkinta = new Merkinta(new Paivays(1, 1, 1990), new Tapahtuma(new Kellonaika(2, 2), new Kellonaika(4, 8), "lisattyMerkinta"));

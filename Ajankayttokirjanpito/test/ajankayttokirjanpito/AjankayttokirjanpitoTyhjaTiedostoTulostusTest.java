@@ -8,11 +8,11 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
-import kayttoliittyma.Kayttoliittyma;
-import kayttoliittyma.Komentotulkki;
+import kayttoliittyma.LegacyKayttoliittyma;
+import kayttoliittyma.LegacyKomentotulkki;
 import kayttoliittyma.KontekstinHaltija;
 import kayttoliittyma.Nappaimistonkuuntelija;
-import kayttoliittyma.Tulostaja;
+import kayttoliittyma.LegacyTulostaja;
 import konsoli.OmaKonsoli;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -21,11 +21,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import sovelluslogiikka.Dekooderi;
-import sovelluslogiikka.KomentoLogiikka;
+import sovelluslogiikka.LegacyKomentoLogiikka;
 import sovelluslogiikka.MerkinnanKasittelija;
 import tietokantasysteemi.Kellonaika;
 import tietokantasysteemi.Merkinta;
-import tietokantasysteemi.OmaTiedostonkasittelija;
+import tietokantasysteemi.LegacyTiedostonkasittelija;
 import tietokantasysteemi.Paivays;
 import tietokantasysteemi.Tapahtuma;
 
@@ -36,28 +36,28 @@ import tietokantasysteemi.Tapahtuma;
 public class AjankayttokirjanpitoTyhjaTiedostoTulostusTest {
 
     private OmaKonsoli konsoli;
-    private Kayttoliittyma kali;
+    private LegacyKayttoliittyma kali;
     private Dekooderi dekooderi;
     private MerkinnanKasittelija meka;
-    private OmaTiedostonkasittelija tika;
-    private Tulostaja tulostaja;
+    private LegacyTiedostonkasittelija tika;
+    private LegacyTulostaja tulostaja;
     private KontekstinHaltija koha;
-    private KomentoLogiikka kolo;
-    private Komentotulkki kotu;
+    private LegacyKomentoLogiikka kolo;
+    private LegacyKomentotulkki kotu;
     
     private String eiMerkintoja;
 
     @Before
     public void setUp() {
         konsoli = new OmaKonsoli(true);
-        kali = new Kayttoliittyma(konsoli, null);
+        kali = new LegacyKayttoliittyma(konsoli, null);
         dekooderi = new Dekooderi();
         meka = new MerkinnanKasittelija(dekooderi);
-        tulostaja = new Tulostaja(konsoli, dekooderi);
-        tika = new OmaTiedostonkasittelija(dekooderi, meka, tulostaja);
+        tulostaja = new LegacyTulostaja(konsoli, dekooderi);
+        tika = new LegacyTiedostonkasittelija(dekooderi, meka, tulostaja);
         koha = new KontekstinHaltija();
-        kolo = new KomentoLogiikka(tulostaja, tika, konsoli, koha, kali, meka);
-        kotu = new Komentotulkki(konsoli, koha, kolo, dekooderi);
+        kolo = new LegacyKomentoLogiikka(tulostaja, tika, konsoli, koha, kali, meka);
+        kotu = new LegacyKomentotulkki(konsoli, koha, kolo, dekooderi);
 
         kali.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, kotu));
         

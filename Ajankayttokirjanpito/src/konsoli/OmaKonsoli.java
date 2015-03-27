@@ -12,7 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.BadLocationException;
-import kayttoliittyma.Konsoli;
+import kayttoliittyma.LegacyKonsoliRajapinta;
 
 /**
  * Ohjelman graafisen käyttöliittymän pääkomponentti.
@@ -25,7 +25,7 @@ import kayttoliittyma.Konsoli;
  * esimerkiksi ubuntun ja windowssin kanssa.
  * @author Envy 6-1010
  */
-public class OmaKonsoli extends JPanel implements Konsoli {
+public class OmaKonsoli extends JPanel implements LegacyKonsoliRajapinta {
 
     private Tulostealue tulosteAlue;
     private EkaVarsinainenKomentoRivi rivi;

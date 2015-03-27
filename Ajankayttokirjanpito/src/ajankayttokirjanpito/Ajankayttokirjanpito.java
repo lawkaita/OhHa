@@ -4,18 +4,25 @@
  */
 package ajankayttokirjanpito;
 
-import tietokantasysteemi.OmaTiedostonkasittelija;
+import java.util.Scanner;
+import tietokantasysteemi.LegacyTiedostonkasittelija;
 import javax.swing.SwingUtilities;
-import kayttoliittyma.Kayttoliittyma;
 import kayttoliittyma.Komentotulkki;
-import kayttoliittyma.Konsoli;
+import kayttoliittyma.LegacyKayttoliittyma;
+import kayttoliittyma.LegacyKomentotulkki;
+import kayttoliittyma.LegacyKonsoliRajapinta;
 import kayttoliittyma.KontekstinHaltija;
+import kayttoliittyma.LegacyKonsolinKorvaajaRajapinta;
 import kayttoliittyma.Nappaimistonkuuntelija;
+import kayttoliittyma.LegacyTulostaja;
+import kayttoliittyma.LegacyKonsolinKorvaaja;
 import kayttoliittyma.Tulostaja;
 import konsoli.OmaKonsoli;
 import sovelluslogiikka.Dekooderi;
 import sovelluslogiikka.KomentoLogiikka;
+import sovelluslogiikka.LegacyKomentoLogiikka;
 import sovelluslogiikka.MerkinnanKasittelija;
+import tietokantasysteemi.OmaTiedostonkasittelija;
 
 /**
  *
@@ -27,23 +34,30 @@ public class Ajankayttokirjanpito {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        boolean ubuntulla = false;
+        //boolean ubuntulla = false;
         
-        Konsoli konsoli = new OmaKonsoli(ubuntulla);        
-        Kayttoliittyma kayttoliittyma = new Kayttoliittyma(konsoli);            
+        //LegacyKonsoliRajapinta konsoli = new OmaKonsoli(ubuntulla);        
+        //Kayttoliittyma kayttoliittyma = new Kayttoliittyma(konsoli);
+        LegacyKonsolinKorvaajaRajapinta lkkr = new LegacyKonsolinKorvaaja();
         Dekooderi dekooderi = new  Dekooderi();
-        Tulostaja tulostaja = new Tulostaja(konsoli, dekooderi); 
+        Tulostaja tulostaja = new Tulostaja(lkkr, dekooderi); 
         MerkinnanKasittelija merkinnankasittelija = new MerkinnanKasittelija(dekooderi);
         OmaTiedostonkasittelija tiedostonkasittelija = new OmaTiedostonkasittelija(dekooderi, merkinnankasittelija, tulostaja);
         KontekstinHaltija kontekstinHaltija = new KontekstinHaltija();               
-        KomentoLogiikka komentologiikka = new KomentoLogiikka(tulostaja, tiedostonkasittelija, konsoli, kontekstinHaltija, kayttoliittyma, merkinnankasittelija);
-        Komentotulkki komentotulkki = new Komentotulkki(konsoli, kontekstinHaltija, komentologiikka, dekooderi);
+        KomentoLogiikka komentologiikka = new KomentoLogiikka(tulostaja, tiedostonkasittelija, lkkr, kontekstinHaltija, merkinnankasittelija);
+        Komentotulkki komentotulkki = new Komentotulkki(lkkr, kontekstinHaltija, komentologiikka, dekooderi);
         
-        kayttoliittyma.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(konsoli, komentotulkki));
+        Scanner lukija = new Scanner(System.in);
+        boolean jatketaan = true;
+        while(jatketaan) {
+            String komento = lukija.nextLine();
+            komentotulkki.otaKomento(komento);
+        }
+        //kayttoliittyma.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(null, komentotulkki));
         
         //kayttoliittyma.run();
         
-        SwingUtilities.invokeLater(kayttoliittyma);
+        //SwingUtilities.invokeLater(kayttoliittyma);
         // TODO code application logic here
     }
 }

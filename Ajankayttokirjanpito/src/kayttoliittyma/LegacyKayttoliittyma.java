@@ -18,7 +18,7 @@ import javax.swing.WindowConstants;
  * Konsoli-olio on vain ohjelman tarkoitukseen koottu JPanel.
  * @author Envy 6-1010
  */
-public class Kayttoliittyma implements Runnable{
+public class LegacyKayttoliittyma implements Runnable{
     
     /**
      * Ohjelman pääraamit
@@ -28,19 +28,19 @@ public class Kayttoliittyma implements Runnable{
     /**
      * Käyttöliittymä
      */
-    private Konsoli konsoli;
+    private LegacyKonsoliRajapinta konsoli;
     
     /**
      * Näppäimistön tapahtumia ja niistä käskyjä tekevä olio.
      */
     private Nappaimistonkuuntelija nappaimistonkuuntelija;
     
-    public Kayttoliittyma(Konsoli konsoli, Nappaimistonkuuntelija nappaimistonkuuntelija){
+    public LegacyKayttoliittyma(LegacyKonsoliRajapinta konsoli, Nappaimistonkuuntelija nappaimistonkuuntelija){
         this.konsoli = konsoli;
         this.nappaimistonkuuntelija = nappaimistonkuuntelija;        
     }
 
-    public Kayttoliittyma(Konsoli konsoli) {
+    public LegacyKayttoliittyma(LegacyKonsoliRajapinta konsoli) {
         this.konsoli = konsoli;
         this.nappaimistonkuuntelija = null;
     }
@@ -100,7 +100,7 @@ public class Kayttoliittyma implements Runnable{
      * Palauttaa ohjelman konsoli-olion.
      * @return ohjelman konsoli-olio.
      */    
-    public Konsoli getKonsoli() {
+    public LegacyKonsoliRajapinta getKonsoli() {
         return this.konsoli;
     }
     

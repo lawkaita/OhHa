@@ -16,10 +16,10 @@ import java.awt.event.KeyListener;
  */
 public class Nappaimistonkuuntelija implements KeyListener {
 
-    private Konsoli konsoli;
-    private Komentotulkki komentotulkki;
+    private LegacyKonsoliRajapinta konsoli;
+    private LegacyKomentotulkki komentotulkki;
 
-    public Nappaimistonkuuntelija(Konsoli konsoli, Komentotulkki komentotulkki) {
+    public Nappaimistonkuuntelija(LegacyKonsoliRajapinta konsoli, LegacyKomentotulkki komentotulkki) {
         this.konsoli = konsoli;
         this.komentotulkki = komentotulkki;
     }

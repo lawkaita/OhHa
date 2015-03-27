@@ -5,7 +5,7 @@
 package tietokantasysteemi;
 
 import java.io.IOException;
-import kayttoliittyma.Tulostaja;
+import kayttoliittyma.LegacyTulostaja;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,11 +19,11 @@ import sovelluslogiikka.MerkinnanKasittelija;
  */
 public class TiedostonkasittelijaHakuTest {
 
-    private OmaTiedostonkasittelija tika;
+    private LegacyTiedostonkasittelija tika;
 
     @Before
     public void setUp() {
-        this.tika = new OmaTiedostonkasittelija(new Dekooderi());
+        this.tika = new LegacyTiedostonkasittelija(new Dekooderi());
     }
 
     @Test

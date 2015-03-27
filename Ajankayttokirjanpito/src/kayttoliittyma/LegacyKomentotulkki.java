@@ -5,7 +5,6 @@
 package kayttoliittyma;
 
 import sovelluslogiikka.Dekooderi;
-import sovelluslogiikka.KomentoLogiikka;
 import sovelluslogiikka.LegacyKomentoLogiikka;
 
 /**
@@ -17,12 +16,12 @@ import sovelluslogiikka.LegacyKomentoLogiikka;
  *
  * @author Envy 6-1010
  */
-public class Komentotulkki {
+public class LegacyKomentotulkki {
 
     /**
      * Ohjelman käyttöliittymä.
      */
-    private LegacyKonsolinKorvaajaRajapinta lkkr;
+    private LegacyKonsoliRajapinta konsoli;
     /**
      * Olio, joka pitää kirjaa siitä, missä asiayhteydessä konsolia käytetään.
      */
@@ -30,14 +29,14 @@ public class Komentotulkki {
     /**
      * Ohjelman komentokokonaisuuksia suorittava olio.
      */
-    private KomentoLogiikka komentologiikka;
+    private LegacyKomentoLogiikka komentologiikka;
     /**
      * Komentosarjoja osiin lajitteleva olio.
      */
     private Dekooderi dekooderi;
 
-    public Komentotulkki(LegacyKonsolinKorvaajaRajapinta lkkr, KontekstinHaltija kontekstinhaltija, KomentoLogiikka komentologiikka, Dekooderi dekooderi) {
-        this.lkkr = lkkr;
+    public LegacyKomentotulkki(LegacyKonsoliRajapinta lkkr, KontekstinHaltija kontekstinhaltija, LegacyKomentoLogiikka komentologiikka, Dekooderi dekooderi) {
+        this.konsoli = lkkr;
         this.kontekstinhaltija = kontekstinhaltija;
         this.komentologiikka = komentologiikka;
         this.dekooderi = dekooderi;
@@ -215,9 +214,9 @@ public class Komentotulkki {
      * Ottaa käyttäjän antaman komennon konsolin komentoriviltä ja käsittelee
      * sen.
      */
-    public void otaKomento(String komento) {
-        //String komento = konsoli.getVarsinainenKomentoRivi().getText();
-        //konsoli.tulostaKomento();
+    public void otaKomento() {
+        String komento = konsoli.getVarsinainenKomentoRivi().getText();
+        konsoli.tulostaKomento();
         haarauta(komento);
     }
 
