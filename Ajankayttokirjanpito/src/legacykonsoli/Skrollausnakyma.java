@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package konsoli;
+package legacykonsoli;
 
 import java.awt.Dimension;
 import java.awt.event.AdjustmentEvent;

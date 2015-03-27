@@ -4,7 +4,7 @@
  */
 package kayttoliittyma;
 
-import konsoli.OmaKonsoli;
+import legacykonsoli.OmaKonsoli;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;

@@ -13,7 +13,7 @@ import kayttoliittyma.LegacyKomentotulkki;
 import kayttoliittyma.KontekstinHaltija;
 import kayttoliittyma.Nappaimistonkuuntelija;
 import kayttoliittyma.LegacyTulostaja;
-import konsoli.OmaKonsoli;
+import legacykonsoli.OmaKonsoli;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

@@ -17,7 +17,7 @@ import kayttoliittyma.Nappaimistonkuuntelija;
 import kayttoliittyma.LegacyTulostaja;
 import kayttoliittyma.LegacyKonsolinKorvaaja;
 import kayttoliittyma.Tulostaja;
-import konsoli.OmaKonsoli;
+import legacykonsoli.OmaKonsoli;
 import sovelluslogiikka.Dekooderi;
 import sovelluslogiikka.KomentoLogiikka;
 import sovelluslogiikka.LegacyKomentoLogiikka;
