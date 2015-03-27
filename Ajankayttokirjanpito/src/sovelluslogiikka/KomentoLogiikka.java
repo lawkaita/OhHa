@@ -473,11 +473,13 @@ public class KomentoLogiikka {
 
     public void poistutaanTallentaen() {
         tallenna();
-        tapaKali();
+        this.kontekstinHaltija.kaynnissa = false;
+        //tapaKali();
     }
 
     public void poistutaanTallentamatta() {
-        tapaKali();
+        this.kontekstinHaltija.kaynnissa = false;
+        //tapaKali();
     }
 
     public void lisätäänSeurattava(String string) {

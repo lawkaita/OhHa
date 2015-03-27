@@ -28,6 +28,8 @@ public class KontekstinHaltija {
     private boolean kysytaanLisataankoSeurattava;
     private boolean lisataanSeurattava;
     private boolean poistetaanSeurattava;
+    
+    public boolean kaynnissa;
 
     public KontekstinHaltija() {
 
@@ -41,6 +43,8 @@ public class KontekstinHaltija {
         poistetaanMerkintaa = false;
         kysytaanLisataankoSeurattava = false;
         poistetaanSeurattava = false;
+        
+        kaynnissa = true;
     }
 
     public boolean getKysytaanPoistumisenYhteydessaTallennuksesta() {

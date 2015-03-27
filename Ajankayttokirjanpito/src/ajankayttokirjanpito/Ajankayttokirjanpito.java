@@ -48,8 +48,8 @@ public class Ajankayttokirjanpito {
         Komentotulkki komentotulkki = new Komentotulkki(lkkr, kontekstinHaltija, komentologiikka, dekooderi);
         
         Scanner lukija = new Scanner(System.in);
-        boolean jatketaan = true;
-        while(jatketaan) {
+        System.out.println(" # Komenna apua saadaksesi apua");
+        while(kontekstinHaltija.kaynnissa) {
             String komento = lukija.nextLine();
             komentotulkki.otaKomento(komento);
         }
