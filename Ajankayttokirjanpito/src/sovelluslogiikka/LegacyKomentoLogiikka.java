@@ -322,7 +322,7 @@ public class LegacyKomentoLogiikka {
      * Kutsuu kayttoliittyman sulkemismetodia.
      */
     public void tapaKali() {
-        //this.kayttoliittyma.tapa();
+        this.kayttoliittyma.tapa();
     }
 
     /**
