@@ -14,8 +14,8 @@ import java.util.Collections;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import kayttoliittyma.LegacyTulostaja;
-import kayttoliittyma.Tulostaja;
+import legacykayttoliittyma.LegacyTulostaja;
+import legacykayttoliittyma.Tulostaja;
 import sovelluslogiikka.Dekooderi;
 
 /**

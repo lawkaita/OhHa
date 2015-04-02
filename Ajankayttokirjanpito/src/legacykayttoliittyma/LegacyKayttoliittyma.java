@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package kayttoliittyma;
+package legacykayttoliittyma;
 
 import legacykonsoli.OmaKonsoli;
 import java.awt.BorderLayout;

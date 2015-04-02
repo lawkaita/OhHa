@@ -2,9 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package kayttoliittyma;
+package legacykayttoliittyma;
 
 import sovelluslogiikka.Dekooderi;
+import sovelluslogiikka.KomentoLogiikka;
 import sovelluslogiikka.LegacyKomentoLogiikka;
 
 /**
@@ -16,12 +17,12 @@ import sovelluslogiikka.LegacyKomentoLogiikka;
  *
  * @author Envy 6-1010
  */
-public class LegacyKomentotulkki {
+public class Komentotulkki {
 
     /**
      * Ohjelman käyttöliittymä.
      */
-    private LegacyKonsoliRajapinta konsoli;
+    private LegacyKonsolinKorvaajaRajapinta lkkr;
     /**
      * Olio, joka pitää kirjaa siitä, missä asiayhteydessä konsolia käytetään.
      */
@@ -29,14 +30,14 @@ public class LegacyKomentotulkki {
     /**
      * Ohjelman komentokokonaisuuksia suorittava olio.
      */
-    private LegacyKomentoLogiikka komentologiikka;
+    private KomentoLogiikka komentologiikka;
     /**
      * Komentosarjoja osiin lajitteleva olio.
      */
     private Dekooderi dekooderi;
 
-    public LegacyKomentotulkki(LegacyKonsoliRajapinta lkkr, KontekstinHaltija kontekstinhaltija, LegacyKomentoLogiikka komentologiikka, Dekooderi dekooderi) {
-        this.konsoli = lkkr;
+    public Komentotulkki(LegacyKonsolinKorvaajaRajapinta lkkr, KontekstinHaltija kontekstinhaltija, KomentoLogiikka komentologiikka, Dekooderi dekooderi) {
+        this.lkkr = lkkr;
         this.kontekstinhaltija = kontekstinhaltija;
         this.komentologiikka = komentologiikka;
         this.dekooderi = dekooderi;
@@ -214,9 +215,9 @@ public class LegacyKomentotulkki {
      * Ottaa käyttäjän antaman komennon konsolin komentoriviltä ja käsittelee
      * sen.
      */
-    public void otaKomento() {
-        String komento = konsoli.getVarsinainenKomentoRivi().getText();
-        konsoli.tulostaKomento();
+    public void otaKomento(String komento) {
+        //String komento = konsoli.getVarsinainenKomentoRivi().getText();
+        //konsoli.tulostaKomento();
         haarauta(komento);
     }
 

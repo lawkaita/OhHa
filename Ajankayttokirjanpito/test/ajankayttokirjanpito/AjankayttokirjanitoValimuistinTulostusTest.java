@@ -6,11 +6,11 @@ package ajankayttokirjanpito;
 
 import java.io.IOException;
 import javax.swing.SwingUtilities;
-import kayttoliittyma.LegacyKayttoliittyma;
-import kayttoliittyma.LegacyKomentotulkki;
-import kayttoliittyma.KontekstinHaltija;
-import kayttoliittyma.Nappaimistonkuuntelija;
-import kayttoliittyma.LegacyTulostaja;
+import legacykayttoliittyma.LegacyKayttoliittyma;
+import legacykayttoliittyma.LegacyKomentotulkki;
+import legacykayttoliittyma.KontekstinHaltija;
+import legacykayttoliittyma.Nappaimistonkuuntelija;
+import legacykayttoliittyma.LegacyTulostaja;
 import legacykonsoli.OmaKonsoli;
 import org.junit.After;
 import org.junit.Before;

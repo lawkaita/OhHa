@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package kayttoliittyma;
+package legacykayttoliittyma;
 
 import sovelluslogiikka.Dekooderi;
 import java.util.Scanner;
@@ -14,17 +14,17 @@ import tietokantasysteemi.Merkinta;
  *
  * @author lawkaita
  */
-public class Tulostaja {
+public class LegacyTulostaja {
 
     /**
      * Ohjelman käyttöliittymän pääkomponentti. Tulostaja tulostaa tekstiä tähän
      * komponenttiin.
      */
-    private LegacyKonsolinKorvaajaRajapinta lkkr;
+    private LegacyKonsoliRajapinta konsoli;
     private Dekooderi dekooderi;
 
-    public Tulostaja(LegacyKonsolinKorvaajaRajapinta lkkr, Dekooderi dekooderi) {
-        this.lkkr = lkkr;
+    public LegacyTulostaja(LegacyKonsoliRajapinta konsoli, Dekooderi dekooderi) {
+        this.konsoli = konsoli;
         this.dekooderi = dekooderi;
     }
 
@@ -86,7 +86,7 @@ public class Tulostaja {
      * @param s tulostettava viesti
      */
     public void tulostaKonsoliin(String s) {
-        lkkr.tulostaViesti(s);
+        konsoli.tulostaViesti(s);
     }
 
     public void pyydaPaivaa() {
@@ -114,7 +114,7 @@ public class Tulostaja {
         String[] tulostettava = dekooderi.dekoodaa(s, '!');
 
         for (String z : tulostettava) {
-            lkkr.tulostaViesti(" " + z);
+            konsoli.tulostaViesti(" " + z);
         }
     }
 

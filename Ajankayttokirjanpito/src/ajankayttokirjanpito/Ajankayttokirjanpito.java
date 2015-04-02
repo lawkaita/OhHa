@@ -5,11 +5,11 @@
 package ajankayttokirjanpito;
 
 import java.util.Scanner;
-import kayttoliittyma.Komentotulkki;
-import kayttoliittyma.KontekstinHaltija;
-import kayttoliittyma.LegacyKonsolinKorvaajaRajapinta;
-import kayttoliittyma.LegacyKonsolinKorvaaja;
-import kayttoliittyma.Tulostaja;
+import legacykayttoliittyma.Komentotulkki;
+import legacykayttoliittyma.KontekstinHaltija;
+import legacykayttoliittyma.LegacyKonsolinKorvaajaRajapinta;
+import legacykayttoliittyma.LegacyKonsolinKorvaaja;
+import legacykayttoliittyma.Tulostaja;
 import sovelluslogiikka.Dekooderi;
 import sovelluslogiikka.KomentoLogiikka;
 import sovelluslogiikka.MerkinnanKasittelija;

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package kayttoliittyma;
+package legacykayttoliittyma;
 
 import javax.swing.JTextArea;
 import javax.swing.JTextField;

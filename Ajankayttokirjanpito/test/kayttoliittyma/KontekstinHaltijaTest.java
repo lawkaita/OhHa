@@ -4,6 +4,7 @@
  */
 package kayttoliittyma;
 
+import legacykayttoliittyma.KontekstinHaltija;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

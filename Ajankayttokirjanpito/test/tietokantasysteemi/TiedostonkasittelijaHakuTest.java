@@ -5,7 +5,7 @@
 package tietokantasysteemi;
 
 import java.io.IOException;
-import kayttoliittyma.LegacyTulostaja;
+import legacykayttoliittyma.LegacyTulostaja;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

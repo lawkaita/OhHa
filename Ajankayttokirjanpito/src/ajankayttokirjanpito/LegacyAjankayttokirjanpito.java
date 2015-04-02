@@ -5,12 +5,12 @@
 package ajankayttokirjanpito;
 
 import javax.swing.SwingUtilities;
-import kayttoliittyma.LegacyKayttoliittyma;
-import kayttoliittyma.KontekstinHaltija;
-import kayttoliittyma.LegacyKomentotulkki;
-import kayttoliittyma.LegacyKonsoliRajapinta;
-import kayttoliittyma.LegacyTulostaja;
-import kayttoliittyma.Nappaimistonkuuntelija;
+import legacykayttoliittyma.LegacyKayttoliittyma;
+import legacykayttoliittyma.KontekstinHaltija;
+import legacykayttoliittyma.LegacyKomentotulkki;
+import legacykayttoliittyma.LegacyKonsoliRajapinta;
+import legacykayttoliittyma.LegacyTulostaja;
+import legacykayttoliittyma.Nappaimistonkuuntelija;
 import legacykonsoli.OmaKonsoli;
 import sovelluslogiikka.Dekooderi;
 import sovelluslogiikka.LegacyKomentoLogiikka;
