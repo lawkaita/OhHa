@@ -5,8 +5,6 @@
  */
 package legacykayttoliittyma;
 
-import legacykayttoliittyma.LegacyKonsolinKorvaajaRajapinta;
-
 /**
  *
  * @author Envy 6-1010

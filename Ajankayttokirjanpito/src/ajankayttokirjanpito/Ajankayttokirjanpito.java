@@ -5,6 +5,7 @@
 package ajankayttokirjanpito;
 
 import java.util.Scanner;
+import legacykayttoliittyma.MainThread;
 import legacykayttoliittyma.Komentotulkki;
 import legacykayttoliittyma.KontekstinHaltija;
 import legacykayttoliittyma.LegacyKonsolinKorvaajaRajapinta;
@@ -29,21 +30,9 @@ public class Ajankayttokirjanpito {
         
         //LegacyKonsoliRajapinta konsoli = new OmaKonsoli(ubuntulla);        
         //Kayttoliittyma kayttoliittyma = new Kayttoliittyma(konsoli);
-        LegacyKonsolinKorvaajaRajapinta lkkr = new LegacyKonsolinKorvaaja();
-        Dekooderi dekooderi = new  Dekooderi();
-        Tulostaja tulostaja = new Tulostaja(lkkr, dekooderi); 
-        MerkinnanKasittelija merkinnankasittelija = new MerkinnanKasittelija(dekooderi);
-        OmaTiedostonkasittelija tiedostonkasittelija = new OmaTiedostonkasittelija(dekooderi, merkinnankasittelija, tulostaja);
-        KontekstinHaltija kontekstinHaltija = new KontekstinHaltija();               
-        KomentoLogiikka komentologiikka = new KomentoLogiikka(tulostaja, tiedostonkasittelija, lkkr, kontekstinHaltija, merkinnankasittelija);
-        Komentotulkki komentotulkki = new Komentotulkki(lkkr, kontekstinHaltija, komentologiikka, dekooderi);
         
-        Scanner lukija = new Scanner(System.in);
-        System.out.println(" # Komenna apua saadaksesi apua");
-        while(kontekstinHaltija.kaynnissa) {
-            String komento = lukija.nextLine();
-            komentotulkki.otaKomento(komento);
-        }
+        MainThread mt = new MainThread();
+        mt.run();
         //kayttoliittyma.otaNappaimistonkuuntelija(new Nappaimistonkuuntelija(null, komentotulkki));
         
         //kayttoliittyma.run();

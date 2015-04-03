@@ -51,6 +51,10 @@ public class Komentotulkki {
      *
      */
     public void haarauta(String komento) {
+        if (komento.equals(":q")) {
+            keskeytaKaikki();
+            return;
+        }
 
         if (komentojenMaara(komento) > 1) {
             kasitteleKomentoSarja(komento);
@@ -178,7 +182,7 @@ public class Komentotulkki {
             return;
         }
 
-        if (komento.equals("merkintä")) {
+        if (komento.equals("merkinta")) {
             this.komentologiikka.merkinnanAloitus();
             return;
         }
